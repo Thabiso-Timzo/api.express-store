@@ -1,0 +1,152 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 4%;
+    background-color: #FE6161;
+}
+
+.bars-button {
+    display: none;
+}
+
+.logo {
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.logo img {
+    width: 30px;
+}
+
+.links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.links a {
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    letter-spacing: 1px;
+    font-weight: 400;
+    padding: 10px 20px;
+    position: relative;
+}
+
+.links a::after {
+    position: absolute;
+    content: "";
+    bottom: 5px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    transition: all .8s ease;
+}
+
+.links a:hover {
+    color: black;
+    z-index: 1;
+    transition: all .8s ease;
+}
+
+.links a:hover::after {
+    height: 80%;
+    z-index: -1;
+} 
+
+.logout-btn {
+    outline: none;
+    border: none;
+    width: 75px;
+    height: 35px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
+    color: rgb(66, 54, 54);
+}
+
+.logout-btn:hover {
+    background-color: #607d8b;
+}
+
+@media only screen and (max-width: 981px) {
+    .navbar {
+        padding: 25px 3%;
+    }
+    
+    .links a {
+        font-size: 16px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .links {
+        display: none;
+    }
+
+    .links.active {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.8);
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+    }
+
+    .bars-button {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        width: 50px;
+        height: 40px;
+        z-index: 4;
+        position: relative;
+    }
+
+    .bars-button span {
+        background-color: white;
+        width: 100%;
+        height: 2px;
+        transition: all .3s ease;
+    }
+
+    .bars-button.active span:nth-child(2) {
+        display: none;
+    }
+
+    .bars-button.active span:nth-child(1) {
+        position: absolute;
+        transform: rotate(-45deg);
+    }
+
+    .bars-button.active span:nth-child(3) {
+        position: absolute;
+        transform: rotate(45deg);
+    }
+
+    .logout-btn {
+        outline: none;
+        border: none;
+        width: 55px;
+        height: 25px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+    }
+}
