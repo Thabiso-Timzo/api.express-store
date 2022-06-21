@@ -10,6 +10,7 @@ const DBConnection = require('./config/db');
 const errorCatcher = require('./middleware/error');
 
 const ProductRoutes = require('./routes/product-routes/ProductRoutes');
+const UserRoutes = require('./routes/user-routes/UserRoutes');
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -27,7 +28,7 @@ app.use(cors());
 app.options('*', cors());
 app.use(morgan('tiny'));
 
-//to not get any deprecation warning or error
+// To not get any deprecation warning or error
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -35,7 +36,8 @@ app.use(cookieParser());
 app.use(errorCatcher);
 
 //Routes
-app.use('/api/products', ProductRoutes)
+app.use('/api/products', ProductRoutes);
+app.use('/api/users', UserRoutes);
 
 app.listen(port, () => {
     console.log(`server is up and running on port: ${port}`.yellow.bold);
@@ -49,3 +51,5 @@ process.on('unhandledRejection', (err) => {
         process.exit(1);
     });
 })
+
+// 4:27:45
