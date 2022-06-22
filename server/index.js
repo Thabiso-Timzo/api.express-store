@@ -11,6 +11,7 @@ const errorCatcher = require('./middleware/error');
 
 const ProductRoutes = require('./routes/product-routes/ProductRoutes');
 const UserRoutes = require('./routes/user-routes/UserRoutes');
+const OrderRoutes = require('./routes/order-routes/OrderRoutes');
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -21,6 +22,7 @@ process.on('uncaughtException', (err) => {
     console.log(`Shutting down the server for Handling uncaught Exception`);
 })
 
+// Database connection
 DBConnection();
 
 app.use(express.json());
@@ -33,11 +35,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+// Error handler
 app.use(errorCatcher);
 
-//Routes
+// Routes
 app.use('/api/products', ProductRoutes);
 app.use('/api/users', UserRoutes);
+app.use('/api/order', OrderRoutes);
 
 app.listen(port, () => {
     console.log(`server is up and running on port: ${port}`.yellow.bold);
@@ -52,4 +56,4 @@ process.on('unhandledRejection', (err) => {
     });
 })
 
-// 4:27:45
+// 5:26:12
