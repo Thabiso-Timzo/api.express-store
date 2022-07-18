@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const ErrorHandler = require('../utils/ErrorHandler');
 const catchAsyncErrors = require('./catchAsyncErrors');
 const User = require('../models/user-schema/UserSchema');
+const { jwt_secret } = require('../config/index')
 
 const isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
     const { token } = req.cookies;
@@ -11,7 +12,7 @@ const isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
         return next(new ErrorHandler('Please login to access this pages', 401));
     } 
 
-    const decodedData = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const decodedData = jwt.verify(token, jwt_secret);
 
     req.user = await User.findById(decodedData.id);
 
