@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const colors = require('colors');
 require('dotenv/config');
 
-const { port_ } = require('./config/index');
+const { port_, allowedDomains } = require('./config/index');
 const DBConnection = require('./config/db');
 const errorCatcher = require('./middleware/error');
 
@@ -27,7 +27,7 @@ process.on('uncaughtException', (err) => {
 DBConnection();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({origin: allowedDomains, credentials: true}));
 app.options('*', cors());
 app.use(morgan('tiny'));
 
