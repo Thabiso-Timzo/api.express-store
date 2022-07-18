@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const colors = require('colors');
 require('dotenv/config');
 
+const { port_ } = require('./config/index');
 const DBConnection = require('./config/db');
 const errorCatcher = require('./middleware/error');
 
@@ -14,7 +15,7 @@ const UserRoutes = require('./routes/user-routes/UserRoutes');
 const OrderRoutes = require('./routes/order-routes/OrderRoutes');
 
 const app = express();
-const port = process.env.PORT || 8080;
+const port = port_ || 8080;
 
 // Handling uncaught Exception
 process.on('uncaughtException', (err) => {
@@ -55,5 +56,3 @@ process.on('unhandledRejection', (err) => {
         process.exit(1);
     });
 })
-
-// 5:26:12
