@@ -4,6 +4,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
+const { jwt_exp, jwt_secret } = require('../../config/index')
+
 const userSchema = new mongoose.Schema({
     name:{
         type:String,
@@ -55,8 +57,8 @@ userSchema.pre("save", async function(next){
 
 // jwt token
 userSchema.methods.getJwtToken = function(){
-    return jwt.sign({id:this._id}, process.env.JWT_SECRET_KEY, {
-        expiresIn: process.env.JWT_EXPIRES
+    return jwt.sign({id:this._id}, jwt_secret, {
+        expiresIn: jwt_exp
     });
 };
 
@@ -77,7 +79,6 @@ this.resetPasswordTime = Date.now() + 15 * 60 * 1000;
 
 return resetToken;
 }
-
 
 const User = mongoose.model("User",userSchema);
 module.exports = User;
