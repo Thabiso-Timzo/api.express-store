@@ -1,23 +1,25 @@
 {
-  "name": "gude-web",
+  "name": "Gude",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"cd client && npm start\" \"cd server && npm start\"",
-    "client": "cd client && npm start",
+    "web": "concurrently \"cd web-client && npm start\" \"cd server && npm start\"",
+    "mobile": "concurrently \"cd mobile-client && npm start\" \"cd server && npm start\"",
+    "webClient": "cd web-client && npm start",
+    "mobileClient": "cd mobile-client && npm start",
     "server": "cd server && npm start"
   },
-  "repository": {
+  "repository": { 
     "type": "git",
-    "url": "git+https://github.com/Thabiso-Timzo/Gude-web.git"
-  },
+    "url": "git+https://github.com/Thabiso-Timzo/Gude.git"
+  }, 
   "author": "Thabiso Hlatshwayo",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Thabiso-Timzo/Gude-web/issues"
+    "url": "https://github.com/Thabiso-Timzo/Gude/issues"
   },
-  "homepage": "https://github.com/Thabiso-Timzo/Gude-web#readme",
+  "homepage": "https://github.com/Thabiso-Timzo/Gude#readme",
   "dependencies": {
     "concurrently": "^7.2.2"
   }
