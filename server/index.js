@@ -13,6 +13,7 @@ const errorCatcher = require('./middleware/error');
 const ProductRoutes = require('./routes/product-routes/ProductRoutes');
 const UserRoutes = require('./routes/user-routes/UserRoutes');
 const OrderRoutes = require('./routes/order-routes/OrderRoutes');
+const ChatRoutes = require('./routes/chat-routes/ChatRoutes')
 
 const app = express();
 const port = port_ || 8080;
@@ -43,6 +44,7 @@ app.use(errorCatcher);
 app.use('/api/products', ProductRoutes);
 app.use('/api/users', UserRoutes);
 app.use('/api/order', OrderRoutes);
+app.use('/api/chat', ChatRoutes)
 
 app.listen(port, () => {
     console.log(`server is up and running on port: ${port}`.yellow.bold);
