@@ -1,4 +1,5 @@
 const User = require('../../models/user-schema/UserSchema');
+const Student = require('../../models/student-schema/StudentSchema');
 const ErrorHandler = require('../../utils/ErrorHandler');
 const catchAsyncErrors = require('../../middleware/catchAsyncErrors');
 const sendToken = require('../../utils/jwtToken');
@@ -237,6 +238,34 @@ const deleteUser = catchAsyncErrors(async (req, res, next) => {
     })
 })
 
+const checkIfStudent = catchAsyncErrors(async (req, res, next ) => {
+    const {_user_id} = req.body;
+    console.log(_user_id)
+    Student.find({_student_id: _user_id}, (e, adv) => {
+        if (e) {
+            return res.status(200).json({
+                err: true,
+                msg: e,
+                isStudent: false
+            })
+        } else {
+            if (adv.length > 0) {
+                return res.status(200).json({
+                    err: false,
+                    msg: 'User Is A Student',
+                    isStudent: true
+                })
+            } else {
+                return res.status(200).json({
+                    err: true,
+                    msg: 'User Not A Student',
+                    isStudent: false
+                })
+            }
+        }
+    })
+})
+
 module.exports = {
     createUser,
     loginUser,
@@ -249,5 +278,6 @@ module.exports = {
     getAllUsers,
     getSingleUser,
     updateUserRole,
-    deleteUser
+    deleteUser,
+    checkIfStudent
 }
