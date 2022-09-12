@@ -1,28 +1,38 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
- 
+import React, { useState, useEffect, useRef } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+
 import './Login.css'
 import image1 from '../../../assets/landing page/1.png'
+import { clearErrors, login } from "../../../actions/user-actions/userActions"
 
 const Login = () => {
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-    });
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const [loginEmail, setLoginEmail] = useState("");
+    const [loginPassword, setLoginPassword] = useState("")
 
-    const { email, password } = formData;
-
-
-    const onChange = (e) => {
-        setFormData((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value
-        }))
-    }
+    const { error, isAuthenticated } = useSelector(
+        (state) => state.user
+    );
 
     const onSubmit = (e) => {
         e.preventDefault();
+        dispatch(login(loginEmail, loginPassword));
     }
+
+    useEffect(() => {
+        if (error) {
+          toast.error(error);
+          dispatch(clearErrors());
+        }
+    
+        if (isAuthenticated) {
+          navigate('/products')
+        }
+    }, [dispatch, error, alert, navigate, isAuthenticated]);
 
   return (
     <section>
@@ -39,9 +49,9 @@ const Login = () => {
                             type="text"
                             id="email" 
                             name="email" 
-                            value={email} 
+                            value={loginEmail} 
                             placeholder="Enter your email address" 
-                            onChange={onChange} 
+                            onChange={(e) => setLoginEmail(e.target.value)} 
                         />
                     </div>
                     <div className="input-box">
@@ -50,9 +60,9 @@ const Login = () => {
                             type="password"
                             id="password" 
                             name="password" 
-                            value={password} 
+                            value={loginPassword} 
                             placeholder="Enter your password" 
-                            onChange={onChange} 
+                            onChange={(e) => setLoginPassword(e.target.value)} 
                         />
                     </div>
                     <div className="input-box">
@@ -64,6 +74,17 @@ const Login = () => {
                 </form>
             </div>
         </div>
+        <ToastContainer
+            // position="bottom-center"
+            // autoClose={5000}
+            // hideProgressBar={false}
+            // newestOnTop={false}
+            // closeOnClick
+            // rtl={false}
+            // pauseOnFocusLoss
+            // draggable
+            // pauseOnHover
+          />
     </section>
   )
 }
