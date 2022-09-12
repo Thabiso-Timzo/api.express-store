@@ -16,11 +16,11 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' exact element={<Login />} />
+        <Route path='/' element={<Products />} />
+        <Route path='/product/:id' element={<Product />} />
+        <Route path='/login' exact element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/dashboard' element={<Dashboard />} />
-        <Route path='/products' element={<Products />} />
-        <Route path='/product/:id' element={<Product />} />
         <Route path='/chat' element={<Chats />} />
         <Route path='/cart' element={<Cart />} />
         <Route path='/wish-list' element={<WishList />} />
