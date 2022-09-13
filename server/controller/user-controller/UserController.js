@@ -5,23 +5,75 @@ const catchAsyncErrors = require('../../middleware/catchAsyncErrors');
 const sendToken = require('../../utils/jwtToken');
 const sendMail = require('../../utils/sendMail');
 const crypto = require("crypto");
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const { check, validationResult } = require('express-validator')
+
+
+var { jwt_secret } = require('../../config/index') 
 
 // Register user
-const createUser = catchAsyncErrors(async (req, res, next) => {
-    const {name, email, password} = req.body;
-
-    const user = await User.create({
-        name,
-        email,
-        password,
-        avatar: {
-            public_id: "https://test.com",
-            url: "https://test.com"
+const createUser = ([
+    check("name", "Your name is required.").not().isEmpty(),
+    check("email", "Please include a valid email address.").isEmail(),
+    check("password", "Please enter a password with 6 or more  characters.").isLength({ min: 6 })
+], 
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() })
         }
-    })
 
-    sendToken(user, 201, res);
-})
+        const { name, email, password } = req.body;
+
+        try {
+            // if user exists
+            let user = await User.findOne({ email })
+
+            if (user) {
+                res.status(400).json({ errors: [{ msg: "The user already exists."}] })
+            }
+
+            user = new User({
+                name,
+                email,
+                password
+            });
+
+            // Encrypt the password
+            const salt = await bcrypt.genSalt(10);
+
+            user.password = await bcrypt.hash(password, salt);
+
+            await user.save();
+
+
+            // Return a json web token
+            const payload = {
+                user: {
+                    id: user.id,
+                }
+            };
+
+            jwt.sign(payload, jwt_secret, { expiresIn: 3600000 }, (err, token) => {
+                if (err) throw err;
+                res.json({ token })
+            })
+        } catch (err) {
+            console.error(err.message)
+            res.status(500).send("Internal server error!!!")
+        }
+        // avatar: {
+        //     public_id: "https://test.com",
+        //     url: "https://test.com"
+        // }
+    }
+)
+
+const getMe = async (req, res) => {
+ // 29:14
+}
+
 
 // login user 
 const loginUser = catchAsyncErrors(async (req, res, next) => {
@@ -268,6 +320,7 @@ const checkIfStudent = catchAsyncErrors(async (req, res, next ) => {
 
 module.exports = {
     createUser,
+    getMe,
     loginUser,
     logoutUser,
     forgotPassword,
