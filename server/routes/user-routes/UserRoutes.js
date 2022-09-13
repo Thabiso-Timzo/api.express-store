@@ -14,7 +14,8 @@ const {
     getSingleUser,
     updateUserRole,
     deleteUser,
-    checkIfStudent
+    checkIfStudent,
+    getMe
 } = require('../../controller/user-controller/UserController');
 const { isAuthenticatedUser, authorisedRoles } = require('../../middleware/auth');
 
@@ -23,6 +24,7 @@ router.post('/login', loginUser);
 router.post('/password/forgot', forgotPassword );
 router.post('/check', authorisedRoles, checkIfStudent)
 
+router.get('/auth', isAuthenticatedUser, getMe);
 router.get('/logout', logoutUser);
 router.get('/me',isAuthenticatedUser, userDetails);
 router.get('/admin/users', isAuthenticatedUser, authorisedRoles('admin'), getAllUsers);
