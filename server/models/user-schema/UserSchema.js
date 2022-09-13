@@ -9,9 +9,9 @@ const { jwt_exp, jwt_secret } = require('../../config/index')
 const userSchema = new mongoose.Schema({
     name:{
         type:String,
-        required:[true,"Please your Name"],
+        required:[true,"Please enter your Name"],
         minlength:[3,"Please enter a name atleast 3 characters"], 
-        maxlength:[15, "Name can not big than 15 characters"]
+        maxlength:[25, "Name can not big than 15 characters"]
     },
     email:{
        type:String,
@@ -25,16 +25,16 @@ const userSchema = new mongoose.Schema({
       minlength:[8,"Password should be greater than 8 characters"],
       select: false,
    },
-   avatar:{
-    public_id:{
-        type:String,
-        required:true,
-    },
-    url:{ 
-        type:String,
-        required:true,
-    },
-   },
+//    avatar:{
+//     public_id:{
+//         type:String,
+//         required:true,
+//     },
+//     url:{ 
+//         type:String,
+//         required:true,
+//     },
+//    },
    role:{
        type:String,
        default: "user",
@@ -48,7 +48,7 @@ const userSchema = new mongoose.Schema({
 });
 
 // Hash password
-userSchema.pre("save", async function(next){
+/*userSchema.pre("save", async function(next){
      if (!this.isModified("password")) {
         next();
       }
@@ -78,7 +78,7 @@ this.resetPasswordToken = crypto.createHash("sha256").update(resetToken).digest(
 this.resetPasswordTime = Date.now() + 15 * 60 * 1000;
 
 return resetToken;
-}
+}*/
 
 const User = mongoose.model("User",userSchema);
 module.exports = User;
