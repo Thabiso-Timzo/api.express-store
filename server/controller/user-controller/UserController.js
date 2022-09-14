@@ -71,30 +71,60 @@ const createUser = ([
 )
 
 const getMe = async (req, res) => {
- // 29:14
+ try {
+    const user = await User.findById(req.user.id).select("-password");
+    res.json(user);
+ } catch (err) {
+    console.error(err.message)
+    res.status(500).send("Internal server error!!!")
+ }
 }
 
 
 // login user 
-const loginUser = catchAsyncErrors(async (req, res, next) => {
+const loginUser = ([
+    check("email", "Please include a valid email").isEmail(),
+    check("password", "Password is required.").exists()
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() })
+    }
+
     const { email, password } = req.body;
-    if (!email || !password) {
-        return next(new ErrorHandler('Please enter your email and password.', 400));
+
+    try {
+        // if user exists
+        let user = await User.findOne({ email })
+
+        if (!user) {
+            return res.status(400)
+            .json({ errors: [{ msg: "Invalid credentials."}] })
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if (!isMatch) {
+            return res.status(400)
+            .json({ errors: [{ msg: "Invalid credentials."}] })
+        }
+
+        // Return json web token
+        const payload = {
+            user: {
+                id: user.id,
+            }
+        };
+// 40.19
+        jwt.sign(payload, jwt_secret, { expiresIn: 3600000 }, (err, token) => {
+            if (err) throw err;
+            res.json({ token })
+        })
+
+    } catch(err) {
+        console.error(err.message)
+        res.status(500).send("Internal server error!!!")
     }
-
-    const user = await User.findOne({ email }).select("+password");
-
-    if (!user) {
-        return next(new ErrorHandler('User is not found with this email address and password.', 401));
-    }
-
-    const isPasswordMatch = await user.comparePassword(password);
-
-    if (!isPasswordMatch) {
-        return next(new ErrorHandler('Your passwords do not match', 401));
-    }
-
-    sendToken(user, 201, res);
 })
 
 // Logout user
