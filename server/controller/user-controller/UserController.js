@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken')
 const { check, validationResult } = require('express-validator')
 
 
-var { jwt_secret } = require('../../config/index') 
+var { jwt_secret, jwt_exp } = require('../../config/index') 
 
 // Register user
 const createUser = ([
@@ -115,8 +115,8 @@ const loginUser = ([
                 id: user.id,
             }
         };
-// 40.19
-        jwt.sign(payload, jwt_secret, { expiresIn: 3600000 }, (err, token) => {
+
+        jwt.sign(payload, jwt_secret, { expiresIn: jwt_exp }, (err, token) => {
             if (err) throw err;
             res.json({ token })
         })
