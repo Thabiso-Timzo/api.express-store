@@ -1,6 +1,6 @@
 import React from 'react'
 import  { Link } from 'react-router-dom'
-import { MdLogout } from 'react-icons/md'
+import { MdLogout, MdLogin, MdAppRegistration } from 'react-icons/md'
 import { CgProfile } from 'react-icons/cg'
 
 import './ProfileDropDown.css'
@@ -25,13 +25,13 @@ const UserProfile = ({ open }) => {
                  </li>
                  <li>
                     <Link to="/login" className="profile-btn">
-                        <CgProfile className="profile-icon"/>
+                        <MdLogin className="profile-icon"/>
                         Login
                     </Link>
                  </li>
                  <li>
                     <Link to="/register" className="profile-btn">
-                        <CgProfile className="profile-icon"/>
+                        <MdAppRegistration className="profile-icon"/>
                         Register
                     </Link>
                  </li>
