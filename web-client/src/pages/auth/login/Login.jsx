@@ -30,7 +30,7 @@ const Login = () => {
         }
     
         if (isAuthenticated) {
-          navigate('/products')
+          navigate('/')
         }
     }, [dispatch, error, alert, navigate, isAuthenticated]);
 

@@ -1,28 +1,29 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 import './Register.css'
 import image2 from '../../../assets/landing page/1.png'
+import { clearErrors, register } from "../../../actions/user-actions/userActions"
 
 const Register = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        password: '',
-        password2: '',
-    });
-
-    const { name, email, password, password2 } = formData;
-
-    const onChange = (e) => {
-        setFormData((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value
-        }))
-    }
+    const dispatch = useDispatch()
+    const [registerFullName, setRegisterFullName] = useState("")
+    const [registerEmail, setRegisterEmail] = useState("")
+    const [registerPassword, setRegisterPassword] = useState("")
+    const [registerConfirmPassword, setRegisterConfirmPassword] = useState("")
 
     const onSubmit = (e) => {
         e.preventDefault();
+    
+        
+        dispatch(register(registerFullName, registerEmail, registerPassword));
+        console.log(registerFullName + ' ' + registerEmail + ' ' + registerPassword)
+
+        
+
     }
 
   return (
@@ -40,9 +41,9 @@ const Register = () => {
                             type="text" 
                             id="name" 
                             name="name" 
-                            value={name} 
+                            value={registerFullName} 
                             placeholder="Enter your user full name" 
-                            onChange={onChange}
+                            onChange={(e) => setRegisterFullName(e.target.value)}
                         />
                     </div>
                     <div className="input-box">
@@ -51,9 +52,9 @@ const Register = () => {
                             type="text"
                             id="email" 
                             name="email" 
-                            value={email} 
+                            value={registerEmail} 
                             placeholder="Enter your email" 
-                            onChange={onChange}
+                            onChange={(e) => setRegisterEmail(e.target.value)}
                         />
                     </div>
                     <div className="input-box">
@@ -62,9 +63,9 @@ const Register = () => {
                             type="password"
                             id="password" 
                             name="password" 
-                            value={password} 
+                            value={registerPassword} 
                             placeholder="Enter your password" 
-                            onChange={onChange} 
+                            onChange={(e) => setRegisterPassword(e.target.value)} 
                         />
                     </div>
                     <div className="input-box">
@@ -73,9 +74,9 @@ const Register = () => {
                             type="password" 
                             id="password2" 
                             name="password2" 
-                            value={password2} 
+                            value={registerConfirmPassword} 
                             placeholder="Confirm your password" 
-                            onChange={onChange}
+                            onChange={(e) => setRegisterConfirmPassword(e.target.value)}
                         />
                     </div>
                     <div className="input-box">
@@ -87,6 +88,7 @@ const Register = () => {
                 </form>
             </div>
         </div>
+        <ToastContainer />
     </section>
   )
 }
