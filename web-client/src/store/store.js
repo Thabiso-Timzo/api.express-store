@@ -8,9 +8,11 @@ import {
   userDetailsReducer, 
   userReducer 
 } from '../reducers/user-reducers/UserReducers';
+import { alert } from "../reducers/alert/alert";
 
 
 const reducer = combineReducers({
+  alert: alert,
   user: userReducer,
   profile: profileReducer,
   allUsers: allUsersReducer,
@@ -18,9 +20,12 @@ const reducer = combineReducers({
   forgotPassword:forgotPasswordReducer,
 });
 
+//const initialState = {};
+
 const middleWare = [thunk];
 
 const store = createStore(
+  //initialState,
   reducer,
   composeWithDevTools(applyMiddleware(...middleWare))
 );
