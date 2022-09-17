@@ -24,7 +24,6 @@ router.post('/login', loginUser);
 router.post('/password/forgot', forgotPassword );
 router.post('/check', authorisedRoles, checkIfStudent)
 
-router.get('/auth', isAuthenticatedUser, getMe);
 router.get('/logout', logoutUser);
 router.get('/me',isAuthenticatedUser, userDetails);
 router.get('/admin/users', isAuthenticatedUser, authorisedRoles('admin'), getAllUsers);
