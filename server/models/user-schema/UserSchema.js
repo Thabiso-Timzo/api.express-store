@@ -1,29 +1,20 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const crypto = require("crypto");
-
-const { jwt_exp, jwt_secret } = require('../../config/index')
 
 const userSchema = new mongoose.Schema({
     name:{
         type:String,
-        required:[true,"Please enter your Name"],
-        minlength:[3,"Please enter a name atleast 3 characters"], 
-        maxlength:[25, "Name can not big than 15 characters"]
+        required: true,
     },
     email:{
        type:String,
-       required:[true,"Please enter your email"],
        validate: [validator.isEmail,"Please enter a valid email"],
        unique: true,
    },
    password:{
       type:String,
-      required:[true,"Please enter your password!"],
-      minlength:[8,"Password should be greater than 8 characters"],
-      select: false,
+      required:true,
    },
 //    avatar:{
 //     public_id:{
@@ -46,6 +37,20 @@ const userSchema = new mongoose.Schema({
    resetPasswordToken: String,
    resetPasswordTime: Date,
 });
+
+userSchema.pre('save', async function (next) {
+    if (!this.isModified('password')) {
+      next();
+    }
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+});
+  
+//Verify password
+userSchema.methods.isPasswordMatch = async function (enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password);
+};
 
 // Hash password
 /*userSchema.pre("save", async function(next){
