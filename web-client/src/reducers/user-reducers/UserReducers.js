@@ -16,7 +16,6 @@ import {
     LOGIN_FAIL,
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
-    LOGOUT_FAIL,
     LOGOUT_SUCCESS,
     REGISTER_USER_FAIL,
     REGISTER_USER_REQUEST,
@@ -40,9 +39,18 @@ import {
     USER_DETAILS_REQUEST,
     USER_DETAILS_SUCCESS,
   } from "../../constants/user-constants/UserContants";
+
+  const initialState = {
+    token: localStorage.getItem("token"),
+    isAuthenticated: null,
+    loading: true,
+    user: null
+  }
   
-  export const userReducer = (state = { user: {} }, action) => {
-    switch (action.type) {
+export const userReducer = (state = initialState, action) => {
+  const { type, payload } = action;
+
+    switch (type) {
       case LOGIN_REQUEST:
       case REGISTER_USER_REQUEST:
       case LOAD_USER_REQUEST:
@@ -50,53 +58,40 @@ import {
           loading: true,
           isAuthenticated: false,
         };
-      case LOGIN_SUCCESS:
       case REGISTER_USER_SUCCESS:
+      case LOGIN_SUCCESS:
+        localStorage.getItem("token", payload.token)
+        return {
+          ...state,
+          ...payload,
+          isAuthenticated: true,
+          loading: false
+        }
       case LOAD_USER_SUCCESS:
         return {
           ...state,
           loading: false,
           isAuthenticated: true,
-          user: action.payload,
+          user: payload,
         };
   
       case LOGOUT_SUCCESS:
-        return {
-          loading: false,
-          user: null,
-          isAuthenticated: false,
-        };
       case LOGIN_FAIL:
       case REGISTER_USER_FAIL:
+        localStorage.removeItem("token", payload.token);
         return {
           ...state,
-          loading: false,
+          token: null,
           isAuthenticated: false,
-          user: null,
-          error: action.payload,
-        };
-  
+          loading: false
+        }
       case LOAD_USER_FAIL:
         return {
           loading: false,
           isAuthenticated: false,
           user: null,
-          error: action.payload,
+          error: payload,
         };
-  
-      case LOGOUT_FAIL:
-        return {
-          ...state,
-          loading: false,
-          error: action.payload,
-        };
-  
-      case CLEAR_ERRORS:
-        return {
-          ...state,
-          error: null,
-        };
-  
       default:
         return state;
     }
