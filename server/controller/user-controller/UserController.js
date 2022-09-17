@@ -1,130 +1,50 @@
 const User = require('../../models/user-schema/UserSchema');
 const Student = require('../../models/student-schema/StudentSchema');
 const ErrorHandler = require('../../utils/ErrorHandler');
+const asynHandler = require('express-async-handler');
 const catchAsyncErrors = require('../../middleware/catchAsyncErrors');
-const sendToken = require('../../utils/jwtToken');
+const generateToken = require('../../utils/jwtToken');
 const sendMail = require('../../utils/sendMail');
 const crypto = require("crypto");
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const { check, validationResult } = require('express-validator')
-
-
-var { jwt_secret, jwt_exp } = require('../../config/index') 
 
 // Register user
-const createUser = ([
-    check("name", "Your name is required.").not().isEmpty(),
-    check("email", "Please include a valid email address.").isEmail(),
-    check("password", "Please enter a password with 6 or more  characters.").isLength({ min: 6 })
-], 
-    async (req, res) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() })
-        }
+const createUser = asynHandler(async (req, res) => {
+    const { name, email, password } = req.body;
 
-        const { name, email, password } = req.body;
-
-        try {
-            // if user exists
-            let user = await User.findOne({ email })
-
-            if (user) {
-                res.status(400).json({ errors: [{ msg: "The user already exists."}] })
-            }
-
-            user = new User({
-                name,
-                email,
-                password
-            });
-
-            // Encrypt the password
-            const salt = await bcrypt.genSalt(10);
-
-            user.password = await bcrypt.hash(req.body.password, salt);
-
-            await user.save();
-
-            
-
-            // Return a json web token
-            const payload = {
-                user: {
-                    id: user.id,
-                }
-            };
-
-            jwt.sign(payload, jwt_secret, { expiresIn: 3600000 }, (err, token) => {
-                if (err) throw err;
-                res.json({ token })
-            })
-        } catch (err) {
-            console.error(err.message)
-            res.status(500).send("Internal server error!!!")
-        }
-        // avatar: {
-        //     public_id: "https://test.com",
-        //     url: "https://test.com"
-        // }
+    const userExists = await User.findOne({ email: email });
+    if (userExists) {
+      throw new Error('User Exist');
     }
-)
-
-const getMe = async (req, res) => {
- try {
-    const user = await User.findById(req.user.id).select("-password");
-    res.json(user);
- } catch (err) {
-    console.error(err.message)
-    res.status(500).send("Internal server error!!!")
- }
-}
-
+    const userCreated = await User.create({ email, name, password });
+    res.json({
+      _id: userCreated._id,
+      name: userCreated.name,
+      password: userCreated.password,
+      email: userCreated.password,
+      token: generateToken(userCreated._id),
+    });
+})
 
 // login user 
-const loginUser = ([
-    check("email", "Please include a valid email").isEmail(),
-    check("password", "Password is required.").exists()
-], async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() })
-    }
-
+const loginUser =  asynHandler(async (req, res) => {
     const { email, password } = req.body;
 
-    try {
-        // if user exists
-        let user = await User.findOne({ email })
+    const user = await User.findOne({ email });
 
-        if (!user) {
-            return res.status(400)
-            .json({ errors: [{ msg: "Invalid credentials."}] })
-        }
+    if (user && (await user.isPasswordMatch(password))) {
+      //set status code
+      res.status(200);
 
-        const isMatch = await bcrypt.compare(password, user.password);
-
-        if (!isMatch) {
-            return res.status(400)
-            .json({ errors: [{ msg: "Invalid credentials."}] })
-        }
-
-        // Return json web token
-        const payload = {
-            user: {
-                id: user.id,
-            }
-        };
-
-        jwt.sign(payload, jwt_secret, { expiresIn: jwt_exp }, (err, token) => {
-            if (err) throw err;
-            res.json({ token })
-        })
-
-    } catch(err) {
-        console.error(err.message)
-        res.status(500).send("Internal server error!!!")
+      res.json({
+        _id: user._id,
+        name: user.name,
+        password: user.password,
+        email: user.password,
+        token: generateToken(user._id),
+      });
+    } else {
+      res.status(401);
+      throw new Error('Invalid credentials');
     }
 })
 
@@ -351,7 +271,6 @@ const checkIfStudent = catchAsyncErrors(async (req, res, next ) => {
 
 module.exports = {
     createUser,
-    getMe,
     loginUser,
     logoutUser,
     forgotPassword,
