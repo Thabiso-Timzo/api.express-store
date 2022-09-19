@@ -11,6 +11,7 @@ import Products from './pages/user/products/Products';
 import Profile from './pages/user/profile/Profile';
 import Search from './pages/user/search/Search';
 import WishList from './pages/user/wish-list/WishList';
+import NotFound from './pages/not-found/NotFound';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path='/wish-list' element={<WishList />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/search' element={<Search />} />
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
