@@ -1,33 +1,33 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
+import { createStore, compose, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension";
-import { 
-  allUsersReducer, 
-  forgotPasswordReducer, 
-  profileReducer, 
-  userDetailsReducer, 
-  userReducer 
-} from '../reducers/user-reducers/UserReducers';
-import { alert } from "../reducers/alert/alert";
+//import { composeWithDevTools } from "redux-devtools-extension";
+ 
+import { reducer }  from "./index";
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+const userAuthFromStorage = localStorage.getItem('userAuthData')
+  ? JSON.parse(localStorage.getItem('userAuthData'))
+  : null;
 
-const reducer = combineReducers({
-  alert: alert,
-  user: userReducer,
-  profile: profileReducer,
-  allUsers: allUsersReducer,
-  userDetails: userDetailsReducer,
-  forgotPassword:forgotPasswordReducer,
-});
-
-//const initialState = {};
+let initialState = {
+  userLogin: { 
+    userInfo: userAuthFromStorage 
+  },
+};
 
 const middleWare = [thunk];
 
-const store = createStore(
-  //initialState,
-  reducer,
-  composeWithDevTools(applyMiddleware(...middleWare))
-);
+const init_reduce = () => {
+  return (
+    initialState,
+    reducer
+  )
+}
 
-export default store;
+const store = createStore(
+  init_reduce,
+  composeEnhancer(applyMiddleware(...middleWare)),
+  //composeWithDevTools(applyMiddleware(...middleWare))
+)
+
+export default store;  
