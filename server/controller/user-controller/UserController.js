@@ -6,23 +6,47 @@ const catchAsyncErrors = require('../../middleware/catchAsyncErrors');
 const generateToken = require('../../utils/jwtToken');
 const sendMail = require('../../utils/sendMail');
 const crypto = require("crypto");
+const bcrypt = require('bcryptjs')
 
 // Register user
 const createUser = asynHandler(async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password } = req.body
 
-    const userExists = await User.findOne({ email: email });
-    if (userExists) {
-      throw new Error('User Exist');
+    if (!name || !email || !password) {
+      res.status(400)
+      throw new Error('Please add all fields')
     }
-    const userCreated = await User.create({ email, name, password });
-    res.json({
-      _id: userCreated._id,
-      name: userCreated.name,
-      password: userCreated.password,
-      email: userCreated.password,
-      token: generateToken(userCreated._id),
-    });
+  
+    // Check if user exists
+    const userExists = await User.findOne({ email })
+  
+    if (userExists) {
+      res.status(400)
+      throw new Error('User already exists')
+    }
+  
+    // Hash password
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password, salt)
+  
+    // Create user
+    const user = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+    })
+  
+    if (user) {
+      res.status(201).json({
+        _id: user.id,
+        name: user.name,
+        email: user.email,
+        token: generateToken(user._id),
+      })
+    } else {
+      res.status(400)
+      throw new Error('Invalid user data')
+    }
 })
 
 // login user 
