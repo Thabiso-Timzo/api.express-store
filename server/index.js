@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const colors = require('colors');
+const fileUpload = require('express-fileupload');
 require('dotenv/config');
 
 const { port_, allowedDomains } = require('./config/index');
@@ -32,6 +33,9 @@ app.use(express.json());
 app.use(cors({origin: allowedDomains, credentials: true}));
 app.options('*', cors());
 app.use(morgan('tiny'));
+app.use(fileUpload({
+    useTempFiles: true
+}))
 
 // To not get any deprecation warning or error
 app.use(bodyParser.urlencoded({ extended: true }));
