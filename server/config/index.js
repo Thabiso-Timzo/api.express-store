@@ -16,5 +16,8 @@ module.exports = {
     smpt_service: process.env.SMPT_SERVICE,
     smpt_mail: process.env.SMPT_MAIL,
     smpt_pass: process.env.SMPT_PASSWORD,
-    cookie_exp: process.env.COOKIE_EXPIRE
+    cookie_exp: process.env.COOKIE_EXPIRE,
+    cloud_name: process.env.CLOUD_NAME,
+    cloud_api_key: process.env.CLOUD_API_KEY,
+    cloud_api_secret_key: process.env.CLOUD_API_SECRET_KEY
 }
