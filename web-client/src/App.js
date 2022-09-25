@@ -1,5 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 import Login from './pages/auth/login/Login';
 import Register from './pages/auth/register/Register';
@@ -29,6 +31,7 @@ function App() {
         <Route path='/search' element={<Search />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
+      <ToastContainer />
     </BrowserRouter>
   );
 }
