@@ -5,6 +5,7 @@ import { HiOutlineChat } from 'react-icons/hi'
 import { BsHeart, BsShop } from 'react-icons/bs'
 import { GiShoppingCart } from 'react-icons/gi'
 import { MdOutlineSell } from 'react-icons/md'
+import { useSelector } from 'react-redux'
 
 import './Navigation.css'
 import img1 from '../../assets/logo/Gude.png'
@@ -20,6 +21,8 @@ const Navigation = () => {
     // Navigate to the products page
     const home = () => navigate('/')
 
+    const { user } = useSelector((state) => state.auth)
+
     // Check if its a student or a seller
     const sellOnGude = async (e) => {
         e.preventDefault()
@@ -30,9 +33,9 @@ const Navigation = () => {
         <nav className='top-nav'>
             <img onClick={home} src={img1} alt="" />
             <ul className='top-ul'>
-                <li><button onClick={sellOnGude}><MdOutlineSell /> sell on gude</button></li>
+                {user ? (<li><button onClick={sellOnGude}><MdOutlineSell /> sell on gude</button></li>) : null}
                 <li><Link to='/search'><FiSearch /></Link></li>
-                <li><Link to='/chat'><HiOutlineChat /></Link></li>
+                {user ? (<li><Link to='/chat'><HiOutlineChat /></Link></li>) : null}
                 <li><Link to='/wish-list'><BsHeart /></Link></li>
                 <li><Link to='/cart'><GiShoppingCart /></Link></li>
                 <li>
@@ -48,8 +51,8 @@ const Navigation = () => {
         <nav className='bottom-nav'>
             <ul className='bottom-ul'>
                 <li><Link to='/'><BsShop /></Link></li>
-                <li><Link to='/chat'><HiOutlineChat /></Link></li>
-                <li><Link to='#' onClick={sellOnGude}><MdOutlineSell /></Link></li>
+                {user ? (<li><Link to='/chat'><HiOutlineChat /></Link></li>) : null}
+                {user ? (<li><Link to='#' onClick={sellOnGude}><MdOutlineSell /></Link></li>) : null}
                 <li><Link to='/wish-list'><BsHeart /></Link></li>
                 <li><Link to='/cart'><GiShoppingCart /></Link></li>
                 <li><Link to='/profile'><img src={profile} alt='' /></Link></li>
