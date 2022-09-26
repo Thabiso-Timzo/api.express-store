@@ -53,34 +53,34 @@ const createUser = asynHandler(async (req, res) => {
 
 // login user 
 const loginUser =  asynHandler(async (req, res) => {
-     const { email, password } = req.body;
+    const { email, password } = req.body;
 
-     try {
-       const user = await User.findOne({ email: email });
+    try {
+        const user = await User.findOne({ email: email });
 
-       if (!email || !password) {
-         return res.status(400).json({msg: 'Please enter the email & password'})
-       }
+        if (!email || !password) {
+            return res.status(400).json({msg: 'Please enter the email & password'})
+        }
   
-      if (user) {
-         const validity = await bcrypt.compare(password, user.password);
+        if (user) {
+            const validity = await bcrypt.compare(password, user.password);
   
-         if (!validity) {
-           res.status(400).json('wrong password');
-         } else {
-           const token = jwt.sign(
-             { user: user.name, id: user._id },
-             jwt_secret,
-             { expiresIn: '1d' }
-           );
-           res.status(200).json({ user, token });
-         }
-       } else {
-         res.status(404).json('User not found');
-       }
-     } catch (err) {
-       res.status(500).json(err);
-     }
+            if (!validity) {
+                res.status(400).json('wrong password');
+            } else {
+                const token = jwt.sign(
+                    { user: user.name, id: user._id },
+                        jwt_secret,
+                    { expiresIn: '1d' }
+                );
+                res.status(200).json({ user, token });
+            }
+        } else {
+            res.status(404).json('User not found');
+        }
+    } catch (err) {
+        res.status(500).json(err);
+    }
 })
 
 //Forgot password
