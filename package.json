@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "web": "concurrently \"cd web-client && npm start\" \"cd server && npm start\"",
-    "mobile": "concurrently \"cd mobile-client && npm start\" \"cd server && npm start\"",
+    "web": "concurrently \"cd web-client && npm start\" \"cd server && npm start\" \" cd socket && npm start\"",
+    "mobile": "concurrently \"cd mobile-client && npm start\" \"cd server && npm start\" \" \"cd socket && npm start",
     "webClient": "cd web-client && npm start",
     "mobileClient": "cd mobile-client && npm start",
-    "server": "cd server && npm start"
+    "server": "cd server && npm start",
+    "socket": "cd socket && npm start"
   },
   "repository": {
     "type": "git",
