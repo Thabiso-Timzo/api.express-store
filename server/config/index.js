@@ -1,5 +1,7 @@
+const os = require('os');
+
 module.exports = {
-    database: process.env.MONGO_URI,
+    database: os.networkInterfaces() ?  process.env.MONGO_URI : process.env.MONGO_LOCAL_URI,
     port_: process.env.PORT,
     jwt_secret: process.env.JWT_SECRET_KEY,
     jwt_exp: process.env.JWT_EXPIRES,
