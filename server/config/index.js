@@ -1,7 +1,17 @@
-const os = require('os');
+// const isOnline = require('is-online')
+
+// const checkConnection = () => {
+//     isOnline().then((online) => {
+//         if (online) {
+//             return  process.env.MONGO_URI
+//         } else {
+//             return process.env.MONGO_LOCAL_URI
+//         }
+//     })
+// }
 
 module.exports = {
-    database: os.networkInterfaces() ?  process.env.MONGO_URI : process.env.MONGO_LOCAL_URI,
+    database: /*checkConnection()  process.env.MONGO_URI :*/ process.env.MONGO_LOCAL_URI,
     port_: process.env.PORT,
     jwt_secret: process.env.JWT_SECRET_KEY,
     jwt_exp: process.env.JWT_EXPIRES,

@@ -49,9 +49,9 @@ app.use(errorCatcher);
 // Routes
 app.use('/api/products', ProductRoutes);
 app.use('/api/users', UserRoutes);
-app.use('/api/order', OrderRoutes);
-app.use('/api/chat', ChatRoutes);
-app.use('/api/message', MessageRoutes);
+app.use('/api/orders', OrderRoutes);
+app.use('/api/chats', ChatRoutes);
+app.use('/api/messages', MessageRoutes);
 app.use('/api/upload', upload);
 
 app.listen(port, () => {
