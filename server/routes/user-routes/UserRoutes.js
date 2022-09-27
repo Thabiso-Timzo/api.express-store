@@ -26,13 +26,13 @@ router.post('/check', authorisedRoles, checkIfStudent)
 
 router.get('/me',isAuthenticatedUser, userDetails);
 router.get('/admin/users', isAuthenticatedUser, authorisedRoles(1), getAllUsers);
-router.get('/admin/users/:id', isAuthenticatedUser, authorisedRoles(1), getSingleUser);
+router.get('/admin/user/:id', isAuthenticatedUser, authorisedRoles(1), getSingleUser);
 
 router.put('/password/reset/:token', resetPassword);
 router.put('/me/update', isAuthenticatedUser, updatePassword);
 router.put('/me/update/info', isAuthenticatedUser, updateProfile);
-router.put('/admin/users/:id', isAuthenticatedUser, authorisedRoles(1), updateUserRole);
+router.put('/admin/user/:id', isAuthenticatedUser, authorisedRoles(1), updateUserRole);
 
-router.delete('/admin/users/:id', isAuthenticatedUser, authorisedRoles(1), deleteUser);
+router.delete('/admin/user/:id', isAuthenticatedUser, authorisedRoles(1), deleteUser);
 
 module.exports = router;

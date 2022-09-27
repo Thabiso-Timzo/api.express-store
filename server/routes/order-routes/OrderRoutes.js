@@ -13,13 +13,13 @@ const {
 
 router.post('/new', isAuthenticatedUser, createOrder);
 
-router.get('/admin/orders', isAuthenticatedUser, authorisedRoles('admin'), getAdminAllOrders);
+router.get('/admin/orders', isAuthenticatedUser, authorisedRoles(1), getAdminAllOrders);
 router.get('/me', isAuthenticatedUser, getAllOrders);
 router.get('/:id', isAuthenticatedUser, getSingleOrder);
 
-router.put('/admin/order/:id', isAuthenticatedUser, authorisedRoles('admin'), updateAdminOrder);
+router.put('/admin/order/:id', isAuthenticatedUser, authorisedRoles(1), updateAdminOrder);
 
-router.delete('/admin/order/:id', isAuthenticatedUser, authorisedRoles('admin'), deleteOrder);
+router.delete('/admin/order/:id', isAuthenticatedUser, authorisedRoles(1), deleteOrder);
 
 
 module.exports = router;

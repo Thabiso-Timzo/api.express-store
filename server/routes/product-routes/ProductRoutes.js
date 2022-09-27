@@ -13,12 +13,12 @@ const {
 } = require('../../controller/product-controller/ProductController');
 const { isAuthenticatedUser, authorisedRoles } = require('../../middleware/auth');
 
-router.post('/new', isAuthenticatedUser, authorisedRoles('admin'), createProduct);
+router.post('/new', isAuthenticatedUser, createProduct);
 router.post('/review', isAuthenticatedUser, createProductReview);
 
 router.get('/', allProducts);
 router.get('/:id', singleProduct);
-router.get('/all/reviews', getSingleProductReviews);
+router.get('/review', getSingleProductReviews);
 
 router.put('/:id', isAuthenticatedUser, authorisedRoles('admin'),updateProducts);
 
