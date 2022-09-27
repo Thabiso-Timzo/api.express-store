@@ -16,7 +16,7 @@ import {
   LOGIN_FAIL,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
-  //LOGOUT_FAIL,
+  LOGOUT_FAIL,
   LOGOUT_SUCCESS,
   REGISTER_USER_FAIL,
   REGISTER_USER_REQUEST,
@@ -39,156 +39,40 @@ import {
 } from "../../constants/user-constants/UserContants";
 
 // Login
+export const login = (email, password) => async (dispatch) => {
+  try {
+    dispatch({ type: LOGIN_REQUEST });
 
-export const login = (email, password) => {
-  return async dispatch => {
-    try {
-      dispatch({
-        type: LOGIN_REQUEST,
-      });
+    const config = { headers: { "Content-Type": "application/json" } };
 
-      //Make the actual
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
-
-      const { data } = await axios.post(
-        '/api/users/login',
-        { email, password },
-        config
-      );
-      dispatch({
-        type: LOGIN_SUCCESS,
-        payload: data,
-      });
-      //Save the user into localstorage
-      localStorage.setItem('userAuthData', JSON.stringify(data));
-    } catch (error) {
-      dispatch({
-        type: LOGIN_FAIL,
-        payload: error.response && error.response.data.message,
-      });
-    }
-  };
-};
-
-// Login
-// export const login = ({email, password}) => 
-//   async (dispatch) => {
-//     const config = { 
-//       headers: { 
-//         "Content-Type": "application/json" 
-//       } 
-//     };
-
-//     const body = JSON.stringify({ email, password });
-    
-//     try {
-//       const res = await axios.post('/api/users/login', body, config);
-
-//       dispatch({ 
-//         type: LOGIN_SUCCESS, 
-//         payload: res.data 
-//       });
-
-//       dispatch(loadUser());
-//   } catch (err) {
-//     const errors = err.response.data.errors;
-
-//     if (errors) {
-//       errors.forEach((error) => dispatch(setAlert(error.msg, "danger")))
-//     }
-
-//     dispatch({ 
-//       type: LOGIN_FAIL, 
-//     });
-//   }
-// };
-
-// Register
-export const register = (name, email, password) => {
-  return async dispatch => {
-    try {
-      dispatch({
-        type: REGISTER_USER_REQUEST,
-      });
-
-      //MAKE ACTUALL CALL
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
-
-      const { data } = await axios.post(
-        '/api/users/register',
-        {
-          name,
-          email,
-          password,
-        },
-        config
-      );
-
-      dispatch({
-        type: REGISTER_USER_SUCCESS,
-        payload: data,
-      });
-
-      //Save the user into localstorage
-      localStorage.setItem('userAuthData', JSON.stringify(data));
-    } catch (error) {
-      dispatch({
-        type: REGISTER_USER_FAIL,
-        payload: error.response && error.response.data.message,
-      });
-    }
-  };
+    const { data } = await axios.post(
+      '/api/users/login',
+      { email, password },
+      config
+    );
+    dispatch({ type: LOGIN_SUCCESS, payload: data.user });
+  } catch (error) {
+    dispatch({ type: LOGIN_FAIL, payload: error.response.data.message });
+  }
 };
 
 // Register
-// export const register = ({name, email, password}) => 
-//   async (dispatch) => {
-//     //dispatch({ type: REGISTER_USER_REQUEST });
+export const register = (userData) => async (dispatch) => {
+  try {
+    dispatch({ type: REGISTER_USER_REQUEST });
 
-//     const config = { 
-//       headers: { 
-//         "Content-Type": "application/json" 
-//       } 
-//     };
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
 
-//     const body = JSON.stringify({ name, email, password });
+    const { data } = await axios.post('/api/users/register', userData, config);
 
-//     try {
-//       const res = await axios.post('/api/users/register', body, config);
-//       dispatch({ 
-//         type: REGISTER_USER_SUCCESS, 
-//         payload: res.data 
-//       });
-//     } catch (err) {
-//       const errors = err.response.data.errors;
-
-//       if (errors) {
-//         errors.forEach((error) => dispatch(setAlert(error.msg, "danger")))
-//       }
-
-//       dispatch({
-//         type: REGISTER_USER_FAIL,
-//       });
-//     }
-
-//     //const { data } = await axios.post(`/api/users/register`, userData, config);
-
-//     //dispatch({ type: REGISTER_USER_SUCCESS, payload: data.user });
-
-//     /*dispatch({
-//       type: REGISTER_USER_FAIL,
-//       payload: error.response.data.message,
-//     });*/
-  
-// };
+    dispatch({ type: REGISTER_USER_SUCCESS, payload: data.user });
+  } catch (error) {
+    dispatch({
+      type: REGISTER_USER_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
 
 
 // Load User
@@ -198,7 +82,8 @@ export const loadUser = () => async (dispatch) =>{
            // eslint-disable-next-line
       const config = { headers:{ "Content-Type": "application/json"} };
 
-      const {data} = await axios.get(`/api/users/me`);
+      const {data} = await axios.get(
+          '/api/users/me');
            
      dispatch({type: LOAD_USER_SUCCESS, payload: data.user });
   } catch (error) {  
@@ -207,8 +92,8 @@ export const loadUser = () => async (dispatch) =>{
 }
               
 // Log out user
-export const logout = () =>  (dispatch) =>{
-  dispatch({type: LOGOUT_SUCCESS})
+export const logout = () => async (dispatch) =>{
+  localStorage.removeItem("user")
 }
 
 // Update Profile
@@ -218,7 +103,7 @@ export const updateProfile = (userData) => async (dispatch) => {
 
     const config = { headers: { "Content-Type": "multipart/form-data" } };
 
-    const { data } = await axios.put(`/api/users/me/update/info`, userData, config);
+    const { data } = await axios.put('/api/users/me/update/info', userData, config);
 
     dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data.success });
   } catch (error) {
@@ -236,7 +121,7 @@ export const updatePassword = (password) => async (dispatch) => {
 
     const config = { headers: { "Content-Type": "application/json" } };
 
-    const { data } = await axios.put(`/api/users/me/update`, password, config);
+    const { data } = await axios.put('/api/users/me/update', password, config);
 
     dispatch({ type: UPDATE_PASSWORD_SUCCESS, payload: data.success });
   } catch (error) {
@@ -251,7 +136,7 @@ export const updatePassword = (password) => async (dispatch) => {
 export const getAllUsers = () => async (dispatch) => {
   try {
     dispatch({ type: ALL_USERS_REQUEST });
-    const { data } = await axios.get(`/api/users/admin/users`);
+    const { data } = await axios.get('/api/users/admin/users');
 
     dispatch({ type: ALL_USERS_SUCCESS, payload: data.users });
   } catch (error) {
@@ -267,7 +152,7 @@ export const forgotPassword = (email) => async (dispatch) => {
 
     const config = { headers: { "Content-Type": "application/json" } };
 
-    const { data } = await axios.post(`/api/users/password/forgot`, email, config);
+    const { data } = await axios.post('/api/users/password/forgot', email, config);
 
     dispatch({ type: FORGOT_PASSWORD_SUCCESS, payload: data.message });
   } catch (error) {
@@ -322,7 +207,7 @@ export const deleteUser = (id) => async (dispatch) => {
 export const getUserDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: USER_DETAILS_REQUEST });
-    const { data } = await axios.get(`/admin/api/usersuser/${id}`);
+    const { data } = await axios.get(`/api/users/admin/user/${id}`);
 
     dispatch({ type: USER_DETAILS_SUCCESS, payload: data.user });
   } catch (error) {
