@@ -1,11 +1,21 @@
-const jwt = require('jsonwebtoken');
+// create token and saving that in cookies
+const sendToken = (user,statusCode,res) =>{
 
-const { jwt_secret } = require('../config/index');
+  const token = user.getJwtToken();
 
-const generateToken = userId => {
-  return jwt.sign({ id: userId }, jwt_secret, {
-    expiresIn: '30d',
-  });
-};
+  // Options for cookies
+ const options = {
+     expires: new Date(
+         Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000
+     ),
+     httpOnly: true
+ };
 
-module.exports = generateToken;
+ res.status(statusCode).cookie("token",token,options).json({
+     success: true,
+     user,
+     token
+ });
+}
+
+module.exports = sendToken;
