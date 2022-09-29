@@ -5,6 +5,7 @@ const sendMail = require('../../utils/sendMail');
 const crypto = require("crypto");
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const sendToken = require('../../utils/jwtToken')
 
 
 const { jwt_secret } = require('../../config/index')
@@ -14,73 +15,67 @@ function validateEmail(email) {
     return re.test(email);
 }
 
+// auth
+const auth = asynHandler(async (req, res) => {
+    res.status(200).json({
+        _id: req.user._id,
+        isAdmin: req.user.role === 0 ? false : true,
+        isAuth: true,
+        email: req.user.email,
+        name: req.user.name,
+        lastname: req.user.lastname,
+        role: req.user.role,
+        image: req.user.image,
+    });
+});
+
 // Register user
 const createUser = asynHandler(async (req, res) => {
-    try {
-        const { name, email, password } = req.body
+    const user = new User(req.body);
 
-        if (!name || !email || !password) {
-            return res.status(400).json({ msg: "Please fill in all fields." })
-        }
-        
-        if (!validateEmail(email)) {
-            return res.status(400).json({ msg:  "Invalid email address."})
-        } 
-
-        const user = await User.findOne({email})
-        if (user) return res.status(400).json({msg: "This email already exists."})
-
-        if (password.length < 6)
-            return res.status(400).json({ msg: "Password must be at least 6 characters." })
-
-        const salt = await bcrypt.genSalt(10);
-        const hashedPass = await bcrypt.hash(req.body.password, salt);
-        req.body.password = hashedPass
-        const newUser = new User(req.body);
-
-        const person = await newUser.save();
-        const token = jwt.sign(
-            { nam: person.name, id: person._id },
-            jwt_secret,
-            { expiresIn: '1d' }
-        );
-    
-        res.status(200).json({ person, token });
-    } catch (err) {
-        return res.status(500).json({ msg: err.message } )
-    }
+    user.save((err, doc) => {
+        if (err) return res.json({ success: false, err });
+        return res.status(200).json({
+            success: true
+        });
+    });
 })
 
 // login user 
 const loginUser =  asynHandler(async (req, res) => {
-    const { email, password } = req.body;
+    User.findOne({ email: req.body.email }, (err, user) => {
+        if (!user)
+            return res.json({
+                loginSuccess: false,
+                message: "Auth failed, email not found"
+            });
 
-    try {
-        const user = await User.findOne({ email: email });
+        user.comparePassword(req.body.password, (err, isMatch) => {
+            if (!isMatch)
+                return res.json({ loginSuccess: false, message: "Wrong password" });
 
-        if (!email || !password) {
-            return res.status(400).json({msg: 'Please enter the email & password'})
-        }
-  
-        if (user) {
-            const validity = await bcrypt.compare(password, user.password);
-  
-            if (!validity) {
-                res.status(400).json('wrong password');
-            } else {
-                const token = jwt.sign(
-                    { user: user.name, id: user._id },
-                        jwt_secret,
-                    { expiresIn: '1d' }
-                );
-                res.status(200).json({ user, token });
-            }
-        } else {
-            res.status(404).json('User not found');
-        }
-    } catch (err) {
-        res.status(500).json(err);
-    }
+            user.generateToken((err, user) => {
+                if (err) return res.status(400).send(err);
+                res.cookie("w_authExp", user.tokenExp);
+                res
+                    .cookie("w_auth", user.token)
+                    .status(200)
+                    .json({
+                        loginSuccess: true, userId: user._id
+                    });
+            });
+        });
+    });
+})
+
+// logout 
+const logoutUser = asynHandler(async (req, res) => {
+    User.findOneAndUpdate({ _id: req.user._id }, { token: "", tokenExp: "" }, (err, doc) => {
+        if (err) return res.json({ success: false, err });
+        return res.status(200).send({
+            success: true
+        });
+    });
 })
 
 //Forgot password
@@ -293,8 +288,10 @@ const checkIfStudent = asynHandler(async (req, res, next ) => {
 
 
 module.exports = {
+    auth,
     createUser,
     loginUser,
+    logoutUser,
     forgotPassword,
     resetPassword,
     userDetails,
