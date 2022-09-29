@@ -1,36 +1,20 @@
-const jwt = require('jsonwebtoken');
-
-const ErrorHandler = require('../utils/ErrorHandler');
-const catchAsyncErrors = require('./catchAsyncErrors');
 const User = require('../models/user-schema/UserSchema');
-const { jwt_secret } = require('../config/index')
 
-const isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
-    const { token } = req.cookies;
+let authUser = (req, res, next) => {
+  let token = req.cookies.w_auth;
 
-    if (!token) {
-        return next(new ErrorHandler('Please login to access this pages', 401));
-    } 
+  User.findByToken(token, (err, user) => {
+    if (err) throw err;
+    if (!user)
+      return res.json({
+        isAuth: false,
+        error: true
+      });
 
-    const decodedData = jwt.verify(token, jwt_secret);
-
-    req.user = await User.findById(decodedData.id);
-
+    req.token = token;
+    req.user = user;
     next();
-})
+  });
+};
 
-// Admin roles
-const authorisedRoles = (...roles) => {
-    return (req, res, next) => {
-        if (roles.includes(req.user.role)) {
-            return next(new ErrorHandler(`${req.user.role} cannot access this pages.`))
-        }
-        next();
-    }
-}
-
-module.exports = {
-    isAuthenticatedUser,
-    authorisedRoles
-}
- 
+module.exports = authUser;
