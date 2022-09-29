@@ -11,12 +11,12 @@ import {
   productReviewsReducer,
   productsReducer,
 } from "../reducers/product-reducers/productReducers";
-import { 
-  allUsersReducer, 
-  forgotPasswordReducer, 
-  profileReducer, 
-  userDetailsReducer, 
-  userReducer 
+import {
+  userReducer,
+  profileReducer,
+  allUsersReducer,
+  userDetailsReducer,
+  forgotPasswordReducer
 } from "../reducers/user-reducers/UserReducers";
 import { cartReducer } from "../reducers/cart-reducers/cartReducers";
 import { favouriteReducer } from "../reducers/wish-reducers/wishReducers";
@@ -31,7 +31,7 @@ import {
 const reducer = combineReducers({
   products: productsReducer,
   productDetails: productDetailsReducer,
-  user: userReducer,
+  userReducer: userReducer,
   profile: profileReducer,
   cart: cartReducer,
   favourite: favouriteReducer,
