@@ -1,41 +1,41 @@
 import axios from "axios";
 import {
-   ALL_USERS_FAIL,
-   ALL_USERS_REQUEST,
-   ALL_USERS_SUCCESS,
-   CLEAR_ERRORS,
-   DELETE_USER_FAIL,
-   DELETE_USER_REQUEST,
-   DELETE_USER_SUCCESS,
-   FORGOT_PASSWORD_FAIL,
-   FORGOT_PASSWORD_REQUEST,
-   FORGOT_PASSWORD_SUCCESS,
-   LOAD_USER_FAIL,
-   LOAD_USER_REQUEST,
-   LOAD_USER_SUCCESS,
-   LOGIN_FAIL,
-   LOGIN_REQUEST,
-   LOGIN_SUCCESS,
-   LOGOUT_FAIL,
-   LOGOUT_SUCCESS,
-   REGISTER_USER_FAIL,
-   REGISTER_USER_REQUEST,
-   REGISTER_USER_SUCCESS,
-   RESET_PASSWORD_FAIL,
-   RESET_PASSWORD_REQUEST,
-   RESET_PASSWORD_SUCCESS,
-   UPDATE_PASSWORD_FAIL,
-   UPDATE_PASSWORD_REQUEST,
-   UPDATE_PASSWORD_SUCCESS,
-   UPDATE_PROFILE_FAIL,
-   UPDATE_PROFILE_REQUEST,
-   UPDATE_PROFILE_SUCCESS,
-   UPDATE_USER_FAIL,
-   UPDATE_USER_REQUEST,
-   UPDATE_USER_SUCCESS,
-   USER_DETAILS_FAIL,
-   USER_DETAILS_REQUEST,
-   USER_DETAILS_SUCCESS,
+  ALL_USERS_FAIL,
+  ALL_USERS_REQUEST,
+  ALL_USERS_SUCCESS,
+  CLEAR_ERRORS,
+  DELETE_USER_FAIL,
+  DELETE_USER_REQUEST,
+  DELETE_USER_SUCCESS,
+  FORGOT_PASSWORD_FAIL,
+  FORGOT_PASSWORD_REQUEST,
+  FORGOT_PASSWORD_SUCCESS,
+  LOAD_USER_FAIL,
+  LOAD_USER_REQUEST,
+  LOAD_USER_SUCCESS,
+  LOGIN_FAIL,
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGOUT_FAIL,
+  LOGOUT_SUCCESS,
+  REGISTER_USER_FAIL,
+  REGISTER_USER_REQUEST,
+  REGISTER_USER_SUCCESS,
+  RESET_PASSWORD_FAIL,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_FAIL,
+  UPDATE_PASSWORD_REQUEST,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PROFILE_FAIL,
+  UPDATE_PROFILE_REQUEST,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_USER_FAIL,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  USER_DETAILS_FAIL,
+  USER_DETAILS_REQUEST,
+  USER_DETAILS_SUCCESS,
 } from "../../constants/user-constants/UserContants";
 
 // Login
@@ -51,10 +51,9 @@ export const login = (email, password) => async (dispatch) => {
             } 
         };
 
-        const { data } = await axios.post(
-            '/api/users/login',
-            { email, password },
-            config
+        const { data } = await axios.post('/api/users/login',
+        {email, password },
+        config
         );
         dispatch({ 
             type: LOGIN_SUCCESS, 
@@ -81,18 +80,20 @@ export const register = (userData) => async (dispatch) => {
             } 
         };
 
-        const { data } = await axios.post(
-            '/api/users/register', 
-            userData, 
-            config
+        const { data } = await axios.post('/api/users/register', 
+        userData,
+        config
         );
 
-        dispatch({ type: REGISTER_USER_SUCCESS, payload: data.user });
+        dispatch({ 
+            type: REGISTER_USER_SUCCESS, 
+            payload: data.user 
+        });
     } catch (error) {
         dispatch({
             type: REGISTER_USER_FAIL,
-       payload: error.response.data.message,
-     });
+            payload: error.response.data.message,
+        });
     }
 };
 
@@ -100,19 +101,16 @@ export const register = (userData) => async (dispatch) => {
 // Load User
 export const loadUser = () => async (dispatch) =>{
     try {
-        dispatch({
-            type: LOAD_USER_REQUEST
-        });
-        
+        dispatch({type: LOAD_USER_REQUEST});
+           
         const config = { 
-            headers:{ 
+            headers: { 
                 "Content-Type": "application/json"
             } 
         };
 
-        const {data} = await axios.get(
-            '/api/users/me',
-            config
+        const {data} = await axios.get('/api/users/me',
+        config
         );
            
         dispatch({
@@ -130,25 +128,23 @@ export const loadUser = () => async (dispatch) =>{
 // Log out user
 export const logout = () => async (dispatch) =>{
     try {        
-        await axios.get(
-            '/api/users/logout'
-        );
+        await axios.get('/api/users/logout');
            
         dispatch({
             type: LOGOUT_SUCCESS
         });
     } catch (error) {  
         dispatch({
-            type: LOGOUT_FAIL, payload: 
-            error.response.data.message
+            type: LOGOUT_FAIL, 
+            payload: error.response.data.message
         });
-   }
+    }
 }
 
 // Update Profile
 export const updateProfile = (userData) => async (dispatch) => {
     try {
-         dispatch({ 
+        dispatch({ 
             type: UPDATE_PROFILE_REQUEST 
         });
 
@@ -158,15 +154,14 @@ export const updateProfile = (userData) => async (dispatch) => {
             } 
         };
 
-        const { data } = await axios.put(
-            '/api/users/me/update/info', 
-            userData, 
-            config
+        const { data } = await axios.put('/api/users/me/update/info',
+        userData, 
+        config
         );
 
         dispatch({ 
-            type: UPDATE_PROFILE_SUCCESS, payload: 
-            data.success 
+            type: UPDATE_PROFILE_SUCCESS, 
+            payload: data.success 
         });
     } catch (error) {
         dispatch({
@@ -179,23 +174,19 @@ export const updateProfile = (userData) => async (dispatch) => {
 // Update Password 
 export const updatePassword = (password) => async (dispatch) => {
     try {
-        dispatch({ 
-            type: UPDATE_PASSWORD_REQUEST 
-        });
+        dispatch({ type: UPDATE_PASSWORD_REQUEST });
 
-        const config = { 
-            headers: { 
-                "Content-Type": "application/json" 
-            } 
-        };
+        const config = { headers: { "Content-Type": "application/json" } };
 
-        const { data } = await axios.put(
-            '/api/users/me/update', 
-            password, 
-            config
+        const { data } = await axios.put('/api/users/me/update', 
+        password, 
+        config
         );
 
-        dispatch({ type: UPDATE_PASSWORD_SUCCESS, payload: data.success });
+        dispatch({ 
+            type: UPDATE_PASSWORD_SUCCESS, 
+            payload: data.success 
+        });
     } catch (error) {
         dispatch({
             type: UPDATE_PASSWORD_FAIL,
@@ -210,14 +201,12 @@ export const getAllUsers = () => async (dispatch) => {
         dispatch({ 
             type: ALL_USERS_REQUEST 
         });
-
-        const { data } = await axios.get(
-            '/api/users/admin/users'
-        );
+        const { data } = await axios.get('/api/users/admin/users');
 
         dispatch({ 
             type: ALL_USERS_SUCCESS, 
-            payload: data.users });
+            payload: data.users 
+        });
     } catch (error) {
         dispatch({ 
             type: ALL_USERS_FAIL, 
@@ -225,6 +214,7 @@ export const getAllUsers = () => async (dispatch) => {
         });
     }
 };
+
 
 // Forgot Password
 export const forgotPassword = (email) => async (dispatch) => {
@@ -239,10 +229,9 @@ export const forgotPassword = (email) => async (dispatch) => {
             } 
         };
 
-        const { data } = await axios.post(
-            '/api/users/password/forgot', 
-            email, 
-            config
+        const { data } = await axios.post('/api/users/password/forgot', 
+        email, 
+        config
         );
 
         dispatch({ 
@@ -255,7 +244,7 @@ export const forgotPassword = (email) => async (dispatch) => {
             payload: error.response.data.message,
         });
     }
-}
+};
 
 
 // Reset Password
@@ -271,10 +260,9 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
             } 
         };
 
-        const { data } = await axios.put(
-            `/api/users/password/reset/${token}`,
-            passwords,
-            config
+        const { data } = await axios.put(`/api/users/password/reset/${token}`,
+        passwords,
+        config
         );
 
         dispatch({ 
@@ -287,7 +275,7 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
             payload: error.response.data.message,
         });
     }
-}
+};
 
 
 // Delete User ----- Admin
@@ -297,9 +285,7 @@ export const deleteUser = (id) => async (dispatch) => {
             type: DELETE_USER_REQUEST 
         });
 
-        const { data } = await axios.delete(
-            `/api/users/admin/user/${id}`
-        );
+        const { data } = await axios.delete(`/api/users/admin/user/${id}`);
 
         dispatch({ 
             type: DELETE_USER_SUCCESS, 
@@ -311,7 +297,7 @@ export const deleteUser = (id) => async (dispatch) => {
             payload: error.response.data.message,
         });
     }
-}
+};
 
 // get  User Details ----- Admin
 export const getUserDetails = (id) => async (dispatch) => {
@@ -320,9 +306,7 @@ export const getUserDetails = (id) => async (dispatch) => {
             type: USER_DETAILS_REQUEST 
         });
 
-        const { data } = await axios.get(
-            `/api/users/admin/user/${id}`
-        );
+        const { data } = await axios.get(`/api/users/admin/user/${id}`);
 
         dispatch({ 
             type: USER_DETAILS_SUCCESS, 
@@ -350,10 +334,9 @@ export function updateUser(id, userData) {
                 } 
             };
 
-            const { data } = await axios.put(
-                `/api/users/admin/user/${id}`,
-                userData,
-                config
+            const { data } = await axios.put(`/api/users/admin/user/${id}`,
+            userData,
+            config
             );
 
             dispatch({ 
@@ -367,7 +350,7 @@ export function updateUser(id, userData) {
             });
         }
     };
- }
+}
 
 //   Clearing errors
 export const clearErrors= () => async (dispatch)=>{
