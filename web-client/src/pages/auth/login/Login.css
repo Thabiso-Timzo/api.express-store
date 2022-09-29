@@ -65,6 +65,15 @@ section .content-box .form-box .input-box {
     margin-bottom: 20px;
 }
 
+section .content-box .form-box .forgot {
+    margin-bottom: 20px;
+}
+
+section .content-box .form-box .forgot a {
+    float: right;
+    margin-bottom: 20px;
+}
+
 section .content-box .form-box .input-box span {
     font-size: 16px;
     margin-bottom: 5px;

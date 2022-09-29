@@ -6,16 +6,15 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import './ProfileDropDown.css'
 import defImag from '../../assets/images/profile.png'
-import { logout, reset } from '../../features/auth/authSlice'
+import { logout } from '../../actions/user-actions/userActions'
 
 const UserProfile = ({ open }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const { user } = useSelector((state) => state.auth)
+    const { user } = useSelector((state) => state.user)
 
     const logoutHandler = () => {
         dispatch(logout());
-        dispatch(reset())
         navigate('/')
     };
 
@@ -24,29 +23,17 @@ const UserProfile = ({ open }) => {
     <div className="profile-menu">
         {open ? <div className="profile-profile-menu">
             {user ? (
-                <div className="profile-prof">
-                    <img src={defImag} alt='' />
-                    <div className="info">
-                        <h2>{user.name}</h2>
+                null   
+                ) : (
+                    <div className="profile-prof">
+                        <img src={defImag} alt='' />
+                        <div className="info">
+                            <h2>Thabiso</h2>
+                        </div>
                     </div>
-                </div>
-            ) : null}
+                )   
+            }
             {user ? (
-                <ul>
-                    <li>
-                        <Link to="/profile" className="profile-btn">
-                            <CgProfile className="profile-icon"/>
-                            Profile
-                        </Link>
-                    </li>
-                    <li>
-                        <button className="profile-btn" onClick={logoutHandler}>
-                            <MdLogout className="profile-icon" />
-                            Logout
-                        </button>
-                    </li>
-                </ul>
-            ) : (
                 <ul>
                     <li>
                         <Link to="/login" className="profile-btn">
@@ -61,7 +48,22 @@ const UserProfile = ({ open }) => {
                         </Link>
                     </li>
                 </ul>
-                )}
+            ) : (
+                <ul>
+                    <li>
+                        <Link to="/profile" className="profile-btn">
+                            <CgProfile className="profile-icon"/>
+                            Profile
+                        </Link>
+                    </li>
+                    <li>
+                        <button className="profile-btn" onClick={logoutHandler}>
+                            <MdLogout className="profile-icon" />
+                            Logout
+                        </button>
+                    </li>
+                </ul>
+            )}
         </div> : null}
     </div>
   )

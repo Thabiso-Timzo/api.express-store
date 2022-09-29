@@ -1,29 +1,72 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from "react-redux"
-import { ToastContainer, toast } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
+import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import { FaUser } from 'react-icons/fa'
+import { toast } from "react-toastify"
 
 import './Register.css'
 import image2 from '../../../assets/landing page/1.png'
-import { clearErrors, register } from "../../../actions/user-actions/userActions"
+import Spinner from '../../../components/Spinner/Spinner'
+import { register, clearErrors } from '../../../actions/user-actions/userActions'
 
 const Register = () => {
+    const [FormData, setFormData] = useState({
+        name: '',
+        email: '',
+        password: '',
+        password2: ''
+    });
+
+    const navigate = useNavigate()
     const dispatch = useDispatch()
-    const [registerFullName, setRegisterFullName] = useState("")
-    const [registerEmail, setRegisterEmail] = useState("")
-    const [registerPassword, setRegisterPassword] = useState("")
-    const [registerConfirmPassword, setRegisterConfirmPassword] = useState("")
+
+    const { error, loading, isAuthenticated } = useSelector((state) => state.user)
+
+    const { name, email, password, password2 } = FormData;
+
+    useEffect(() => {
+        if (error) {
+            toast.error(error);
+            dispatch(clearErrors());
+        }
+
+        if (isAuthenticated) {
+            navigate('/login')
+        }
+    }, [dispatch, isAuthenticated, navigate, error ])
+
+    const onChange = (e) => {
+        setFormData((prevState) =>({
+            ...prevState,
+            [e.target.name]: e.target.value
+        }))
+    }
 
     const onSubmit = (e) => {
-        e.preventDefault();
-    
-        
-        dispatch(register(registerFullName, registerEmail, registerPassword));
-        console.log(registerFullName + ' ' + registerEmail + ' ' + registerPassword)
+        e.preventDefault()
 
-        
+        if (password !== password2) {
+            toast.error('Passwords do not match.')
+        } else {
+            const userData = {
+                name, email, password
+            }
 
+            dispatch(register(userData))
+        }       
+    }
+
+     if (loading) {
+        return (
+            <div style={{
+                marginTop: 250, 
+                marginLeft: 600,
+                marginRight: 'auto'
+                }}
+            >
+                <Spinner />
+            </div>
+        )
     }
 
   return (
@@ -33,7 +76,7 @@ const Register = () => {
         </div>
         <div className="content-box">
             <div className="form-box">
-                <h2>Register</h2>
+                <h2><FaUser /> Register</h2>
                 <form onSubmit={onSubmit}>
                     <div className="input-box">
                         <span>Full name</span>
@@ -41,9 +84,9 @@ const Register = () => {
                             type="text" 
                             id="name" 
                             name="name" 
-                            value={registerFullName} 
+                            value={name} 
                             placeholder="Enter your user full name" 
-                            onChange={(e) => setRegisterFullName(e.target.value)}
+                            onChange={onChange}
                         />
                     </div>
                     <div className="input-box">
@@ -52,9 +95,9 @@ const Register = () => {
                             type="text"
                             id="email" 
                             name="email" 
-                            value={registerEmail} 
+                            value={email} 
                             placeholder="Enter your email" 
-                            onChange={(e) => setRegisterEmail(e.target.value)}
+                            onChange={onChange}
                         />
                     </div>
                     <div className="input-box">
@@ -63,9 +106,9 @@ const Register = () => {
                             type="password"
                             id="password" 
                             name="password" 
-                            value={registerPassword} 
+                            value={password} 
                             placeholder="Enter your password" 
-                            onChange={(e) => setRegisterPassword(e.target.value)} 
+                            onChange={onChange} 
                         />
                     </div>
                     <div className="input-box">
@@ -74,9 +117,9 @@ const Register = () => {
                             type="password" 
                             id="password2" 
                             name="password2" 
-                            value={registerConfirmPassword} 
+                            alue={password2} 
                             placeholder="Confirm your password" 
-                            onChange={(e) => setRegisterConfirmPassword(e.target.value)}
+                            onChange={onChange}
                         />
                     </div>
                     <div className="input-box">
@@ -88,7 +131,6 @@ const Register = () => {
                 </form>
             </div>
         </div>
-        <ToastContainer />
     </section>
   )
 }
