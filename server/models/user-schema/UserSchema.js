@@ -1,72 +1,86 @@
-const mongoose = require("mongoose");
-const bcrypt = require('bcrypt')
-const crypto = require("crypto");
-const { jwt_secret, jwt_exp } = require('../../config/index');
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const jwt = require('jsonwebtoken');
 
-const userSchema = new mongoose.Schema({
-    name:{
-        type: String,
-        required: [true, "Please enter your full name!"],
+const userSchema = mongoose.Schema({
+    name: {
+        type:String,
+        maxlength:50
     },
-    email:{
-       type: String,
-        required: [true, "Please enter your email!"],
-        unique: true,
-        trim: true
+    email: {
+        type:String,
+        trim:true,
+        unique: 1 
     },
-    password:{
+    password: {
         type: String,
-        required: [true,"Please enter your password!"]
+        minglength: 5
+    },
+    role : {
+        type:Number,
+        default: 0 
     },
     avatar:{
         type: String,
         default: "https://res.cloudinary.com/du1lcyerz/image/upload/v1663846874/profile-icon-png-898_mxfyyf.png"
+    } ,
+    token : {
+        type: String,
     },
-    role:{
-        type: Number,
-        default: 0,
-    },
-    resetPasswordToken: String,
-    resetPasswordTime: Date
-}, {
-    timestamps: true
-});
-
-// Hash password
-userSchema.pre("save", async function (next) {
-    if (!this.isModified("password")) {
-      next();
+    tokenExp :{
+        type: Number
     }
-    this.password = await bcrypt.hash(this.password, 10);
-});
-  
-// jwt token
-userSchema.methods.getJwtToken = function () {
-    return jwt.sign({ id: this._id }, jwt_secret, {
-      expiresIn: jwt_exp,
-    });
-};
-  
-// compare password
-userSchema.methods.comparePassword = async function (enteredPassword) {
-    return await bcrypt.compare(enteredPassword, this.password);
-};
-  
-// Forgot password
-userSchema.methods.getResetToken = function () {
-    // Generating token
-    const resetToken = crypto.randomBytes(20).toString("hex");
-  
-    //    hashing and adding resetPasswordToken to userSchema
-    this.resetPasswordToken = crypto
-      .createHash("sha256")
-      .update(resetToken)
-      .digest("hex");
-  
-    this.resetPasswordTime = Date.now() + 15 * 60 * 1000;
-  
-    return resetToken;
-};
+})
 
-const User = mongoose.model("User",userSchema);
-module.exports = User;
+
+userSchema.pre('save', function( next ) {
+    var user = this;
+    
+    if(user.isModified('password')){    
+
+        bcrypt.genSalt(saltRounds, function(err, salt){
+            if(err) return next(err);
+    
+            bcrypt.hash(user.password, salt, function(err, hash){
+                if(err) return next(err);
+                user.password = hash 
+                next()
+            })
+        })
+    } else {
+        next()
+    }
+});
+
+userSchema.methods.comparePassword = function(plainPassword,cb){
+    bcrypt.compare(plainPassword, this.password, function(err, isMatch){
+        if (err) return cb(err);
+        cb(null, isMatch)
+    })
+}
+
+userSchema.methods.generateToken = function(cb) {
+    var user = this;
+    var token =  jwt.sign(user._id.toHexString(),'secret')
+
+    user.token = token;
+    user.save(function (err, user){
+        if(err) return cb(err)
+        cb(null, user);
+    })
+}
+
+userSchema.statics.findByToken = function (token, cb) {
+    var user = this;
+
+    jwt.verify(token,'secret',function(err, decode){
+        user.findOne({"_id":decode, "token":token}, function(err, user){
+            if(err) return cb(err);
+            cb(null, user);
+        })
+    })
+}
+
+const User = mongoose.model('User', userSchema);
+module.exports = User 
