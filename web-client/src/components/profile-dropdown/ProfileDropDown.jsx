@@ -28,7 +28,7 @@ const UserProfile = ({ open }) => {
                     <div className="profile-prof">
                         <img src={defImag} alt='' />
                         <div className="info">
-                            <h2>Thabiso</h2>
+                            <h2>Thabiso Hlatshwayo</h2>
                         </div>
                     </div>
                 )   
