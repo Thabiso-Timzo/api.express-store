@@ -11,7 +11,7 @@
 // }
 
 module.exports = {
-    database: /*checkConnection()  process.env.MONGO_URI :*/ process.env.MONGO_LOCAL_URI,
+    database: /*checkConnection()  process.env.MONGO_URI process.env.MONGO_LOCAL_URI:*/ process.env.MONGO_URI,
     port_: process.env.PORT,
     jwt_secret: process.env.JWT_SECRET_KEY,
     jwt_exp: process.env.JWT_EXPIRES,
