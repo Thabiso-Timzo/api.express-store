@@ -1,18 +1,9 @@
-// const isOnline = require('is-online')
 
-// const checkConnection = () => {
-//     isOnline().then((online) => {
-//         if (online) {
-//             return  process.env.MONGO_URI
-//         } else {
-//             return process.env.MONGO_LOCAL_URI
-//         }
-//     })
-// }
 
 module.exports = {
     database: /*checkConnection()  process.env.MONGO_URI process.env.MONGO_LOCAL_URI:*/ process.env.MONGO_URI,
     port_: process.env.PORT,
+    client_url: process.env.LOCAL_CLIENT_APP,
     jwt_secret: process.env.JWT_SECRET_KEY,
     jwt_exp: process.env.JWT_EXPIRES,
     allowedDomains: (process.env.NODE_ENV === 'production' ? 
@@ -28,7 +19,12 @@ module.exports = {
     smpt_service: process.env.SMPT_SERVICE,
     smpt_mail: process.env.SMPT_MAIL,
     smpt_pass: process.env.SMPT_PASSWORD,
-    cookie_exp: process.env.COOKIE_EXPIRE,
+    activation_secret: process.env.ACTIVATION_TOKEN_SECRET,
+    access_secret: process.env.ACCESS_TOKEN_SECRET,
+    refresh_secret: process.env.REFRESH_TOKEN_SECRET,
+    mailing_id: process.env.MAILING_SERVICE_CLIENT_ID,
+    mailing_secret: process.env.MAILING_SERVICE_CLIENT_SECRET,
+    mailing_refresh: process.env.MAILING_SERVICE_REFRESH_TOKEN,
     cloud_name: process.env.CLOUD_NAME,
     cloud_api_key: process.env.CLOUD_API_KEY,
     cloud_api_secret_key: process.env.CLOUD_API_SECRET_KEY
