@@ -1,20 +1,20 @@
-const User = require('../models/user-schema/UserSchema');
+const jwt = require('jsonwebtoken');
+const { access_secret } = require('../config/index');
 
-let authUser = (req, res, next) => {
-  let token = req.cookies.w_auth;
+const auth = (req, res, next) => {
+  try {
+    const token = req.header("Authorization");
+    if (!token) return res.status(400).json({msg: "Invalid authentication."});
 
-  User.findByToken(token, (err, user) => {
-    if (err) throw err;
-    if (!user)
-      return res.json({
-        isAuth: false,
-        error: true
-      });
+    jwt.verify(token, access_secret, (err, user) => {
+      if (err) return res.status(400).json({msg: "Invalid authentication."});
 
-    req.token = token;
-    req.user = user;
-    next();
-  });
-};
+      req.user = user;
+      next();
+    });
+  } catch (err) {
+    return res.status(500).json({msg: err.message});
+  }
+}
 
-module.exports = authUser;
+module.exports = auth;
