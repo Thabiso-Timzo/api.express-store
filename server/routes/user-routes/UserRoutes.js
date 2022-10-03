@@ -1,41 +1,37 @@
 const express = require('express');
 const router = express.Router();
 
-const { 
-    auth,
-    createUser, 
-    loginUser,
-    logoutUser,
+const {
+    register,
+    activateEmail,
+    login,
+    getAccessToken,
     forgotPassword,
     resetPassword,
-    userDetails,
-    updatePassword,
-    updateProfile,
-    getAllUsers,
-    getSingleUser,
-    updateUserRole,
-    deleteUser,
-    checkIfStudent,
+    getUserInfo,
+    getUsersAllInfo,
+    logout,
+    updateUser,
+    updateUsersRole,
+    deleteUser
 } = require('../../controller/user-controller/UserController');
-const authUser  = require('../../middleware/auth');
+const auth = require('../../middleware/auth');
+const authAdmin = require('../../middleware/authAdmin');
 
-router.post('/register', createUser);
-router.post('/login', loginUser);
-// router.post('/password/forgot', forgotPassword );
-// router.post('/check', authorisedRoles, checkIfStudent);
+router.post('/register', register);
+router.post('/activation', activateEmail);
+router.post('/login', login);
+router.post('/refresh_token', getAccessToken);
+router.post('/forgot', forgotPassword);
+router.post('/reset', auth, resetPassword);
 
-router.get('/auth', authUser, auth);
+router.get('/info', auth, getUserInfo);
+router.get('/users', auth, authAdmin, getUsersAllInfo);
+router.get('/logout', logout);
 
-router.get('/logout', authUser, logoutUser);
-router.get('/me' , userDetails);
-router.get('/admin/users' , getAllUsers);
-router.get('/admin/user/:id', getSingleUser);
+router.patch('/update', auth, updateUser);
+router.patch('/update_role/:id', auth, authAdmin, updateUsersRole);
 
-router.put('/password/reset/:token', resetPassword);
-router.put('/me/update',  updatePassword);
-router.put('/me/update/info',  updateProfile);
-router.put('/admin/user/:id', updateUserRole);
-
-router.delete('/admin/user/:id', deleteUser);
+router.delete('/delete/:id', auth, authAdmin, deleteUser);
 
 module.exports = router;
