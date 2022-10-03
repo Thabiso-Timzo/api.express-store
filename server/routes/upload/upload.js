@@ -2,10 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 const uploadImage = require('../../middleware/uploadImage');
-const { 
-    uploadAvatar 
-} = require('../../controller/upload-controller/uploadController')
-const { isAuthenticatedUser } = require('../../middleware/auth');
-router.post('/upload_avatar', uploadImage, isAuthenticatedUser, uploadAvatar);
+const uploadCtrl = require('../../controller/upload-controller/uploadController')
+const auth = require('../../middleware/auth');
+
+router.post('/upload_avatar', auth, uploadImage, uploadCtrl.uploadAvatar);
 
 module.exports = router;
