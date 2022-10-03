@@ -16,7 +16,7 @@ const UserRoutes = require('./routes/user-routes/UserRoutes');
 // const OrderRoutes = require('./routes/order-routes/OrderRoutes');
 // const ChatRoutes = require('./routes/chat-routes/ChatRoutes');
 // const MessageRoutes = require('./routes/message-routes/MessageRoutes');
-// const upload = require('./routes/upload/upload');
+const upload = require('./routes/upload/upload');
 
 const app = express();
 const port = port_ || 8080;
@@ -52,7 +52,7 @@ app.use('/api/users', UserRoutes);
 // app.use('/api/orders', OrderRoutes);
 // app.use('/api/chats', ChatRoutes);
 // app.use('/api/messages', MessageRoutes);
-// app.use('/api/upload', upload);
+app.use('/api/upload', upload);
 
 app.listen(port, () => {
     console.log(`server is up and running on port: ${port}`.yellow.bold);
