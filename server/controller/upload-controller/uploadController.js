@@ -1,37 +1,41 @@
-const cloudinary = require('cloudinary');
-const fs = require('fs');
-
-const { 
-    cloud_name, 
-    cloud_api_key, 
-    cloud_api_secret_key 
-} = require('../../config/index');
+const cloudinary = require('cloudinary')
+const fs = require('fs')
 
 cloudinary.config({
-    cloud_name: cloud_name,
-    api_key: cloud_api_key,
-    api_secret: cloud_api_secret_key
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_API_KEY,
+    api_secret: process.env.CLOUD_API_SECRET
 })
 
-const uploadAvatar = (req, res) => {
-    try {
-        const file = req.files.file;
-        cloudinary.v2.uploader.upload(file.tempFilePath, {
-            folder: 'avatar', width: 150, height: 150, crop: "fill"
-        }, async (err, result) => {
-            if (err) throw err;
+
+
+const uploadCtrl = {
+    uploadAvatar: (req, res) => {
+        try {
+            const file = req.files.file;
             
-            removeTmp(file.tempFilePath)
-    
-            res.json({url: result.secure_url})
-        })
+            cloudinary.v2.uploader.upload(file.tempFilePath, {
+                folder: 'avatar', width: 150, height: 150, crop: "fill"
+            }, async(err, result) => {
+                if(err) throw err;
 
+                removeTmp(file.tempFilePath)
 
-    } catch(err) {
-        return res.status(500).json({msg: err.message})
+                res.json({url: result.secure_url})
+            })
+        
+        } catch (err) {
+            return res.status(500).json({msg: err.message})
+        }
     }
+
 }
 
-module.exports = {
-    uploadAvatar
+
+const removeTmp = (path) => {
+    fs.unlink(path, err => {
+        if(err) throw err
+    })
 }
+
+module.exports = uploadCtrl
