@@ -25,7 +25,7 @@ module.exports = {
     mailing_id: process.env.MAILING_SERVICE_CLIENT_ID,
     mailing_secret: process.env.MAILING_SERVICE_CLIENT_SECRET,
     mailing_refresh: process.env.MAILING_SERVICE_REFRESH_TOKEN,
-    cloud_name: process.env.CLOUD_NAME,
+    cloud_: process.env.CLOUD_NAME,
     cloud_api_key: process.env.CLOUD_API_KEY,
     cloud_api_secret_key: process.env.CLOUD_API_SECRET_KEY
 }
