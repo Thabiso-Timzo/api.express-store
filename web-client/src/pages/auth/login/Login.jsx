@@ -1,69 +1,76 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { FaSignInAlt } from 'react-icons/fa'
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { toast } from "react-toastify"
+import axios from 'axios'
 
 import './Login.css'
 import image1 from '../../../assets/landing page/1.png'
-import Spinner from '../../../components/Spinner/Spinner'
-import { login, clearErrors } from '../../../actions/user-actions/userActions'
+import { dispatchLogin } from '../../../actions/user-actions/userActions'
 
 const Login = () => {
-    const [formData, setFormData] = useState({
+    const [user, setUser] = useState({
         email: '',
-        password: ''
+        password: '',
+        err: '',
+        success: '',
     })
 
-    const { email, password } = formData
-
-    const navigate = useNavigate()
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
-    const { error, loading, isAuthenticated } = useSelector((state) => state.user)
+    const { email, password, err, success } = user;
 
     useEffect(() => {
-        if (error) {
-            toast.error(error);
-            dispatch(clearErrors());
+        if (err) {
+            toast.error(err)
         }
 
-        if (isAuthenticated) {
+        if (success) {
+            toast.success(success)
             navigate('/')
         }
-    }, [dispatch, isAuthenticated, navigate, error ])
+    }, [err, success, navigate])
 
     const onChange = (e) => {
-        setFormData((prevState) =>({
-            ...prevState,
-            [e.target.name]: e.target.value
-        }))
-    }
+        const {name, value} = e.target
+        setUser({
+            ...user, [name]: value, err: '', success: ''
+        }) 
+    }       
 
-
-    const onSubmit =  (e) => {
+    const onSubmit =  async (e) => {
         e.preventDefault()
 
-        const userData = {
-            email,
-            password
+        try {
+            const config = { 
+                headers: { 
+                     "Content-Type": "application/json" 
+                } 
+            };
+
+            const res = await axios.post('/api/users/login',
+            {email, password},
+            config
+            )
+            setUser({
+                ...user,
+                err: '',
+                success: res.data.msg,
+            })
+
+            localStorage.setItem('firstLogin', true)
+
+            dispatch(dispatchLogin())
+        } catch (err) {
+            err.response.data.msg && setUser({
+                ...user, 
+                err: err.response.data.msg,
+                success: '',
+        
+            })
         }
-
-        dispatch(login(userData))
-    }
-
-
-    if (loading) {
-        return (
-            <div style={{
-                marginTop: 250, 
-                marginLeft: 600,
-                marginRight: 'auto'
-                }}
-            >
-                <Spinner />
-            </div>
-         )
     }
 
   return (
@@ -109,17 +116,6 @@ const Login = () => {
                 </form>
             </div>
         </div>
-        {/* <ToastContainer 
-            // position="bottom-center"
-            // autoClose={5000}
-            // hideProgressBar={false}
-            // newestOnTop={false}
-            // closeOnClick
-            // rtl={false}
-            // pauseOnFocusLoss
-            // draggable
-            // pauseOnHover
-          /> */}
     </section>
   )
 }
