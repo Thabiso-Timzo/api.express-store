@@ -13,7 +13,7 @@ import Products from './pages/user/products/Products';
 import Profile from './pages/user/profile/Profile';
 import Search from './pages/user/search/Search';
 import WishList from './pages/user/wish-list/WishList';
-import ForgotPassword from './pages/user/forgot-password/ForgotPassword';
+import ForgotPassword from './pages/auth/forgot-password/ForgotPassword';
 import NotFound from './pages/not-found/NotFound';
 
 function App() {
