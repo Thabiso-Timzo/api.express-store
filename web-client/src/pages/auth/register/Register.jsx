@@ -1,72 +1,94 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { FaUser } from 'react-icons/fa'
 import { toast } from "react-toastify"
+import axios from 'axios'
 
 import './Register.css'
 import image2 from '../../../assets/landing page/1.png'
-import Spinner from '../../../components/Spinner/Spinner'
-import { register, clearErrors } from '../../../actions/user-actions/userActions'
+import {
+    isEmail,
+    isEmpty,
+    isLength,
+    isMatch
+} from '../../../utils/validation/Validation'
 
 const Register = () => {
-    const [FormData, setFormData] = useState({
+    const [user, setUser] = useState({
         name: '',
         email: '',
         password: '',
-        password2: ''
-    });
+        password2: '',
+        err: '',
+        success: ''
+    })
+
+    const { name, email, password, password2, err, success } = user
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const { error, loading, isAuthenticated } = useSelector((state) => state.user)
-
-    const { name, email, password, password2 } = FormData;
-
     useEffect(() => {
-        if (error) {
-            toast.error(error);
-            dispatch(clearErrors());
+        if (err) {
+            toast.error(err)
         }
 
-        if (isAuthenticated) {
+        if (success) {
+            toast.success(success)
             navigate('/login')
         }
-    }, [dispatch, isAuthenticated, navigate, error ])
+    }, [, err, success, navigate])
 
     const onChange = (e) => {
-        setFormData((prevState) =>({
-            ...prevState,
-            [e.target.name]: e.target.value
-        }))
+        const {name, value} = e.target
+        setUser({
+            ...user, 
+            [name]: value, 
+            err: '', 
+            success: ''
+        }) 
     }
-
-    const onSubmit = (e) => {
+// 2.48.46
+    const onSubmit = async (e) => {
         e.preventDefault()
 
-        if (password !== password2) {
-            toast.error('Passwords do not match.')
-        } else {
-            const userData = {
-                name, email, password
-            }
+        if (isEmpty(name) || isEmpty(password)) 
+            return setUser({...user, err: 'Please fill in all fields.', success: ''})
 
-            dispatch(register(userData))
-        }       
-    }
+        if (!isEmail(email)) 
+            return setUser({...user, err: 'Invalid email address.', success: ''})
 
-     if (loading) {
-        return (
-            <div style={{
-                marginTop: 250, 
-                marginLeft: 600,
-                marginRight: 'auto'
-                }}
-            >
-                <Spinner />
-            </div>
-        )
+        if (isLength(password)) 
+            return setUser({...user, err: 'Password must be at least 8 character.', success: ''})
+
+        if (!isMatch(password, password2)) 
+            return setUser({...user, err: 'Your passwords do not match.', success: ''})
+
+        try {
+            const config = { 
+                headers: { 
+                     "Content-Type": "application/json" 
+                } 
+            };
+
+            const res = await axios.post('/api/users/register',
+            {name, email, password},
+            config
+            )
+
+            setUser({
+                ...user, 
+                err: '',
+                success: res.data.msg,
+            })
+        } catch (err) {
+            err.response.data.msg && setUser({
+                ...user, 
+                err: err.response.data.msg,
+                success: '',
+            })
+        }
     }
 
   return (
@@ -117,7 +139,7 @@ const Register = () => {
                             type="password" 
                             id="password2" 
                             name="password2" 
-                            alue={password2} 
+                            value={password2} 
                             placeholder="Confirm your password" 
                             onChange={onChange}
                         />
