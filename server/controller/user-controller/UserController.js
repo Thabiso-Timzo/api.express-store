@@ -17,11 +17,11 @@ function validateEmail(email) {
 }
 
 const createActivationToken = (payload) => {
-    return jwt.sign(payload, activation_secret, {expiresIn: '5m'})
+    return jwt.sign(payload, activation_secret, {expiresIn: '60m'})
 }
 
 const createAccessToken = (payload) => {
-    return jwt.sign(payload, access_secret, {expiresIn: '15m'})
+    return jwt.sign(payload, access_secret, {expiresIn: '1d'})
 }
 
 const createRefreshToken = (payload) => {
