@@ -112,17 +112,17 @@ exports.login = async (req, res) => {
 
 exports.getAccessToken = (req, res) => {
     try {
-        const rf_token = req.cookies.refreshtoken;
-        if (!rf_token) return res.status(400).json({msg: "Please login now!"});
+        const rf_token = req.cookies.refreshtoken
+        if(!rf_token) return res.status(400).json({msg: "Please login now!"})
 
         jwt.verify(rf_token, refresh_secret, (err, user) => {
-            if (err) return res.status(400).json({msg: "Please login now!"});
- 
-            const access_token = createAccessToken({id: user.id});
-            res.json({access_token});
-        });
+            if(err) return res.status(400).json({msg: "Please login now!"})
+
+            const access_token = createAccessToken({id: user.id})
+            res.json({access_token})
+        })
     } catch (err) {
-        return res.status(500).json({msg: err.message});
+        return res.status(500).json({msg: err.message})
     }
 }
 
