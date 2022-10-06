@@ -1,13 +1,18 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import axios from 'axios'
+
+import './Activation.css'
 
 const Activation = () => {
     const {activation_token} = useParams()
     const [err, setErr] = useState('')
     const [success, setSuccess] = useState('')
+
     const navigate = useNavigate()
+
+    const login = () => navigate('/login')
 
     useEffect(() => {
         if (activation_token) {
@@ -39,9 +44,19 @@ const Activation = () => {
 
         if (success) {
             toast.success(success)
-            return navigate('/login')
         }
-    },[err, success, navigate])
+    },[err, success])
+
+    return (
+        <>
+            <p>
+                Your email has been activated. Please login!!!
+            </p>
+            <div className="activation_container" onClick={login}>
+                <p>Login</p>
+            </div>
+        </>
+    )
 }
 
 export default Activation
