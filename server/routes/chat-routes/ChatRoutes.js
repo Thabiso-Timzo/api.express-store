@@ -6,11 +6,11 @@ const {
     userChats,
     findChat 
 } = require('../../controller/chat-controller/ChatController');
-const { isAuthenticatedUser } = require('../../middleware/auth');
+const auth = require('../../middleware/auth');
 
-router.post('/', isAuthenticatedUser, createChat);
+router.post('/', auth, createChat);
 
-router.get('/:userId', isAuthenticatedUser, userChats);
-router.get('/find/:firstId/:secondId', isAuthenticatedUser, findChat);
+router.get('/:userId', auth, userChats);
+router.get('/find/:firstId/:secondId', auth, findChat);
 
 module.exports = router;
