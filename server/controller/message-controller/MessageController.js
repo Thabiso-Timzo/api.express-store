@@ -1,9 +1,7 @@
 const Message = require('../../models/message-schema/MessageSchema');
-const ErrorHandler = require('../../utils/ErrorHandler');
-const catchAsyncErrors = require('../../middleware/catchAsyncErrors');
 
 // Add messages
-const addMessage = catchAsyncErrors(async (req, res, next) => {
+exports.addMessage = async (req, res, next) => {
     const { chatId, senderId, text } = req.body;
     const message = new Message({
         chatId,
@@ -17,11 +15,11 @@ const addMessage = catchAsyncErrors(async (req, res, next) => {
     } catch (error) {
         res.status(500).json(error);
     }
-})
+}
 
 
 // Get Messages
-const getMessage = catchAsyncErrors(async (req, res, next) => {
+exports.getMessage = async (req, res, next) => {
     const { chatId } = req.params;
 
     try {
@@ -30,9 +28,4 @@ const getMessage = catchAsyncErrors(async (req, res, next) => {
     } catch (error) {
         res.status(500).json(error);
     }
-})
-
-module.exports = {
-    addMessage,
-    getMessage
 }
