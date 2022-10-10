@@ -2,9 +2,7 @@ const express = require('express');
 const router = express.Router(); 
 
 const { 
-    createChat,
-    userChats,
-    findChat 
+    createChat, userChats, findChat 
 } = require('../../controller/chat-controller/ChatController');
 const auth = require('../../middleware/auth');
 
