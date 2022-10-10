@@ -1,25 +1,21 @@
 const express = require('express');
 const router = express.Router();
 
-const { isAuthenticatedUser, authorisedRoles } = require('../../middleware/auth');
+const auth = require('../../middleware/auth');
+const authAdmin = require('../../middleware/authAdmin');
 const { 
-    createOrder, 
-    getSingleOrder,
-    getAllOrders,
-    getAdminAllOrders,
-    updateAdminOrder,
-    deleteOrder
+    createOrder, getSingleOrder, getAllOrders, getAdminAllOrders,
+    updateAdminOrder, deleteOrder
 } = require('../../controller/order-controller/OrderController');
 
-router.post('/new', isAuthenticatedUser, createOrder);
+router.post('/new', auth, createOrder);
 
-router.get('/admin/orders', isAuthenticatedUser, authorisedRoles(1), getAdminAllOrders);
-router.get('/me', isAuthenticatedUser, getAllOrders);
-router.get('/:id', isAuthenticatedUser, getSingleOrder);
+router.get('/admin/orders', auth, authAdmin, getAdminAllOrders);
+router.get('/me', auth, getAllOrders);
+router.get('/:id', auth, getSingleOrder);
 
-router.put('/admin/order/:id', isAuthenticatedUser, authorisedRoles(1), updateAdminOrder);
+router.put('/admin/order/:id', auth, authAdmin, updateAdminOrder);
 
-router.delete('/admin/order/:id', isAuthenticatedUser, authorisedRoles(1), deleteOrder);
-
+router.delete('/admin/order/:id', auth, authAdmin, deleteOrder);
 
 module.exports = router;
