@@ -17,6 +17,7 @@ const OrderRoutes = require('./routes/order-routes/OrderRoutes');
 const ChatRoutes = require('./routes/chat-routes/ChatRoutes');
 const MessageRoutes = require('./routes/message-routes/MessageRoutes');
 const upload = require('./routes/upload/upload');
+const StudentRoutes = require('./routes/student-routes/StudentRoutes');
 
 const app = express();
 const port = port_ || 8080;
@@ -39,8 +40,8 @@ app.use(fileUpload({
 }))
 
 // To not get any deprecation warning or error
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Error handler
@@ -53,6 +54,7 @@ app.use('/api/orders', OrderRoutes);
 app.use('/api/chats', ChatRoutes);
 app.use('/api/messages', MessageRoutes);
 app.use('/api/upload', upload);
+app.use('/api/students', StudentRoutes);
 
 app.listen(port, () => {
     console.log(`server is up and running on port: ${port}`.yellow.bold);
@@ -62,7 +64,7 @@ app.listen(port, () => {
 process.on('unhandledRejection', (err) => {
     console.log(`Shutting down the server, error: ${err.message}`);
     console.log(`Shutting down the server due to Unhandled promise rejection`);
-    app.close(() => {
-        process.exit(1);
-    });
+    // app.close(() => {
+    //    process.exit(1);
+    // });
 })
