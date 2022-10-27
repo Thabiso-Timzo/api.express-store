@@ -1,13 +1,8 @@
 const User = require('../../models/user-schema/UserSchema');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const sendEmail = require('../../utils/sendMail');
 
-const { 
-    activation_secret, 
-    access_secret,
-    refresh_secret,
-    client_url,
+const {
     jwt_secret
 } = require('../../config/index');
 
@@ -16,207 +11,147 @@ function validateEmail(email) {
     return re.test(email);
 }
 
-const createActivationToken = (payload) => {
-    return jwt.sign(payload, activation_secret, {expiresIn: '60m'})
-}
+exports.login = async (req, res) => {
+    const { email, password } = req.body;
+    let existingUser;
 
-const createAccessToken = (payload) => {
-    return jwt.sign(payload, access_secret, {expiresIn: '1d'})
-}
-
-const createRefreshToken = (payload) => {
-    return jwt.sign(payload, refresh_secret, {expiresIn: '7d'})
-}
-
-exports.register = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
-        
-        if (!name || !email || !password) 
-            return res.status(400).json({msg: "Please fill in all fields."});
-
-        if (!validateEmail(email)) 
-            return res.status(400).json({msg: "Invalid email address."});
-
-        const user = await User.findOne({email})
-        if (user) return res.status(400).json({ msg: "This email already exists." });
-
-        if (password.length < 8) 
-            return res.status(400).json({ msg: "Password should be at least 8 characters." });
-
-        const passwordHash = await bcrypt.hash(password, 12);
-        
-        const newUser = {
-            name,
-            email,
-            password: passwordHash
+        existingUser = await User.findOne({ email: email });
+        if (!existingUser) {
+            return res.status(400).json({msg: 'User not found. Please register.'});
         }
 
-        const activation_token = createActivationToken(newUser);
+        if (!validateEmail(email)) {
+            return res.status(400).json({msg: 'Please enter a valid email address.'});
+        }
 
-        const url = `${client_url}/user/activate/${activation_token}`;
-        sendEmail(email, url, "Verify your email address");
+        const isPassword = bcrypt.compareSync(password, existingUser.password);
+        if (!isPassword) {
+            return res.status(400).json({msg: 'Invalid password or email.'});
+        }
 
-        res.json({
-            msg: "You have registered! Please activate your email to start."
-        });
-    } catch(err) {
-        return res.status(500).json({msg: err.message});
-    }
-}
-
-exports.activateEmail = async (req, res) => {
-    try {
-        const {activation_token} = req.body;
-        const user = jwt.verify(activation_token, activation_secret);
-
-        const  { name, email, password } = user;
-
-        const check = await User.findOne({email});
-        if (check) return res.status(400).json({msg: "This email already exists."});
-
-        const newUser = new User({
-            name, email, password
+        const token = jwt.sign({id: existingUser._id}, jwt_secret, {
+            expiresIn: '35s'
         });
 
-        await newUser.save();
-
-        res.json({msg: "Account has been activated!"})
-
-    } catch (err) {
-        return res.status(500).json({msg: err.message});
-    }
-}
-
-exports.login = async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const user = await User.findOne({email});
-        if (!user) return res.status(400).json({msg: "This email does not exist."});
-
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({msg: "Password is incorrect."});
-
-        const refresh_token = createRefreshToken({id: user._id});
-        res.cookie('refreshtoken', refresh_token, {
+        res.cookie(String(existingUser._id), token, {
+            path: '/',
+            expires: new Date(Date.now() + 1000 * 30),
             httpOnly: true,
-            path: '/user/refresh_token',
-            maxAge: 7*24*60*60*1000
+            sameSite: 'lax'
         });
 
-        res.json({msg: "Login success!"})
+        return res.status(200).json({
+            msg: 'Logged in successfully.',
+            user: existingUser,
+            token
+        });
     } catch (err) {
         return res.status(500).json({msg: err.message});
     }
 }
 
-exports.getAccessToken = (req, res) => {
+exports.register = async (req, res ) => {
+    const { name, email, password } = req.body;
+    let existingUser;
+     
     try {
-        const rf_token = req.cookies.refreshtoken
-        if(!rf_token) return res.status(400).json({msg: "Please login now!"})
+        existingUser = await User.findOne({ email: email });
+        if (existingUser) {
+            return res.status(400).json({msg: 'User already exists! Please login.'});
+        }
 
-        jwt.verify(rf_token, refresh_secret, (err, user) => {
-            if(err) return res.status(400).json({msg: "Please login now!"})
+        if (!validateEmail(email)) {
+            return res.status(400).json({msg: 'Please enter a valid email address.'});
+        }
 
-            const access_token = createAccessToken({id: user.id})
-            res.json({access_token})
+        const hashedPassword = bcrypt.hashSync(password); 
+
+        const user = new User({
+            name,
+            email,
+            password: hashedPassword,
         })
+
+        await user.save();
+
+        return res.status(201).json({msg: 'Registered successfully.'})
+    } catch (err) {
+        return res.status(500).json({msg: err.message});
+    }
+}
+
+exports.logout = (req, res) => {
+    const cookies = req.headers.cookies;
+  const prevToken = cookies.split("=")[1];
+  if (!prevToken) {
+      return res.status(400).json({msg: "Couldn't find token."});
+  }
+  jwt.verify(String(prevToken), jwt_secret, (err, user) => {
+      if (err) {
+          console.log(err);
+          return res.status(403).json({msg: 'Authentication failed'})
+      }
+      res.clearCookie(`${user.id}`);
+      req.cookies[`${user.id}`] = "";
+      return res.status(200).json({msg: 'Successfully logged out.'});
+  }) 
+}
+
+
+exports.getUserInfor = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select('-password')
+
+        res.json(user)
     } catch (err) {
         return res.status(500).json({msg: err.message})
     }
 }
 
-exports.forgotPassword = async (req, res) => {
+exports.getUsersAllInfor = async (req, res) => {
     try {
-        const {email} = req.body;
-        const user = await User.findOne({email});
-        if (!user) return res.status(400).json({msg: "This email address does not exist."});
+        const users = await Users.find().select('-password')
 
-        const access_token = createAccessToken({id: user._id});
-        const url = `${client_url}/users/reset/${access_token}`;
-
-        sendEmail(email, url, "Reset your password");
-        res.json({msg: "Re-send the password, please check your email."})
+        res.json(users)
     } catch (err) {
-        return res.status(500).json({msg: err.message});
+        return res.status(500).json({msg: err.message})
     }
-}
-
-exports.resetPassword = async (req, res) => {
-    try {
-        const {password} = req.body;
-        //console.log(password)
-        const passwordHash = await bcrypt.hash(password, 12);
-
-        await User.findOneAndUpdate({id: req.user.id}, {
-            password: passwordHash
-        });
-
-        res.json({msg: "Password successfully changed."});
-    } catch (err) {
-        return res.status(500).json({msg: err.message});
-    }
-}
-
-exports.getUserInfo = async (req, res) => {
-    try {
-        const user = await User.findById(req.user.id).select('-password');
-        res.json(user);
-    } catch (err) {
-        return res.status(500).json({msg: err.message});
-    }
-}
-
-exports.getUsersAllInfo = async (req, res) => {
-    try {
-        const users = await User.find().select('-password');
-        res.json(users);
-    } catch (err) {
-        return res.status(500).json({msg: err.message});
-    }
-}
-
-exports.logout = async (req, res) => {
-    try {
-        res.clearCookie('refreshtoken', {path: '/user/refresh_token'});
-        return res.json({msg: "Logged out successfully."});
-    } catch (err) {
-        return res.status(500).json({msg: err.message});
-    }
-}
+},
 
 exports.updateUser = async (req, res) => {
     try {
-        const { name, avatar } = req.body;
-        await User.findOneAndUpdate({_id: req.params.id}, {
+        const {name, avatar} = req.body
+        await Users.findOneAndUpdate({_id: req.user.id}, {
             name, avatar
-        });
+        })
 
-        res.json({msg: "Update success!"});
-    } catch(err) {
-        return res.status(500).json({msg: err.message});
+        res.json({msg: 'Update Success!'})
+    } catch (err) {
+        return res.status(500).json({msg: err.message})
     }
 }
 
 exports.updateUsersRole = async (req, res) => {
     try {
-        const {role} = req.body;
-        await User.findOneAndUpdate({_id: req.params.id}, {
-            role
-        });
+        const {role} = req.body
 
-        res.json({msg: "Update success!"});
-    } catch(err) {
-        return res.status(500).json({msg: err.message});
+        await Users.findOneAndUpdate({_id: req.params.id}, {
+            role
+        })
+
+        res.json({msg: 'Update Success!'})
+    } catch (err) {
+        return res.status(500).json({msg: err.message})
     }
 }
 
-exports.deleteUser = async (req,res) => {
+exports.deleteUser = async (req, res) => {
     try {
-        await User.findByIdAndDelete(req.params.id)
+        await Users.findByIdAndDelete(req.params.id)
 
-        res.json({msg: "Deleted successfully!"});
-    } catch(err) {
-        return res.status(500).json({msg: err.message});
+        res.json({msg: 'Deleted Success!'})
+    } catch (err) {
+        return res.status(500).json({msg: err.message})
     }
 }
