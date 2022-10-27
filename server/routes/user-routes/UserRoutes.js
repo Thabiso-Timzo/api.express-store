@@ -2,32 +2,25 @@ const express = require('express');
 const router = express.Router();
 
 const {
+    login, 
     register,
-    activateEmail,
-    login,
-    getAccessToken,
-    forgotPassword,
-    resetPassword,
-    getUserInfo,
-    getUsersAllInfo,
     logout,
+    getUserInfor,
+    getUsersAllInfor,
     updateUser,
     updateUsersRole,
     deleteUser
 } = require('../../controller/user-controller/UserController');
-const auth = require('../../middleware/auth');
+const {auth, refreshToken} = require('../../middleware/auth');
 const authAdmin = require('../../middleware/authAdmin');
 
 router.post('/register', register);
-router.post('/activation', activateEmail);
 router.post('/login', login);
-router.post('/refresh_token', getAccessToken);
-router.post('/forgot', forgotPassword);
-router.post('/reset', auth, resetPassword);
+router.post('/logout', auth, logout);
 
-router.get('/info', auth, getUserInfo);
-router.get('/users', auth, authAdmin, getUsersAllInfo);
-router.get('/logout', logout);
+router.get('/refresh', auth, refreshToken, getUserInfor);
+router.get('/infor', auth, getUserInfor);
+router.get('/all_infor', auth, authAdmin, getUsersAllInfor);
 
 router.patch('/update', auth, updateUser);
 router.patch('/update_role/:id', auth, authAdmin, updateUsersRole);

@@ -6,7 +6,7 @@ const {
     deleteProduct, singleProduct, createProductReview,
     getSingleProductReviews, deleteReview
 } = require('../../controller/product-controller/ProductController');
-const auth = require('../../middleware/auth');
+const {auth} = require('../../middleware/auth');
 const authAdmin = require('../../middleware/authAdmin');
 
 router.post('/new', auth, createProduct);
