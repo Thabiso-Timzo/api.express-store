@@ -1,30 +1,22 @@
 const mongoose = require('mongoose')
 
-const studentSchema = new mongoose.Schema({
-    _student_id : {
-        type : String,
-        required : true
-    },
+const studentSchema = mongoose.Schema({
+    // student_id : {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'User',
+    // },
     contact : {
-        type : Number,
-        required : true
-    },
-    alt_contact : {
-        type : Number,
-        default : null
+        type : String,
     },
     student_email : {
         type : String,
-        required : true
-    },
-    location : {
-        type : String,
-        required : true
+        unique: true
     },
     tertiary_name : {
         type : String,
-        default:null
     }
+},{
+    timestamps: true
 })
 
 const Student = mongoose.model('Student', studentSchema);
