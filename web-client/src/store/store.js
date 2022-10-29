@@ -1,37 +1,32 @@
-// const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-import { createStore  } from "redux";
-import { Provider } from "react-redux";
-import rootReducer from '../reducers/index'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
+import thunk from 'redux-thunk'
 
-// let initialState = {
-//   cart: {
-//     cartItems: localStorage.getItem("cartItems")
-//       ? JSON.parse(localStorage.getItem("cartItems"))
-//       : [],
+import { cartReducer } from '../reducers/cart-reducers/cartReducers'
+import { productListReducer, productDetailReducer } from '../reducers/product-reducers/productReducers'
 
-//     shippingInfo: localStorage.getItem("shippingInfo")
-//       ? JSON.parse(localStorage.getItem("shippingInfo"))
-//       : {},
-//   },
-//   favourite: {
-//     favouriteItems: localStorage.getItem("favouriteItems")
-//       ? JSON.parse(localStorage.getItem("favouriteItems"))
-//       : [],
-//   },
-// };
+const reducer = combineReducers({
+  productList: productListReducer,
+  productDetails: productDetailReducer,
+  cart: cartReducer
+})
 
+const cartItemsFromLocalStorage = localStorage.getItem("cartItems")
+? JSON.parse(localStorage.getItem("cartItems"))
+: []
 
-const store = createStore(
-  rootReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
-
-function DataProvider({children}) {
-  return (
-      <Provider store={store}>
-          {children}
-      </Provider>
-  )
+const initialState = {
+  cart: {
+    cartItems: cartItemsFromLocalStorage
+  }
 }
 
-export default DataProvider;
+const middleware = [thunk]
+
+const store = createStore(
+  reducer,
+  initialState,
+  composeWithDevTools(applyMiddleware(...middleware))
+)
+
+export default store

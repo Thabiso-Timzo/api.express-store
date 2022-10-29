@@ -3,11 +3,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { FaSignInAlt } from 'react-icons/fa'
 import { useDispatch } from "react-redux"
 import { toast } from "react-toastify"
-import axios from 'axios'
 
 import './Login.css'
 import image1 from '../../../assets/landing page/1.png'
-import { dispatchLogin } from '../../../actions/user-actions/userActions'
+import { login } from '../../../actions/user-actions/userActions'
 
 const Login = () => {
     const [user, setUser] = useState({
@@ -43,34 +42,7 @@ const Login = () => {
     const onSubmit =  async (e) => {
         e.preventDefault()
 
-        try {
-            const config = { 
-                headers: { 
-                     "Content-Type": "application/json" 
-                } 
-            };
-
-            const res = await axios.post('/api/users/login',
-            {email, password},
-            config
-            )
-            setUser({
-                ...user,
-                err: '',
-                success: res.data.msg,
-            })
-
-            localStorage.setItem('firstLogin', true)
-
-            dispatch(dispatchLogin())
-        } catch (err) {
-            err.response.data.msg && setUser({
-                ...user, 
-                err: err.response.data.msg,
-                success: '',
-        
-            })
-        }
+        dispatch(login(email, password))
     }
 
   return (

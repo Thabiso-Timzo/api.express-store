@@ -2,15 +2,10 @@ import React from 'react'
 import  { Link } from 'react-router-dom'
 import { MdLogout, MdLogin, MdAppRegistration } from 'react-icons/md'
 import { CgProfile } from 'react-icons/cg'
-import { useSelector } from 'react-redux'
 
 import './ProfileDropDown.css'
 
 const UserProfile = ({ open }) => {
-
-    const auth = useSelector(state => state.auth)
-    
-    const { user, isLogged } = auth
 
     const logoutHandler = () => {
     };
@@ -19,14 +14,12 @@ const UserProfile = ({ open }) => {
   return (
     <div className="profile-menu">
         {open ? <div className="profile-profile-menu">
-            {isLogged ? <div className="profile-prof">
-                <img src={user.avatar} alt='' />
+             <div className="profile-prof">
+                {/* <img src={user.avatar} alt='' /> */}
                     <div className="info">
-                        <h2>{user.name}</h2>
+                        <h2>Thabiso Hlatshwayo</h2>
                     </div>
-                </div> : null}
-                
-                {isLogged ? (
+                </div> 
                     <ul>
                         <li>
                             <Link to="/profile" className="profile-btn">
@@ -41,7 +34,6 @@ const UserProfile = ({ open }) => {
                             </button>
                         </li>
                     </ul>
-                ) : (
                     <ul>
                         <li>
                             <Link to="/login" className="profile-btn">
@@ -56,7 +48,6 @@ const UserProfile = ({ open }) => {
                             </Link>
                         </li>
                     </ul>
-                )}
         </div> : null}
     </div>
   )

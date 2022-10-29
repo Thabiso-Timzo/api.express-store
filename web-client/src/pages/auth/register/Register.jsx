@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { FaUser } from 'react-icons/fa'
 import { toast } from "react-toastify"
-import axios from 'axios'
+import { useDispatch } from "react-redux"
 
 import './Register.css'
 import image2 from '../../../assets/landing page/1.png'
+import { register } from '../../../actions/user-actions/userActions'
 import {
     isEmail,
     isEmpty,
@@ -38,7 +38,7 @@ const Register = () => {
             toast.success(success)
             navigate('/login')
         }
-    }, [, err, success, navigate])
+    }, [err, success, navigate])
 
     const onChange = (e) => {
         const {name, value} = e.target
@@ -49,7 +49,7 @@ const Register = () => {
             success: ''
         }) 
     }
-// 2.48.46
+
     const onSubmit = async (e) => {
         e.preventDefault()
 
@@ -65,30 +65,7 @@ const Register = () => {
         if (!isMatch(password, password2)) 
             return setUser({...user, err: 'Your passwords do not match.', success: ''})
 
-        try {
-            const config = { 
-                headers: { 
-                     "Content-Type": "application/json" 
-                } 
-            };
-
-            const res = await axios.post('/api/users/register',
-            {name, email, password},
-            config
-            )
-
-            setUser({
-                ...user, 
-                err: '',
-                success: res.data.msg,
-            })
-        } catch (err) {
-            err.response.data.msg && setUser({
-                ...user, 
-                err: err.response.data.msg,
-                success: '',
-            })
-        }
+        dispatch(register(name, email, password));
     }
 
   return (

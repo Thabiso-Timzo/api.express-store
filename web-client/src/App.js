@@ -1,11 +1,7 @@
-import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import axios from 'axios'
-
-import { dispatchLogin, fetchUser, dispatchGetUser } from './actions/user-actions/userActions'
 
 import Login from './pages/auth/login/Login';
 import Register from './pages/auth/register/Register';
@@ -22,34 +18,6 @@ import NotFound from './pages/not-found/NotFound';
 import Activation from './pages/auth/activation/Activation';
 
 function App() {
-  const dispatch = useDispatch()
-  const token = useSelector(state => state.token)
-  const auth = useSelector(state => state.auth)
-
-  useEffect(() => {
-    const firstLogin = localStorage.getItem('firstLogin')
-    if(firstLogin){
-      const getToken = async () => {
-        const res = await axios.post('/api/users/refresh_token', null)
-        dispatch({type: 'GET_TOKEN', payload: res.data.access_token})
-      }
-      getToken()
-    }
-  },[auth.isLogged, dispatch])
-
-  useEffect(() => {
-    if(token){
-      const getUser = () => {
-        dispatch(dispatchLogin())
-
-        return fetchUser(token).then(res => {
-          dispatch(dispatchGetUser(res))
-        })
-      }
-      getUser()
-    }
-  },[token, dispatch])
-
   return (
     <BrowserRouter> 
       <Routes>
@@ -59,7 +27,7 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/chat' element={<Chats />} />
-        <Route path='/cart' element={<Cart />} />
+        <Route path='/cart/:id' element={<Cart />} />
         <Route path='/wish-list' element={<WishList />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/search' element={<Search />} />

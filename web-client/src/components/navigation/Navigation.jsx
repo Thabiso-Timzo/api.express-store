@@ -20,11 +20,9 @@ const Navigation = () => {
     // Navigate to the products page
     const home = () => navigate('/')
 
-    const auth = useSelector(state => state.auth)
-    
-    const { user, isLogged } = auth
+    const cart = useSelector((state) => state.cart)
+    const { cartItems } = cart
 
-    // Check if its a student or a seller
     const sellOnGude = async (e) => {
         e.preventDefault()
     }
@@ -34,30 +32,35 @@ const Navigation = () => {
         <nav className='top-nav'>
             <img onClick={home} src={img1} alt="" />
             <ul className='top-ul'>
-                {isLogged ?  <li><button onClick={sellOnGude}><MdOutlineSell /> sell on gude</button></li> : null}
+                <li><button onClick={sellOnGude}><MdOutlineSell /> sell on gude</button></li> 
                 <li><Link to='/search'><FiSearch /></Link></li>
-                {isLogged ? <li><Link to='/chat'><HiOutlineChat /></Link></li> : null}
+                <li><Link to='/chat'><HiOutlineChat /></Link></li>
                 <li><Link to='/wish-list'><BsHeart /></Link></li>
-                <li><Link to='/cart'><GiShoppingCart /></Link></li>
+                <li><Link to='/cart'>
+                    <GiShoppingCart />
+                    <span className="badge">{cartItems.length}</span>
+                    </Link></li>
                 <li>
                     <div className="profile-action" onClick={() => setOpen(!open)}>
                         <UserProfile  open={open} />
-                        {isLogged ? <img src={user.avatar} alt=''/> : <IoPersonCircleOutline  size={23}/>}
+                        <IoPersonCircleOutline  size={23}/>
                     </div>
                 </li> 
             </ul>
         </nav>
         
-        <nav className={isLogged ? 'bottom-nav' : 'no-user'}> 
+        {/* <nav className={isLogged ? 'bottom-nav' : 'no-user'}>  */}
+        <nav className='bottom-nav'> 
             <ul className='bottom-ul'>
                 <li><Link to='/'><BsShop /></Link></li>
-                {isLogged ? <li><Link to='/chat'><HiOutlineChat /></Link></li> : null}
-                {isLogged ? <li><Link to='#' onClick={sellOnGude}><MdOutlineSell /></Link></li> : null}
+                <li><Link to='/chat'><HiOutlineChat /></Link></li>
+                <li><Link to='#' onClick={sellOnGude}><MdOutlineSell /></Link></li>
                 <li><Link to='/wish-list'><BsHeart /></Link></li>
                 <li><Link to='/cart'><GiShoppingCart /></Link></li>
-                <li><Link to='/profile'>
-                        {isLogged ? <img src={user.avatar} alt=''/> : <IoPersonCircleOutline  size={23}/>}
-                    </Link>
+                <li>
+                    <Link to='/profile'>
+                        {/* <img src={user.avatar} alt=''/> : <IoPersonCircleOutline  size={23}/> */}
+                    </Link> 
                 </li>
             </ul>
         </nav>

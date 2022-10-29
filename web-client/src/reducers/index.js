@@ -1,6 +1,11 @@
 import { combineReducers } from "redux";
-import auth from './user-reducers/UserReducers'
-import token from './toke-reducer/tokenReducer'
+import { 
+    allUsersReducer, 
+    forgotPasswordReducer, 
+    profileReducer, 
+    userDetailsReducer, 
+    userReducer 
+} from './user-reducers/UserReducers';
 // import {
 //     deleteProductReducer,
 //     deleteReviewReducer,
@@ -22,6 +27,9 @@ import token from './toke-reducer/tokenReducer'
 //   } from './order-reducers/orderReducers';
 
 export default combineReducers({
-    auth,
-    token
+    allUsersReducer: allUsersReducer,
+    forgotPasswordReducer: forgotPasswordReducer, 
+    profileReducer: profileReducer, 
+    userDetailsReducer: userDetailsReducer, 
+    userReducer: userReducer 
 })
