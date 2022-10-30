@@ -4,6 +4,7 @@ const router = express.Router();
 const {
     login, 
     register,
+    getProfile,
     logout,
     getUserInfor,
     getUsersAllInfor,
@@ -18,13 +19,13 @@ router.post('/register', register);
 router.post('/login', login);
 router.post('/logout', auth, logout);
 
-router.get('/refresh', auth, refreshToken, getUserInfor);
-router.get('/infor', auth, getUserInfor);
-router.get('/all_infor', auth, authAdmin, getUsersAllInfor);
+router.get('/profile', getProfile);
+router.get('/info', getUserInfor);
+router.get('/user_info', auth, authAdmin, getUsersAllInfor);
 
-router.patch('/update', auth, updateUser);
-router.patch('/update_role/:id', auth, authAdmin, updateUsersRole);
+router.put('/update', auth, updateUser);
+router.put('/update_role/:id', auth, authAdmin, updateUsersRole);
 
-router.delete('/delete/:id', auth, authAdmin, deleteUser);
+router.delete('/admin/delete/:id', auth, authAdmin, deleteUser);
 
 module.exports = router;

@@ -1,6 +1,9 @@
-const User = require('../../models/user-schema/UserSchema');
+const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+
+const User = require('../../models/user-schema/UserSchema');
+const {generateToken} = require('../../utils/generateToken');
 
 const {
     jwt_secret
@@ -11,52 +14,42 @@ function validateEmail(email) {
     return re.test(email);
 }
 
-exports.login = async (req, res) => {
+exports.login = asyncHandler(
+    async (req, res) => {
     const { email, password } = req.body;
-    let existingUser;
 
     try {
-        existingUser = await User.findOne({ email: email });
-        if (!existingUser) {
-            return res.status(400).json({msg: 'User not found. Please register.'});
+        const user = await User.findOne({ email })
+        if (user && (await user.matchPassword(password))) {
+            res.status(200).json({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                isAdmin: user.isAdmin,
+                token: generateToken(user._id),
+                createdAt: user.createdAt
+            })
         }
 
         if (!validateEmail(email)) {
-            return res.status(400).json({msg: 'Please enter a valid email address.'});
+            return res.status(400).json({message: 'Please enter a valid email address.'});
         }
 
-        const isPassword = bcrypt.compareSync(password, existingUser.password);
-        if (!isPassword) {
-            return res.status(400).json({msg: 'Invalid password or email.'});
+        if (!user) {
+            return res.status(401).json({message: 'Invalid email or password.'})
         }
-
-        const token = jwt.sign({id: existingUser._id}, jwt_secret, {
-            expiresIn: '35s'
-        });
-
-        res.cookie(String(existingUser._id), token, {
-            path: '/',
-            expires: new Date(Date.now() + 1000 * 30),
-            httpOnly: true,
-            sameSite: 'lax'
-        });
-
-        return res.status(200).json({
-            msg: 'Logged in successfully.',
-            user: existingUser,
-            token
-        });
-    } catch (err) {
-        return res.status(500).json({msg: err.message});
+    } catch (error) {
+        return res.status(500).json({message: error.message});
     }
-}
+    
+})
 
 exports.register = async (req, res ) => {
     const { name, email, password } = req.body;
     let existingUser;
      
     try {
-        existingUser = await User.findOne({ email: email });
+        existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({msg: 'User already exists! Please login.'});
         }
@@ -65,21 +58,43 @@ exports.register = async (req, res ) => {
             return res.status(400).json({msg: 'Please enter a valid email address.'});
         }
 
-        const hashedPassword = bcrypt.hashSync(password); 
-
         const user = new User({
             name,
             email,
-            password: hashedPassword,
+            password,
         })
 
         await user.save();
 
-        return res.status(201).json({msg: 'Registered successfully.'})
-    } catch (err) {
-        return res.status(500).json({msg: err.message});
+        return res.status(201).json({message: 'Registered successfully.'})
+    } catch (error) {
+        return res.status(500).json({message: error.message});
     }
 }
+
+exports.getProfile = asyncHandler(
+    async (req, res) => {
+        try {
+            // const user = await User.findById(req.user._id)
+            const user = await User.findById(req.user)
+            if (user) {
+                res.status(201).json({
+                    _id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    isAdmin: user.isAdmin,
+                    createdAt: user.createdAt
+                })
+            }
+
+            if (!user) {
+                return res.status(400).json({message: 'No user found'});    
+            }
+        } catch (error) {
+            return res.status(500).json({message: error.message});
+        }
+    }
+)
 
 exports.logout = (req, res) => {
     const cookies = req.headers.cookies;
