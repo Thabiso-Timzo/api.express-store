@@ -12,12 +12,11 @@ const {
     updateUsersRole,
     deleteUser
 } = require('../../controller/user-controller/UserController');
-const {auth, refreshToken} = require('../../middleware/auth');
+const {auth} = require('../../middleware/auth');
 const authAdmin = require('../../middleware/authAdmin');
 
 router.post('/register', register);
 router.post('/login', login);
-router.post('/logout', auth, logout);
 
 router.get('/profile', getProfile);
 router.get('/info', getUserInfor);

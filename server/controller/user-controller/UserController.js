@@ -45,7 +45,7 @@ exports.login = asyncHandler(
 })
 
 exports.register = async (req, res ) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, avatar } = req.body;
     let existingUser;
      
     try {
@@ -62,6 +62,7 @@ exports.register = async (req, res ) => {
             name,
             email,
             password,
+            avatar
         })
 
         await user.save();
@@ -96,22 +97,7 @@ exports.getProfile = asyncHandler(
     }
 )
 
-exports.logout = (req, res) => {
-    const cookies = req.headers.cookies;
-  const prevToken = cookies.split("=")[1];
-  if (!prevToken) {
-      return res.status(400).json({msg: "Couldn't find token."});
-  }
-  jwt.verify(String(prevToken), jwt_secret, (err, user) => {
-      if (err) {
-          console.log(err);
-          return res.status(403).json({msg: 'Authentication failed'})
-      }
-      res.clearCookie(`${user.id}`);
-      req.cookies[`${user.id}`] = "";
-      return res.status(200).json({msg: 'Successfully logged out.'});
-  }) 
-}
+exports.updateUser
 
 
 exports.getUserInfor = async (req, res) => {
@@ -123,7 +109,7 @@ exports.getUserInfor = async (req, res) => {
         return res.status(500).json({msg: err.message})
     }
 }
-
+// 3:49:47
 exports.getUsersAllInfor = async (req, res) => {
     try {
         const users = await Users.find().select('-password')
