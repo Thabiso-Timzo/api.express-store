@@ -1,43 +1,33 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { FaSignInAlt } from 'react-icons/fa'
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { toast } from "react-toastify"
 
 import './Login.css'
 import image1 from '../../../assets/landing page/1.png'
 import { login } from '../../../actions/user-actions/userActions'
+import Spinner from '../../../components/Spinner/Spinner'
 
 const Login = () => {
-    const [user, setUser] = useState({
-        email: '',
-        password: '',
-        err: '',
-        success: '',
-    })
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const { email, password, err, success } = user;
-
+    const userLogin = useSelector((state) => state.userLogin)
+    const { error, loading, userInfo } = userLogin
+    
     useEffect(() => {
-        if (err) {
-            toast.error(err)
-        }
-
-        if (success) {
-            toast.success(success)
+        if (error) {
+            toast.error(error)
+         }
+    
+        if (userInfo) {
             navigate('/')
         }
-    }, [err, success, navigate])
-
-    const onChange = (e) => {
-        const {name, value} = e.target
-        setUser({
-            ...user, [name]: value, err: '', success: ''
-        }) 
-    }       
+    }, [error, userInfo, navigate])
 
     const onSubmit =  async (e) => {
         e.preventDefault()
@@ -47,47 +37,56 @@ const Login = () => {
 
   return (
     <section>
-        <div className="image-box">
-            <img src={image1} alt="" />
-        </div>
-        <div className="content-box">
-            <div className="form-box">
-                <h2><FaSignInAlt /> Login</h2>
-                <form onSubmit={onSubmit}>
-                    <div className="input-box">
-                        <span>Email</span>
-                        <input 
-                            type="text"
-                            id="email" 
-                            name="email" 
-                            value={email} 
-                            placeholder="Enter your email address" 
-                            onChange={onChange} 
-                        />
-                    </div>
-                    <div className="input-box">
-                        <span>Password</span>
-                        <input 
-                            type="password"
-                            id="password" 
-                            name="password" 
-                            value={password} 
-                            placeholder="Enter your password" 
-                            onChange={onChange} 
-                        />
-                    </div>
-                    <div className="forgot">
-                        <Link to='/forgot_password'>Forgot password</Link>
-                    </div>
-                    <div className="input-box">
-                        <button>Login</button>
-                    </div>
-                    <div className="input-box">
-                        <p>Don't have an account? <Link to='/register'>Register</Link></p>
-                    </div>
-                </form>
+       {
+        loading ? (
+            <div style={{marginTop: 50, marginLeft: 50}}>
+                <Spinner />
             </div>
-        </div>
+        ) : (
+        <>
+            <div className="image-box">
+                <img src={image1} alt="" />
+            </div>
+            <div className="content-box">
+                <div className="form-box">
+                    <h2><FaSignInAlt /> Login</h2>
+                    <form onSubmit={onSubmit}>
+                        <div className="input-box">
+                            <span>Email</span>
+                            <input 
+                                type="text"
+                                id="email" 
+                                name="email" 
+                                value={email} 
+                                placeholder="Enter your email address" 
+                                onChange={(e) => setEmail(e.target.value)}  
+                            />
+                        </div>
+                        <div className="input-box">
+                            <span>Password</span>
+                            <input 
+                                type="password"
+                                id="password" 
+                                name="password" 
+                                value={password} 
+                                placeholder="Enter your password" 
+                                onChange={(e) => setPassword(e.target.value)} 
+                            />
+                        </div>
+                        <div className="forgot">
+                            <Link to='/forgot_password'>Forgot password</Link>
+                        </div>
+                        <div className="input-box">
+                            <button>Login</button>
+                        </div>
+                        <div className="input-box">
+                            <p>Don't have an account? <Link to='/register'>Register</Link></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </>
+       )}
     </section>
   )
 }

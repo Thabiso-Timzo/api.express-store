@@ -1,10 +1,9 @@
 import React, {useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-
+import { toast } from 'react-toastify'
 
 import './Products.css'
-import Message from '../../../components/Message/Message'
 import Spinner from '../../../components/Spinner/Spinner'
 import Navigation from '../../../components/navigation/Navigation'
 import { listProduct } from '../../../actions/product-actions/productActions'
@@ -16,7 +15,13 @@ const Products = () => {
 
   useEffect(() => {
     dispatch(listProduct())
-  }, [dispatch])
+
+    if (error) {
+      return toast.error(error)
+    }
+  }, [dispatch, error])
+
+  
 
   return (
     <>
@@ -27,10 +32,6 @@ const Products = () => {
             <div className="loading">
               <Spinner />
             </div>
-            ) : error ? (
-            <Message variant={'alert-danger'}>
-              {error}
-            </Message>
             ) : (
               <>
                 {

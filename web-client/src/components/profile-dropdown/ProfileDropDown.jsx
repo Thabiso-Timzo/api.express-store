@@ -1,25 +1,36 @@
 import React from 'react'
-import  { Link } from 'react-router-dom'
+import  { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { MdLogout, MdLogin, MdAppRegistration } from 'react-icons/md'
 import { CgProfile } from 'react-icons/cg'
 
 import './ProfileDropDown.css'
+import img1 from '../../assets/logo/Gude.png'
+import { logout } from '../../actions/user-actions/userActions'
 
 const UserProfile = ({ open }) => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const user = useSelector((state) => state.userLogin)
+    const { userInfo } = user
 
     const logoutHandler = () => {
+        dispatch(logout())
+        navigate('/')
     };
 
-    //const { userInfo } = state;
   return (
     <div className="profile-menu">
-        {open ? <div className="profile-profile-menu">
-             <div className="profile-prof">
-                {/* <img src={user.avatar} alt='' /> */}
+        {open ? (<div className="profile-profile-menu">
+            {userInfo ?  (
+                <div className="profile-prof">
+                    <img src={img1} alt={''} />
                     <div className="info">
-                        <h2>Thabiso Hlatshwayo</h2>
+                        <h2>{userInfo.name}</h2>
                     </div>
-                </div> 
+                </div> ) : null}
+            {userInfo ? (
+                <>
                     <ul>
                         <li>
                             <Link to="/profile" className="profile-btn">
@@ -34,6 +45,9 @@ const UserProfile = ({ open }) => {
                             </button>
                         </li>
                     </ul>
+                </>
+            ) : (
+                <>
                     <ul>
                         <li>
                             <Link to="/login" className="profile-btn">
@@ -48,7 +62,9 @@ const UserProfile = ({ open }) => {
                             </Link>
                         </li>
                     </ul>
-        </div> : null}
+                </>
+            )}
+        </div>) : null}
     </div>
   )
 }
