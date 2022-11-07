@@ -97,7 +97,36 @@ exports.getProfile = asyncHandler(
     }
 )
 
-exports.updateUser
+// Update profile
+exports.updateUser = asyncHandler(
+    async (req, res) => {
+        try {
+            // req.params.id
+            const user = await User.findById(req.user._id);
+            if (user) {
+                user.name = req.body.name || user.name
+                if (req.body.password) {
+                    user.password = req.body.password
+                }
+                const updatedUser = await user.save();
+                res.json({
+                    _id: updatedUser._id,
+                    name: updatedUser.name,
+                    email: updatedUser.email,
+                    isAdmin: updatedUser.isAdmin,
+                    createdAt: updatedUser.createdAt,
+                    token: generateToken(updatedUser._id),
+                })  
+            }
+
+            if (!user) {
+                res.status(404).json({message: 'No user found.'});
+            }
+        } catch (error) {
+            return res.status(500).json({message: error.message});
+        }
+    }
+)
 
 
 exports.getUserInfor = async (req, res) => {

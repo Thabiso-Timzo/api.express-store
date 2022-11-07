@@ -1,7 +1,9 @@
+const asyncHandler = require('express-async-handler');
 const Message = require('../../models/message-schema/MessageSchema');
 
 // Add messages
-exports.addMessage = async (req, res, next) => {
+exports.addMessage = asyncHandler(
+    async (req, res) => {
     const { chatId, senderId, text } = req.body;
     const message = new Message({
         chatId,
@@ -15,11 +17,12 @@ exports.addMessage = async (req, res, next) => {
     } catch (error) {
         res.status(500).json(error);
     }
-}
+})
 
 
 // Get Messages
-exports.getMessage = async (req, res, next) => {
+exports.getMessage = asyncHandler(
+    async (req, res, next) => {
     const { chatId } = req.params;
 
     try {
@@ -28,4 +31,4 @@ exports.getMessage = async (req, res, next) => {
     } catch (error) {
         res.status(500).json(error);
     }
-}
+})
