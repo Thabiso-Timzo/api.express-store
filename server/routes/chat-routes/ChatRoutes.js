@@ -8,7 +8,7 @@ const {auth} = require('../../middleware/auth');
 
 router.post('/', auth, createChat);
 
-router.get('/:userId', auth, userChats);
+router.get('/:userId', userChats);
 router.get('/find/:firstId/:secondId', auth, findChat);
 
 module.exports = router;

@@ -5,10 +5,9 @@ const {
     login, 
     register,
     getProfile,
-    logout,
+    updateUser,
     getUserInfor,
     getUsersAllInfor,
-    updateUser,
     updateUsersRole,
     deleteUser
 } = require('../../controller/user-controller/UserController');
@@ -22,7 +21,7 @@ router.get('/profile', getProfile);
 router.get('/info', getUserInfor);
 router.get('/user_info', auth, authAdmin, getUsersAllInfor);
 
-router.put('/update', auth, updateUser);
+router.put('/details/:id', auth, updateUser);
 router.put('/update_role/:id', auth, authAdmin, updateUsersRole);
 
 router.delete('/admin/delete/:id', auth, authAdmin, deleteUser);
