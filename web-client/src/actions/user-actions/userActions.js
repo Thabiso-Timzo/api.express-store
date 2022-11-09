@@ -1,5 +1,8 @@
 import axios from 'axios'
 import { 
+  USER_DETAILS_FAIL,
+  USER_DETAILS_REQUEST,
+  USER_DETAILS_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST, 
   USER_LOGIN_SUCCESS, 
@@ -71,8 +74,44 @@ export const register = (name, email, password) => async (dispatch) => {
   }
 }
 
+// User details
+export const getUserDetails = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({type: USER_DETAILS_REQUEST})
+
+    const {
+      userLogin: { userInfo }
+    } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`
+      },
+    }
+
+    const { data } = await axios.get(`/api/users/details/${id}`, config)
+    dispatch({ 
+      type: USER_DETAILS_SUCCESS, payload: data 
+    })
+// 4:00:00
+    localStorage.setItem("userInfo", JSON.stringify(data))
+  } catch (error) {
+    const message = error.response && error.response.data.message
+      ? error.response.data.message
+      : error.message
+    if ((message === "Not authorized, token failed")) {
+        dispatch(logout())
+      }
+    dispatch({
+      type: USER_DETAILS_FAIL,
+      payload: message
+    })
+  }
+}
+
 // Logout user
 export const logout = () =>  (dispatch) => {
   localStorage.removeItem("userInfo")
   dispatch({type: USER_LOGOUT})
 }
+
