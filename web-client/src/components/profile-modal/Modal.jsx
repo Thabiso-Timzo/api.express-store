@@ -31,7 +31,7 @@ const Modal = ({ open, onClose }) => {
                     <input className='modal-input' type="text" placeholder='email'/>
                 </div>
                 <div className="modal-btn">
-                    <button>Cars</button>
+                    <button>Update</button>
                 </div>
               </form>
             </div>
