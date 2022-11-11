@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 
 import './Product.css'
 import Navigation from '../../../components/navigation/Navigation'
 import { listProductDetails } from '../../../actions/product-actions/productActions'
 import Spinner from '../../../components/Spinner/Spinner'
-import Message from '../../../components/Message/Message'
 import Rating from '../../../components/rating/Rating'
 
 const Product = ({ match }) => {
@@ -20,7 +20,11 @@ const Product = ({ match }) => {
 
   useEffect(() => {
     dispatch(listProductDetails(productId))
-  },[dispatch, productId])
+
+    if (error) {
+      toast.error(error)
+    }
+  },[dispatch, productId, error])
 
   const AddToCartHandler = (e) => {
     e.preventDefault()
@@ -36,10 +40,6 @@ const Product = ({ match }) => {
               <div className="loading">
                 <Spinner />
               </div>
-            ) : error ? (
-              <Message variant={'alert-danger'}>
-                {error}  
-              </Message >
             ) : (
               <>
                 <div className="single-image">
