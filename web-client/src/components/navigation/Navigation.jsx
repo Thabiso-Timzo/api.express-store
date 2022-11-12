@@ -33,7 +33,7 @@ const Navigation = () => {
   return (
     <>
         <nav className='top-nav'>
-            <img onClick={home} src={img1} alt="" />
+            <img onClick={home} className='home' src={img1} alt="" />
             <ul className='top-ul'>
                 {userInfo ? <li><button onClick={sellOnGude}><MdOutlineSell /> sell on gude</button></li> : null} 
                 <li><Link to='/search'><FiSearch /></Link></li>
@@ -46,7 +46,7 @@ const Navigation = () => {
                 <li>
                     <div className="profile-action" onClick={() => setOpen(!open)}>
                         <UserProfile  open={open} />
-                        {userInfo ?  <img  src={img1} alt=""/>: <IoPersonCircleOutline  size={23}/> }
+                        {userInfo ?  <img classname="list-image" src={userInfo.avatar} alt=""/>: <IoPersonCircleOutline  size={23}/> }
                     </div>
                 </li> 
             </ul>
@@ -61,7 +61,7 @@ const Navigation = () => {
                 <li><Link to='/cart'><GiShoppingCart /></Link></li>
                 <li>
                     <Link to='/profile'>
-                        {userInfo ? <img src={img1} alt=''/> : <IoPersonCircleOutline  size={23}/>} 
+                        {userInfo ? <img  src={userInfo.avatar} alt=''/> : <IoPersonCircleOutline  size={23}/>} 
                     </Link> 
                 </li>
             </ul>
