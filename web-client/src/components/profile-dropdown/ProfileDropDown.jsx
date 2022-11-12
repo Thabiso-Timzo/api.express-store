@@ -5,7 +5,6 @@ import { MdLogout, MdLogin, MdAppRegistration } from 'react-icons/md'
 import { CgProfile } from 'react-icons/cg'
 
 import './ProfileDropDown.css'
-import img1 from '../../assets/logo/Gude.png'
 import { logout } from '../../actions/user-actions/userActions'
 
 const UserProfile = ({ open }) => {
@@ -24,7 +23,7 @@ const UserProfile = ({ open }) => {
         {open ? (<div className="profile-profile-menu">
             {userInfo ?  (
                 <div className="profile-prof">
-                    <img src={img1} alt={''} />
+                    <img src={userInfo.avatar} alt={''} />
                     <div className="info">
                         <h2>{userInfo.name}</h2>
                     </div>
