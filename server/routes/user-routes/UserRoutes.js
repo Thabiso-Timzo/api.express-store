@@ -21,7 +21,7 @@ router.get('/profile', getProfile);
 router.get('/info', getUserInfor);
 router.get('/user_info', auth, authAdmin, getUsersAllInfor);
 
-router.put('/details/:id', auth, updateUser);
+router.put('/update/', auth, updateUser);
 router.put('/update_role/:id', auth, authAdmin, updateUsersRole);
 
 router.delete('/admin/delete/:id', auth, authAdmin, deleteUser);

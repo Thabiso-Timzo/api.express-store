@@ -16,7 +16,7 @@ function validateEmail(email) {
 
 exports.login = asyncHandler(
     async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, avatar } = req.body;
 
     try {
         const user = await User.findOne({ email })
@@ -26,6 +26,7 @@ exports.login = asyncHandler(
                 name: user.name,
                 email: user.email,
                 isAdmin: user.isAdmin,
+                avatar: user.avatar,
                 token: generateToken(user._id),
                 createdAt: user.createdAt
             })
@@ -101,30 +102,14 @@ exports.getProfile = asyncHandler(
 exports.updateUser = asyncHandler(
     async (req, res) => {
         try {
-            // req.params.id
-            const user = await User.findById(req.user._id);
-            if (user) {
-                user.name = req.body.name || user.name
-                user.email = req.body.email || user.name
-                if (req.body.password) {
-                    user.password = req.body.password
-                }
-                const updatedUser = await user.save();
-                res.json({
-                    _id: updatedUser._id,
-                    name: updatedUser.name,
-                    email: updatedUser.email,
-                    isAdmin: updatedUser.isAdmin,
-                    createdAt: updatedUser.createdAt,
-                    token: generateToken(updatedUser._id),
-                })  
-            }
+            const {name, avatar} = req.body
+            await Users.findOneAndUpdate({_id: req.user.id}, {
+                name, avatar
+            })
 
-            if (!user) {
-                res.status(404).json({message: 'No user found.'});
-            }
-        } catch (error) {
-            return res.status(500).json({message: error.message});
+            res.json({msg: "Update Success!"})
+        } catch (err) {
+            return res.status(500).json({msg: err.message})
         }
     }
 )
