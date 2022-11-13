@@ -1,0 +1,9 @@
+.Error-401 {
+    width: 100%;
+    height: 100vh;
+}
+
+.Error-401 h1 {
+    text-align: center;
+    margin-top: 40vh;
+}
