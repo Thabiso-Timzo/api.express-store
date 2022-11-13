@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ToastContainer } from "react-toastify"
+import { useSelector } from 'react-redux'
 import "react-toastify/dist/ReactToastify.css"
 
 import Login from './pages/auth/login/Login';
@@ -14,26 +15,28 @@ import Profile from './pages/user/profile/Profile';
 import Search from './pages/user/search/Search';
 import WishList from './pages/user/wish-list/WishList';
 import ForgotPassword from './pages/auth/forgot-password/ForgotPassword';
-import NotFound from './pages/not-found/NotFound';
-import Activation from './pages/auth/activation/Activation';
+import Error404 from './pages/errors/404/404';
+import Error401 from './pages/errors/401/401'
 
 function App() {
+  const user = useSelector((state) => state.userLogin)
+  const { userInfo } = user
+
   return (
     <BrowserRouter> 
       <Routes>
-        <Route path='/' element={<Products />} />
+        <Route path='/' exact element={<Products />} />
         <Route path='/product/:id' element={<Product />} />
         <Route path='/login' exact element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/dashboard' element={<Dashboard />} />
-        <Route path='/chat' element={<Chats />} />
+        <Route path='/chat' element={userInfo ? <Chats /> : <Error401 />} />
         <Route path='/cart/:id' element={<Cart />} />
-        <Route path='/wish-list' element={<WishList />} />
-        <Route path='/profile' element={<Profile />} />
+        <Route path='/wish-list' element={userInfo ? <WishList /> : <Error401 />} />
+        <Route path='/profile' element={userInfo ? <Profile /> : <Error401 />} />
         <Route path='/search' element={<Search />} />
         <Route path='/forgot_password' element={<ForgotPassword />} />
-        <Route path='/user/activate/:activation_token' element={<Activation />} />
-        <Route path='*' element={<NotFound />} />
+        <Route path='*' element={<Error404 />} />
       </Routes>
       <ToastContainer />
     </BrowserRouter>
