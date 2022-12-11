@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux'
 import { MdModeEditOutline } from 'react-icons/md'
 
 import './Profile.css'
-import profile from '../../../assets/images/profile.png'
 import store from '../../../assets/images/stock.jpg'
 import Modal from '../../../components/profile-modal/Modal'
 import Navigation from '../../../components/navigation/Navigation'
@@ -29,7 +28,7 @@ const Profile = () => {
       <Navigation />
       <div className="profile-container">
         <img className="profile-cover-image" src={store} alt="" />
-        <img className='profile-image' src={profile} alt="" />
+        <img className='profile-image' src={userInfo.avatar} alt="" />
         <h1>{userInfo.name}</h1>
         <button onClick={() => setOpenModal(true)} ><MdModeEditOutline /></button>
         <Modal 
