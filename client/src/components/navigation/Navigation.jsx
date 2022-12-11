@@ -9,7 +9,7 @@ import { MdOutlineSell } from 'react-icons/md'
 import { IoPersonCircleOutline } from 'react-icons/io5'
 
 import './Navigation.css'
-import img1 from '../../assets/logo/Gude.png'
+import express from '../../assets/logo/express.png'
 import UserProfile from '../profile-dropdown/ProfileDropDown'
 
 const Navigation = () => {
@@ -33,9 +33,9 @@ const Navigation = () => {
   return (
     <>
         <nav className='top-nav'>
-            <img onClick={home} className='home' src={img1} alt="" />
+            <img onClick={home} className='home' src={express} alt="" />
             <ul className='top-ul'>
-                {userInfo ? <li><button onClick={sellOnGude}><MdOutlineSell /> sell on gude</button></li> : null} 
+                {userInfo ? <li><button onClick={sellOnGude}><MdOutlineSell /> sell on ES</button></li> : null} 
                 <li><Link to='/search'><FiSearch /></Link></li>
                 {userInfo ? <li><Link to='/chat'><HiOutlineChat /></Link></li> : null}
                 {userInfo ? <li><Link to='/wish-list'><BsHeart /></Link></li> : null}
