@@ -1,0 +1,88 @@
+.profile-menu {
+    position: fixed;
+    top: 15px;
+    right: 18px;
+}
+
+.profile-menu .profile-action {
+    display: block;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+}
+
+
+.profile-menu .profile-profile-menu {
+    width: 250px;
+    padding: 30px;
+    background-color: #222533;
+    border-radius: 10px;
+    position: absolute;
+    top: 75px;
+    right: 0px;
+    transition: all 0.3s;
+
+}
+
+.profile-menu .profile-profile-menu::before {
+    content: "";
+    width: 16px;
+    height: 16px;
+    background-color: #222533;
+    border-top-left-radius: 3px;
+    position: absolute;
+    top: -8px;
+    right: 19px;
+    transform: rotate(45deg);
+}
+
+.profile-menu .profile-profile-menu .profile-prof {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.profile-menu .profile-profile-menu .profile-prof img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    /* user-select: none; */
+}
+
+.profile-menu .profile-profile-menu .info {
+    margin-left: 5px;
+}
+
+.profile-menu .profile-profile-menu .info h2 {
+    color: #dadada;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: capitalize;
+    margin-bottom: 4px;
+}
+
+.profile-menu .profile-profile-menu .profile-btn {
+    width: 150px;
+    height: 48px;
+    color: #e5e5e5;
+    background-color: #1a1c29;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 400;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    transition: all 0.3s;
+}
+
+.profile-menu .profile-profile-menu .profile-btn .profile-icon {
+    width: 20px;
+    margin-right: 5px;
+    user-select: none;
+}
+
+.profile-menu .profile-profile-menu .profile-btn:hover {
+    background-color: #292c3d;
+}
