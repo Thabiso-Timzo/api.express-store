@@ -1,20 +1,17 @@
 import React, { useState} from 'react'
 //import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { MdModeEditOutline } from 'react-icons/md'
-
+// 4:11:53
 import './Profile.css'
-import store from '../../../assets/images/stock.jpg'
-import Modal from '../../../components/profile-modal/Modal'
 import Navigation from '../../../components/navigation/Navigation'
+import UserDetails from '../../../components/user/UserDetails'
 import Student from '../../../components/student-profile/Student'
 import Information from '../../../components/user-information/Information'
 import Sold from '../../../components/sold-items/Sold'
 import About from '../../../components/about/About'
 
 const Profile = () => {
-  const [openModal, setOpenModal] = useState(false)
-  const [togglestate, SetTogglestate] = useState(1)
+  const [togglestate, SetTogglestate] = useState(0)
 
   const user = useSelector((state) => state.userLogin)
   const { userInfo } = user
@@ -26,19 +23,14 @@ const Profile = () => {
   return (
     <>
       <Navigation />
-      <div className="profile-container">
-        <img className="profile-cover-image" src={store} alt="" />
-        <img className='profile-image' src={userInfo.avatar} alt="" />
-        <h1>{userInfo.name}</h1>
-        <button onClick={() => setOpenModal(true)} ><MdModeEditOutline /></button>
-        <Modal 
-           open={openModal} 
-           onClose={() => setOpenModal(false)}
-        />
-      </div>
-      <hr />
       <div className="toggle-wrapper">
         <div className='toggle-text'>
+        <div
+            className={togglestate === 0 ? "tab-active" : "tabs"}
+            onClick={() => toggleTab(0)}
+          >
+            User
+          </div>
           <div
             className={togglestate === 1 ? "tab-active" : "tabs"}
             onClick={() => toggleTab(1)}
@@ -65,6 +57,7 @@ const Profile = () => {
             </div>
         </div>
         <div>
+          {togglestate === 0 && <UserDetails user={userInfo} />}
           {togglestate === 1 && <Student />}
           {togglestate === 2 && <Information />}
           {togglestate === 3 && <Sold />}
