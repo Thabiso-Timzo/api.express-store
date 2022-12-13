@@ -1,8 +1,3 @@
-.profile-container {
-    width: 100%;
-    margin-bottom: 10px;
-}
-
 .toggle-wrapper {
     width: 100%;
     font-size: 15px;
@@ -13,71 +8,47 @@
 }
 
 .toggle-text {
-    margin-top: 50px;
+    margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
     width: 400px;
     z-index: -1;
+    border: 1px solid rgb(207, 207, 207);
+    border-radius: 5px;
+    width: 50%;
+    height: 50px;
+    display: flex;
 }
 
 .tabs {
-    padding: 15px;
+    padding: 10px;
+    font-weight: 300;
     text-align: center;
     width: 50%;
+    height: 50px;
     cursor: pointer;
-    box-sizing: content-box;
-    position: relative;
+    color: black;
+    border: 1px solid rgb(207, 207, 207);
     outline: none;
     display: inline;
+    border-radius: 5px;
+    vertical-align: middle;
+    font-weight: 700;
 }
 
 .tab-active {
-    color: black;
+    padding: 15px;
+    font-weight: 300;
+    text-align: center;
+    width: 50%;
+    height: 50px;
+    cursor: pointer;
+    border: 1px solid rgb(207, 207, 207);
+    outline: none;
     display: inline;
-    background: white;
-    border-bottom: 2px solid #0083A0 ;
-}
-
-.content-tabs {
-    flex-grow: 1;
-}
-
-.content {
-    background: white;
-    padding: 20px;
-    width: 85%;
-    height: 100%;
-    display: none;
-}
-
-.content h2 {
-    font-size: 20px;
-    font-weight: 20px;
-
-
-    color: #3c4358;
-}
-
-.content hr {
-    width: 100%;
-    height: 2px;
-    background: #222;
-    margin-bottom: 5px;
-}
-
-.content p i {
-    width: 100%;
-    height: 100%;
-    font-size: 20px;
-    justify-self: start;
-}
-
-.active-content {
-    display: block;
-}
-
-.line {
-    width: 85%;
-    margin-left: 200px;
-    margin-right: auto;
+    border-radius: 5px;
+    vertical-align: middle;
+    background: #0083A0;
+    color: white;
+    font-weight: 700;
 }

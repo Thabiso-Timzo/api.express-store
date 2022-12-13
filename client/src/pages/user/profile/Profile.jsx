@@ -25,36 +25,36 @@ const Profile = () => {
       <Navigation />
       <div className="toggle-wrapper">
         <div className='toggle-text'>
-        <div
+          <button 
             className={togglestate === 0 ? "tab-active" : "tabs"}
             onClick={() => toggleTab(0)}
           >
             User
-          </div>
-          <div
+          </button> 
+          <button
             className={togglestate === 1 ? "tab-active" : "tabs"}
             onClick={() => toggleTab(1)}
           >
             Student
-          </div>
-          <div
+          </button>
+          <button
             className={togglestate === 2 ? "tab-active" : "tabs"}
             onClick={() => toggleTab(2)}
           >
             Information
-          </div>
-            <div 
-              className={togglestate === 3 ? "tab-active" : "tabs"}
-              onClick={() => toggleTab(3)}
-            >
-              Sold
-            </div>
-            <div 
-              className={togglestate === 4 ? "tab-active" : "tabs"}
-              onClick={() => toggleTab(4)}
-            >
-              About
-            </div>
+          </button>
+          <button 
+            className={togglestate === 3 ? "tab-active" : "tabs"}
+            onClick={() => toggleTab(3)}
+          >
+            Sold
+          </button>
+          <button 
+            className={togglestate === 4 ? "tab-active" : "tabs"}
+            onClick={() => toggleTab(4)}
+          >
+            About
+          </button>
         </div>
         <div>
           {togglestate === 0 && <UserDetails user={userInfo} />}
