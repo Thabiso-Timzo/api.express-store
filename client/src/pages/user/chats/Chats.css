@@ -1,3 +1,7 @@
+.top {
+  margin-top: 80px;
+}
+
 .Chat {
   position: relative;
   margin: 20px;
@@ -16,7 +20,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  background: var(--cardColor);
+  background: #0083A0;
   border-radius: 1rem;
   padding: 1rem;
   height: auto;
@@ -77,11 +81,12 @@
 }
   
   
-  @media screen and (max-width: 768px) {
-   .Chat {
-      grid-template-columns: 16% auto;
-    }
-     .follower.conversation>div>.name{
-      display: none;
-     }
+@media screen and (max-width: 768px) {
+  .Chat {
+    grid-template-columns: 16% auto;
   }
+     
+  .follower.conversation>div>.name{
+    display: none;
+  }
+}
