@@ -9,7 +9,10 @@ import {
   USER_LOGOUT,
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
-  USER_REGISTER_SUCCESS
+  USER_REGISTER_SUCCESS,
+  USER_UPDATE_REQUEST,
+  USER_UPADTE_SUCCESS,
+  USER_UPADTE_FAIL
 } from "../../constants/user-constants/UserContants"
 
 // User login
@@ -85,6 +88,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 
     const config = {
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.token}`
       },
     }
@@ -115,3 +119,37 @@ export const logout = () =>  (dispatch) => {
   dispatch({type: USER_LOGOUT})
 }
 
+export const userUpdateAction = (name, avatar, password) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: USER_UPDATE_REQUEST})
+
+    const {
+      userLogin: { userInfo }
+    } = getState()
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`
+      },
+    }
+
+    const { data } = await axios.put(
+      '/api/users/update/', 
+      {name, avatar, password},
+      config)
+    
+    dispatch({
+      type: USER_UPADTE_SUCCESS,
+      payload: data
+    })
+
+  } catch (error) {
+    dispatch({
+      USER_UPADTE_FAIL,
+      payload: error.response && error.response.message
+      ? error.response.data.message 
+      : error.message
+    })
+  }
+}
