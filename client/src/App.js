@@ -17,6 +17,10 @@ import WishList from './pages/user/wish-list/WishList';
 import ForgotPassword from './pages/auth/forgot-password/ForgotPassword';
 import Error404 from './pages/errors/404/404';
 import Error401 from './pages/errors/401/401'
+import UserProfile from './pages/user/user-profile/UserProfile'
+import Student from './pages/user/student/Student'
+import View from './pages/user/view-profile/View'
+import Sold from './pages/user/sold-items/Sold'
 
 function App() {
   const user = useSelector((state) => state.userLogin)
@@ -35,6 +39,10 @@ function App() {
         <Route path='/wish-list' element={userInfo ? <WishList /> : <Error401 />} />
         <Route path='/profile' element={userInfo ? <Profile /> : <Error401 />} />
         <Route path='/search' element={<Search />} />
+        <Route path='/profile/user' element={userInfo ? <UserProfile /> : <Error401 />} />
+        <Route path='/profile/student' element={userInfo ? <Student /> : <Error401 />} />
+        <Route path='/profile/view' element={userInfo ? <View /> : <Error401 />} />
+        <Route path='/profile/sold' element={userInfo ? <Sold /> : <Error401 />} />
         <Route path='/forgot_password' element={<ForgotPassword />} />
         <Route path='*' element={<Error404 />} />
       </Routes>
