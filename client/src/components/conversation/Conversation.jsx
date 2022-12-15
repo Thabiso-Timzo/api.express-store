@@ -1,21 +1,29 @@
 import React, { useState, useEffect } from 'react'
-//import { utiliseUser } from '../../api/chatRequest';
+
+import { getUser } from '../../api/userRequest';
 
 const Conversation = ({ data, currentUserId }) => {
     const [userData, setUserData] = useState(null)
 
-    // 46:53
-
     useEffect(() => {
         const userId = data.members.find((id) => id !== currentUserId)
+        console.log(userId)
         const getUserData = async () => {
-            //const { data } = await utiliseUser(userId)
+          try {
+            const { data } = await getUser(userId)
             setUserData(data)
+          } catch (error) {
+            console.log(error)
+          }
         }
         getUserData()
     }, [currentUserId, data]);
   return (
-    <div>Conversation</div>
+    <div className='follower conversation'>
+      <div>
+        <div className="online-dot"></div>
+      </div>
+    </div>
   )
 }
  
