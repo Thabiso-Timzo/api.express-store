@@ -64,14 +64,14 @@ const Register = () => {
                 </div>
             ): (
                 <>
-                    <div className="image-box">
+                    <div className="register-image-box">
                         <img src={image2} alt="" />
                     </div>
-                    <div className="content-box">
-                        <div className="form-box">
+                    <div className="register-content-box">
+                        <div className="register-form-box">
                             <h2><FaUser /> Register</h2>
                             <form onSubmit={onSubmit}>
-                                <div className="input-box">
+                                <div className="register-input-box">
                                     <span>Full name</span>
                                     <input 
                                         type="text" 
@@ -82,7 +82,7 @@ const Register = () => {
                                         onChange={(e) => setName(e.target.value)}
                                     />
                                 </div>
-                                <div className="input-box">
+                                <div className="register-input-box">
                                     <span>Email</span>
                                     <input 
                                         type="text"
@@ -93,7 +93,7 @@ const Register = () => {
                                         onChange={(e) => setEmail(e.target.value)}
                                     />
                                 </div>
-                                <div className="input-box">
+                                <div className="register-input-box">
                                     <span>Password</span>
                                     <input 
                                         type="password"
@@ -104,7 +104,7 @@ const Register = () => {
                                         onChange={(e) => setPassword(e.target.value)} 
                                     />
                                 </div>
-                                <div className="input-box">
+                                <div className="register-input-box">
                                     <span>Confirm Password</span>
                                     <input 
                                         type="password" 
@@ -115,10 +115,10 @@ const Register = () => {
                                         onChange={(e) => setPassword2(e.target.value)}
                                     />
                                 </div>
-                                <div className="input-box">
+                                <div className="register-input-box">
                                     <button>Register</button>
                                 </div>
-                                <div className="input-box">
+                                <div className="register-input-box">
                                     <p>Already have an account? <Link to='/login'>Login</Link></p>
                                 </div>
                             </form>
