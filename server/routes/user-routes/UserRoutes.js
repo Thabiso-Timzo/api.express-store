@@ -9,7 +9,8 @@ const {
     getUserInfor,
     getUsersAllInfor,
     updateUsersRole,
-    deleteUser
+    deleteUser,
+    getUser
 } = require('../../controller/user-controller/UserController');
 const {auth} = require('../../middleware/auth');
 const authAdmin = require('../../middleware/authAdmin');
@@ -17,6 +18,7 @@ const authAdmin = require('../../middleware/authAdmin');
 router.post('/register', register);
 router.post('/login', login);
 
+router.get('/:id', getUser);
 router.get('/profile', getProfile);
 router.get('/info', getUserInfor);
 router.get('/user_info', auth, authAdmin, getUsersAllInfor);

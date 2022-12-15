@@ -135,11 +135,28 @@ exports.getUsersAllInfor = async (req, res) => {
     }
 },
 
+exports.getUser = async (req, res) => {
+    const id = req.params.id;
+  
+    try {
+      const user = await User.findById(id);
+      if (user) {
+        const { password, ...otherDetails } = user._doc;
+  
+        res.status(200).json(otherDetails);
+      } else {
+        res.status(404).json("No such User");
+      }
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  };
+
 exports.updateUser = async (req, res) => {
     try {
-        const {name, avatar} = req.body
+        const {name, avatar, password} = req.body
         await Users.findOneAndUpdate({_id: req.user.id}, {
-            name, avatar
+            name, avatar, password
         })
 
         res.json({msg: 'Update Success!'})
