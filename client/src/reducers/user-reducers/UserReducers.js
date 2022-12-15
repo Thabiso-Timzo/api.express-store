@@ -9,7 +9,10 @@ import {
   USER_LOGOUT,
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
-  USER_REGISTER_SUCCESS
+  USER_REGISTER_SUCCESS,
+  USER_UPDATE_REQUEST,
+  USER_UPADTE_SUCCESS,
+  USER_UPADTE_FAIL
 } from "../../constants/user-constants/UserContants";
 
 // Use Login
@@ -53,6 +56,20 @@ export const userDetailsReducer = (state = { user: {} }, action) => {
       return { loading: false, error: action.payload }
     case USER_DETAILS_RESET:
       return {  user: {} }
+    default:
+      return state
+  }
+}
+
+// update user details
+export const updateUserProfile =(state = {}, action) => {
+  switch(action.type) {
+    case USER_UPDATE_REQUEST:
+      return { loading: true }
+    case USER_UPADTE_SUCCESS:
+      return { user: action.payload, success: true }
+    case USER_UPADTE_FAIL:
+      return { loading: false, error: action.payload }
     default:
       return state
   }
