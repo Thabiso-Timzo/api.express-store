@@ -11,25 +11,25 @@ section {
     display: flex;
 }
 
-section .image-box::before {
+section .login-image-box::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(225deg, #ff2121, #2c00a3);
+    background: linear-gradient(225deg, #C0C0C0, #0083A0);
     z-index: 1;
     mix-blend-mode: screen;
 }
 
-section .image-box {
+section .login-image-box {
     position: relative;
     width: 50%;
     height: 100%;
 }
 
-section .image-box img {
+section .login-image-box img {
     position: absolute;
     top: 0;
     left: 0;
@@ -38,7 +38,7 @@ section .image-box img {
     object-fit: cover;
 }
 
-section .content-box {
+section .login-content-box {
     display: flex;
     width: 50%;
     height: 100%;
@@ -46,12 +46,12 @@ section .content-box {
     align-items: center;
 }
 
-section .content-box .form-box {
+section .login-content-box .form-box {
     width: 50%;
 }
 
-section .content-box .form-box h2 {
-    color: #607d8b;
+section .login-content-box .form-box h2 {
+    color: black;
     font-weight: 600;
     font-size: 1.5em;
     text-transform: uppercase;
@@ -61,42 +61,42 @@ section .content-box .form-box h2 {
     letter-spacing: 1px;
 }
 
-section .content-box .form-box .input-box {
+section .login-content-box .login-form-box .login-input-box {
     margin-bottom: 20px;
 }
 
-section .content-box .form-box .forgot {
+section .login-content-box .login-form-box .login-forgot {
     margin-bottom: 20px;
 }
 
-section .content-box .form-box .forgot a {
+section .login-content-box .login-form-box .login-forgot a {
     float: right;
     margin-bottom: 20px;
 }
 
-section .content-box .form-box .input-box span {
+section .login-content-box .login-form-box .login-input-box span {
     font-size: 16px;
     margin-bottom: 5px;
     display: inline-block;
-    color: #607d8b;
+    color: black;
     font-weight: 300;
     letter-spacing: 1px;
 }
 
-section .content-box .form-box .input-box input {
+section .login-content-box .login-form-box .login-input-box input {
     width: 100%;
     padding: 10px 20px;
     outline: none;
     font-weight: 400;
-    border: 1px solid #607d8b;
+    border: 1px solid black;
     font-size: 16px;
     letter-spacing: 1px;
-    color: #607d8b;
+    color: black;
     background: transparent;
     border-radius: 3px;
 }
 
-section .content-box .form-box .input-box button {
+section .login-content-box .login-form-box .login-input-box button {
     width: 100%;
     padding: 8px 16px;
     outline: none;
@@ -104,44 +104,44 @@ section .content-box .form-box .input-box button {
     border: none;
     font-size: 16px;
     color: #fff;
-    background: rgb(66, 54, 54);
+    background: #0083A0;
     border-radius: 3px;
     cursor: pointer;
 }
 
-section .content-box .form-box .input-box button:hover {
+section .login-content-box .login-form-box .login-input-box button:hover {
     background: #353535;
 }
 
-section .content-box .form-box .remember {
+section .login-content-box .login-form-box .login-remember {
     margin-bottom: 10px;
-    color: #607d8b;
+    color: black;
     font-weight: 400;
     font-size: 14px;
 }
 
-section .content-box .form-box p {
-    color: #607d8b;
+section .login-content-box .login-form-box p {
+    color: black;
 }
 
-section .content-box .form-box p a {
+section .login-content-box .login-form-box p a {
     text-decoration: none;
 }
 
-section .content-box .form-box h3 {
-    color: #607d8b;
+section .login-content-box .login-form-box h3 {
+    color: black;
     text-align: center;
     margin: 80px 0 10px;
     font-weight: 500;
 }
 
-section .content-box .form-box .social {
+section .login-content-box .login-form-box .login-social {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-section .content-box .form-box .social li {
+section .login-content-box .login-form-box .login-social li {
     list-style: none;
     width: 50px;
     height: 50px;
@@ -153,7 +153,11 @@ section .content-box .form-box .social li {
 }
 
 @media only screen and (max-width: 768px) {
-    section .image-box {
+    .login-content-box .login-form-box form {
+        display: block;
+    }
+
+    section .login-image-box {
         position: absolute;
         top: 0;
         left: 0;
@@ -161,23 +165,23 @@ section .content-box .form-box .social li {
         height: 100%;
     }
 
-    section .content-box {
+    section .login-content-box {
         display: flex;
         justify-content: center;
         align-items: center;
         width: 100%;
         height: 100%;
-        z-index: 1;
+        z-index: 100;
     }
 
-    section .content-box .form-box {
+    section .login-content-box .login-form-box {
         width: 100%;
         padding: 40px;
-        background: rgba(255, 255, 255, 0.7);
+        background: rgba(255, 255, 255, 0.9);
         margin: 50px;
     }
 
-    section .content-box .form-box h3 {
+    section .login-content-box .login-form-box h3 {
         margin: 30px 0 10px;
         font-weight: 500;
     }

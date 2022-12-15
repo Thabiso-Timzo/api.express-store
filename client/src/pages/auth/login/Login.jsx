@@ -44,14 +44,14 @@ const Login = () => {
             </div>
         ) : (
         <>
-            <div className="image-box">
+            <div className="login-image-box">
                 <img src={image1} alt="" />
             </div>
-            <div className="content-box">
-                <div className="form-box">
+            <div className="login-content-box">
+                <div className="login-form-box">
                     <h2><FaSignInAlt /> Login</h2>
                     <form onSubmit={onSubmit}>
-                        <div className="input-box">
+                        <div className="login-input-box">
                             <span>Email</span>
                             <input 
                                 type="text"
@@ -62,7 +62,7 @@ const Login = () => {
                                 onChange={(e) => setEmail(e.target.value)}  
                             />
                         </div>
-                        <div className="input-box">
+                        <div className="login-input-box">
                             <span>Password</span>
                             <input 
                                 type="password"
@@ -73,13 +73,13 @@ const Login = () => {
                                 onChange={(e) => setPassword(e.target.value)} 
                             />
                         </div>
-                        <div className="forgot">
+                        <div className="login-forgot">
                             <Link to='/forgot_password'>Forgot password</Link>
                         </div>
-                        <div className="input-box">
+                        <div className="login-input-box">
                             <button>Login</button>
                         </div>
-                        <div className="input-box">
+                        <div className="login-input-box">
                             <p>Don't have an account? <Link to='/register'>Register</Link></p>
                         </div>
                     </form>
