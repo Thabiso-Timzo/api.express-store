@@ -43,6 +43,10 @@ section .register-image-box img {
     object-fit: cover;
 }
 
+.register-content-box .register-form-box form  {
+    display: block;
+}
+
 section .register-content-box {
     display: flex;
     width: 50%;

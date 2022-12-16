@@ -29,6 +29,10 @@ section .login-image-box {
     height: 100%;
 }
 
+.login-content-box .login-form-box form {
+    display: block;
+}
+
 section .login-image-box img {
     position: absolute;
     top: 0;
