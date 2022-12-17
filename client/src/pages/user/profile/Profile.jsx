@@ -1,6 +1,6 @@
 import React, { useState} from 'react'
-//import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 // 4:11:53
 import './Profile.css'
 import Navigation from '../../../components/navigation/Navigation'
@@ -9,16 +9,32 @@ import Student from '../../../components/student-profile/Student'
 import Information from '../../../components/user-information/Information'
 import Sold from '../../../components/sold-items/Sold'
 import About from '../../../components/about/About'
+import { logout } from '../../../actions/user-actions/userActions'
 
 const Profile = () => {
   const [togglestate, SetTogglestate] = useState(0)
 
+  const navigate = useNavigate()
+
+  const dispatch = useDispatch()
+
   const user = useSelector((state) => state.userLogin)
-  const { userInfo } = user
+  const { userInfo, error } = user
 
   const toggleTab = (index) => {
     SetTogglestate(index)
   }
+
+  const toggleTabHandler = (index, path) => {
+    SetTogglestate(index)
+    navigate(`/profile/${path}`)
+  }
+
+  const logoutHandler = (index) => {
+    SetTogglestate(index)
+    dispatch(logout())
+    navigate('/')
+};
 
   return (
     <>
@@ -29,25 +45,25 @@ const Profile = () => {
             className={togglestate === 0 ? "tab-active" : "tabs"}
             onClick={() => toggleTab(0)}
           >
-            User
+            Edit user
           </button> 
           <button
             className={togglestate === 1 ? "tab-active" : "tabs"}
             onClick={() => toggleTab(1)}
           >
-            Student
+            student
           </button>
           <button
             className={togglestate === 2 ? "tab-active" : "tabs"}
             onClick={() => toggleTab(2)}
           >
-            Information
+            View Profile
           </button>
           <button 
             className={togglestate === 3 ? "tab-active" : "tabs"}
             onClick={() => toggleTab(3)}
           >
-            Sold
+            Sold Items
           </button>
           <button 
             className={togglestate === 4 ? "tab-active" : "tabs"}
@@ -57,11 +73,43 @@ const Profile = () => {
           </button>
         </div>
         <div>
-          {togglestate === 0 && <UserDetails user={userInfo} />}
+          {togglestate === 0 && <UserDetails user={userInfo} dispatch={dispatch} error={error} />}
           {togglestate === 1 && <Student />}
           {togglestate === 2 && <Information />}
           {togglestate === 3 && <Sold />}
           {togglestate === 4 && <About />}
+        </div>
+        <div className="mobile-toggle-text">
+          <button 
+            className={togglestate === 0 ? "tab-active" : "tabs"}
+            onClick={() => toggleTabHandler(0, 'user')}
+          >
+            Edit user
+          </button> 
+          <button
+            className={togglestate === 1 ? "tab-active" : "tabs"}
+            onClick={() => toggleTabHandler(1, 'student')}
+          >
+            student 
+          </button>
+          <button
+            className={togglestate === 2 ? "tab-active" : "tabs"}
+            onClick={() => toggleTabHandler(2, 'view')}
+          >
+            View profile
+          </button>
+          <button 
+            className={togglestate === 3 ? "tab-active" : "tabs"}
+            onClick={() => toggleTabHandler(3, 'sold')}
+          >
+            Sold items
+          </button>
+          <button 
+            className={togglestate === 4 ? "tab-active" : "tabs"}
+            onClick={() => logoutHandler(4)}
+          >
+            Logout
+          </button>
         </div>
       </div>
     </>

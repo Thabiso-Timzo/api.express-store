@@ -1,4 +1,5 @@
 .toggle-wrapper {
+    margin-top: 120px;
     width: 100%;
     font-size: 15px;
     font-family: sans-serif;
@@ -8,23 +9,19 @@
 }
 
 .toggle-text {
-    margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
-    width: 400px;
     z-index: -1;
-    border: 1px solid rgb(207, 207, 207);
-    border-radius: 5px;
-    width: 50%;
+    width: 60%;
     height: 50px;
     display: flex;
 }
 
 .tabs {
     padding: 10px;
-    font-weight: 300;
+    font-size: 12px;
     text-align: center;
-    width: 50%;
+    width: 55%;
     height: 50px;
     cursor: pointer;
     color: black;
@@ -33,14 +30,14 @@
     display: inline;
     border-radius: 5px;
     vertical-align: middle;
-    font-weight: 700;
+    font-weight: 500;
 }
 
 .tab-active {
     padding: 15px;
-    font-weight: 300;
+    font-size: 12px;
     text-align: center;
-    width: 50%;
+    width: 55%;
     height: 50px;
     cursor: pointer;
     border: 1px solid rgb(207, 207, 207);
@@ -50,5 +47,28 @@
     vertical-align: middle;
     background: #0083A0;
     color: white;
-    font-weight: 700;
+    font-weight: 500;
+}
+
+.mobile-toggle-text {
+    display: none;
+}
+
+@media only screen and (max-width: 768px){
+    .toggle-text {
+        display: none;
+    }
+
+    .mobile-toggle-text {
+        display: block;
+        flex-direction: column;
+    }
+
+    .mobile-toggle-text button {
+        /* flex-direction: column; */
+        width: 80%;
+        margin-left: 10%;
+        /* margin-right: auto; */
+        margin-top: 20px;
+    }
 }

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from "react-redux"
 
 import './Chats.css'
-import Navigation from '../../../components/navigation/Navigation'
 import { userChats } from '../../../api/chatRequest'
 import Conversation from '../../../components/conversation/Conversation'
 
@@ -26,7 +25,6 @@ const Chats = () => {
 
   return (
     <>
-      <Navigation />
       <div className="top"></div>
       <div className="Chat">
         <div className="Left-side-chat">
