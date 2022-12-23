@@ -38,7 +38,6 @@ const Profile = () => {
 
   return (
     <>
-      <Navigation />
       <div className="toggle-wrapper">
         <div className='toggle-text'>
           <button 
@@ -106,7 +105,13 @@ const Profile = () => {
           </button>
           <button 
             className={togglestate === 4 ? "tab-active" : "tabs"}
-            onClick={() => logoutHandler(4)}
+            onClick={() => toggleTabHandler(4, 'student')}
+          >
+            Student registration
+          </button>
+          <button 
+            className={togglestate === 5 ? "tab-active" : "tabs"}
+            onClick={() => logoutHandler(5)}
           >
             Logout
           </button>

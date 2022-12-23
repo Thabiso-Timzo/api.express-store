@@ -10,6 +10,7 @@ import {
   userDetailsReducer,
   updateUserProfile 
 } from '../reducers/user-reducers/UserReducers'
+import { studentReducer } from '../reducers/student-reducer/studentReducer'
 
 const reducer = combineReducers({
   productList: productListReducer,
@@ -18,7 +19,8 @@ const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
-  updaterUser: updateUserProfile
+  updaterUser: updateUserProfile,
+  student: studentReducer
 })
 
 // Cart

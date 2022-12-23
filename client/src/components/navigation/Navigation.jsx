@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { FiSearch } from 'react-icons/fi'
 import { HiOutlineChat } from 'react-icons/hi'
-import { BsHeart, BsShop } from 'react-icons/bs'
+import { BsHeart, BsShop, BsChatFill, BsFillHeartFill, BsCartFill } from 'react-icons/bs'
 import { GiShoppingCart, GiArchiveRegister } from 'react-icons/gi'
 import { MdOutlineSell, MdLogin } from 'react-icons/md'
 import { IoPersonCircleOutline } from 'react-icons/io5'
@@ -25,12 +24,10 @@ const Navigation = () => {
     const user = useSelector((state) => state.userLogin)
     const { userInfo } = user
 
-    const cart = useSelector((state) => state.cart)
-    const { cartItems } = cart
-
-    const toggleTab = (index) => {
+    const toggleIcon = (index, path) => {
         setToggleState(index)
-      }
+        navigate(`/${path}`)
+    }
 
     const sellOnGude = async (e) => {
         e.preventDefault()
@@ -41,45 +38,26 @@ const Navigation = () => {
         <nav className='top-nav'>
             <img onClick={home} className='home' src={express} alt="" />
             <ul className='top-ul'>
-                {userInfo ? <li><button onClick={sellOnGude}><MdOutlineSell /> sell on ES</button></li> : null} 
-                <li>
-                    <Link to='/search'>
-                        <FiSearch 
-                            onClick={() => toggleTab(1)} 
-                            className={toggleState === 1 ? 'icon-active' : 'icon-inactive'} 
-                        />
-                    </Link>
-                </li>
                 {userInfo ? (
                     <li>
-                        <Link to='/chat'>
-                            <HiOutlineChat 
-                                onClick={() => toggleTab(2)} 
-                                className={toggleState === 2 ? 'icon-active' : 'icon-inactive'}
-                            />
-                        </Link>
+                        <button onClick={() => toggleIcon(1, 'chat')} className={toggleState === 1 ? 'icon-active' : 'icon-inactive'}>
+                            <BsChatFill />
+                        </button>
                     </li>) 
                     : (null)
                 }
                 {userInfo ? (
                     <li>
-                        <Link to='/wish-list'>
-                            <BsHeart 
-                                onClick={() => toggleTab(3)} 
-                                className={toggleState === 3 ? 'icon-active' : 'icon-inactive'}
-                            />
-                        </Link>
+                        <button onClick={() => toggleIcon(2, 'wish-list')} className={toggleState === 2 ? 'icon-active' : 'icon-inactive'}>
+                            <BsFillHeartFill />
+                        </button>
                     </li>) 
                     : (null)
                 }
                 <li>
-                    <Link to='/cart'>
-                        <GiShoppingCart 
-                            onClick={() => toggleTab(4)} 
-                            className={toggleState === 4 ? 'icon-active' : 'icon-inactive'}
-                        />
-                        <span className="badge">{cartItems.length}</span>
-                    </Link>
+                    <button onClick={() => toggleIcon(3, 'cart')} className={toggleState === 3 ? 'icon-active' : 'icon-inactive'}>
+                        <BsCartFill />
+                    </button>
                 </li>
                 <li>
                     <div className="profile-action" onClick={() => setOpen(!open)}>

@@ -1,18 +1,19 @@
 const mongoose = require('mongoose')
 
-const studentSchema = mongoose.Schema({
-    // student_id : {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'User',
-    // },
-    contact : {
+const studentSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User',
+    },
+    contact: {
         type : String,
     },
-    student_email : {
+    tertiaryEmail: {
         type : String,
         unique: true
     },
-    tertiary_name : {
+    tertiaryName: {
         type : String,
     }
 },{

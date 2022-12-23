@@ -1,0 +1,54 @@
+.student-r-container {
+    margin: 30px 0px 0px 80px;
+}
+
+.student-r-container h1 {
+    text-align: center;
+}
+
+.register-box {
+    width: 50%;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+}
+
+.register-box .register-form {
+    margin-bottom: 20px;
+}
+
+.register-box .register-form span {
+    font-size: 16px;
+    margin-bottom: 5px;
+    display: inline-block;
+    color: #607d8b;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+.register-box .register-form input {
+    width: 100%;
+    padding: 10px 20px;
+    outline: none;
+    font-weight: 400;
+    border: 1px solid #0083A0;
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: #607d8b;
+    background: transparent;
+    border-radius: 3px;
+}
+
+.register-box button {
+    width: 100%;
+    padding: 8px 16px;
+    outline: none;
+    font-weight: 400;
+    border: none;
+    font-size: 16px;
+    color: #fff;
+    background: #0083A0;
+    border-radius: 3px;
+    cursor: pointer;
+}

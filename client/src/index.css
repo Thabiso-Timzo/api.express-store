@@ -11,3 +11,28 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.profile-wrapper {
+  margin: 80px 0px 0px 30px;
+}
+
+.profile-wrapper .back {
+  /* margin: 100px; */
+  font-size: 30px;
+  color: #0083A0;
+}
+
+.profile-wrapper form .avatar-2 {
+  width: 150px;
+    height: 150px;
+    overflow: hidden; 
+    position: relative;
+    margin: 15px auto;
+    background: #caf4fd;
+    border: 1px solid #0083A0;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top: -90px;
+}

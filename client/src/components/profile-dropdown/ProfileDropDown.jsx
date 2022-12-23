@@ -39,6 +39,12 @@ const UserProfile = ({ open }) => {
                             </Link>
                         </li>
                         <li>
+                            <Link to="/student" className="profile-btn">
+                                <CgProfile className="profile-icon"/>
+                                Student register
+                            </Link>
+                        </li>
+                        <li>
                             <button className="profile-btn" onClick={logoutHandler}>
                                 <MdLogout className="profile-icon" />
                                 Logout

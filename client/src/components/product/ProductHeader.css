@@ -1,0 +1,76 @@
+.height {
+    height: 62px;
+}
+
+.sidebar-container {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    width: 5%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    background: white;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-container .active {
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50px 0px 50px 50px;
+    font-size: 30px;
+    background: #0083A0;
+    color: white;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    cursor:pointer
+}
+
+.sidebar-container .inactive {
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    font-size: 30px;
+    background: white;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    cursor:pointer
+}
+
+@media only screen and (max-width: 375px) { 
+    .sidebar-container  {
+        width: 10%;
+        height: 81.5vh;
+    }
+
+    .sidebar-container .inactive,
+    .sidebar-container .active {
+        font-size: 25px;
+        width: 35px;
+        height: 35px;
+    }
+}
+
+@media only screen and (max-width: 414px) {
+    .sidebar-container  {
+        width: 10%;
+        height: 86.5vh;
+    }
+
+    .sidebar-container .inactive,
+    .sidebar-container .active {
+        font-size: 25px;
+        width: 35px;
+        height: 35px;
+    }
+}
+
+@media only screen and (max-width: 390px) {
+    .sidebar-container  {
+        height: 85.5vh;
+    }
+}
