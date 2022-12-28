@@ -57,10 +57,10 @@
     width: 40px;
     height: 40px;
     border: none;
-    border-radius: 50px 0px 50px 50px;
+    /* border-radius: 50px 0px 50px 50px; */
     font-size: 20px;
-    background: #0083A0;
-    color: white;
+    background: white; 
+    color: #0083A0;
     margin-top: 10px;
     margin-left: auto;
     margin-right: auto;
@@ -73,6 +73,33 @@
     border: none;
     border-radius: 50%;
     font-size: 20px;
+    background: white;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    cursor:pointer
+}
+
+.profile-action .icon-active-login {
+    width: 25px;
+    height: 25px;
+    border: none;
+    /* border-radius: 50px 0px 50px 50px;  */
+    font-size: 10px;
+    /* background: white;  */
+    color: #0083A0;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    cursor:pointer
+}
+
+.profile-action .icon-inactive-login {
+    width: 25px;
+    height: 25px;
+    border: none;
+    border-radius: 50%;
+    font-size: 10px;
     background: white;
     margin-top: 10px;
     margin-left: auto;
@@ -184,6 +211,7 @@
     height: 25px;
     border-radius: 50%;
     border: 3px solid black;
+    cursor: pointer;
 }
 
 .pic {
@@ -204,6 +232,7 @@
     width: 18px;
     height: 18px;
 }
+
 
 @media only screen and (max-width: 768px) {
     .top-nav ul {

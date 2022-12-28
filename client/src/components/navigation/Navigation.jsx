@@ -62,7 +62,17 @@ const Navigation = () => {
                 <li>
                     <div className="profile-action" onClick={() => setOpen(!open)}>
                         <UserProfile  open={open} />
-                        {userInfo ?  <img classname="list-image" src={userInfo ? userInfo.avatar : avatar} alt=""/>: <IoPersonCircleOutline  size={23}/> }
+                        {userInfo 
+                            ?   <img 
+                                    classname='list-image-active' 
+                                    src={userInfo ? userInfo.avatar : avatar} alt=""
+                                    onClick={() => setToggleState(4)}
+                                />
+                            :   <IoPersonCircleOutline 
+                                    className={toggleState === 5 ? 'icon-active-login' : 'icon-inactive-login'}  
+                                    onClick={() => setToggleState(5)}
+                                /> 
+                        }
                     </div>
                 </li> 
             </ul>
@@ -91,5 +101,3 @@ const Navigation = () => {
 }
 
 export default Navigation
-
-// 3:36:25
