@@ -1,5 +1,5 @@
 import React from 'react'
-import  { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { MdLogout, MdLogin, MdAppRegistration } from 'react-icons/md'
 import { CgProfile } from 'react-icons/cg'
@@ -11,13 +11,14 @@ import { logout } from '../../actions/user-actions/userActions'
 const UserProfile = ({ open }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
     const user = useSelector((state) => state.userLogin)
     const { userInfo } = user
 
     const logoutHandler = () => {
         dispatch(logout())
         navigate('/')
-    };
+    }
 
   return (
     <div className="profile-menu">

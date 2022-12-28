@@ -14,32 +14,20 @@
 
 .profile-menu .profile-profile-menu {
     width: 200px;
-    padding: 20px;
-    background-color: #222533;
+    padding: 10px;
+    background-color: #0083A0;
     border-radius: 10px;
     position: absolute;
-    top: 65px;
+    top: 60px;
     right: 0px;
     transition: all 0.3s;
-
 }
 
-.profile-menu .profile-profile-menu::before {
-    content: "";
-    width: 16px;
-    height: 16px;
-    background-color: #222533;
-    border-top-left-radius: 3px;
-    position: absolute;
-    top: -8px;
-    right: 19px;
-    transform: rotate(45deg);
-}
 
 .profile-menu .profile-profile-menu .profile-prof {
     display: flex;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 
 .profile-menu .profile-profile-menu .profile-prof img {
@@ -62,18 +50,20 @@
 }
 
 .profile-menu .profile-profile-menu .profile-btn {
-    width: 125px;
-    height: 48px;
+    width: 135px;
+    height: 30px;
     color: #e5e5e5;
-    background-color: #1a1c29;
+    background-color: #00596d;
     border-radius: 5px;
+    border: none;
+    outline: none;
     font-size: 12px;
     font-weight: 400;
     text-decoration: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 30px;
+    margin-bottom: 1px;
     transition: all 0.3s;
 }
 
