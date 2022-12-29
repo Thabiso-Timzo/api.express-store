@@ -1,58 +1,83 @@
-const mongoose = require('mongoose');
 
-const reviewSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    rating: {
-        type: Number,
-        required: true
-    },
-    comment: {
-        type: String,
-        required: true
-    },
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'User'
-    }
-})
+const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema({
-    name: {
+    name:{
+        type:String,
+        required: true,
+    },
+    description:{
+        type:String,
+        required: true,
+    },
+    price:{
+        type:Number,
+        required: true,
+    },
+    offerPrice:{
+        type:String,
+    },
+    color:{
         type: String,
-        required: true
     },
-    image: {
+    size:{
         type: String,
-        required: true
     },
-    description: {
+    ratings:{
+        type: Number,
+        default: 0,
+    },
+    images:[{
+        public_id:{
+            type:String,
+            required:true,
+        },
+        url:{
+            type:String,
+            required:true,
+        },
+    }],
+    category:{
         type: String,
-        required: true
+        required: true,
     },
-    reviews: [reviewSchema],
-    rating: {
+    Stock:{
         type: Number,
         required: true,
-        default: 0
     },
-    numReviews: {
+    numOfReviews:{
         type: Number,
-        required: true,
         default: 0
+      },
+    reviews:[{
+        user: {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"User",
+            required: true,
+        },
+        name:{
+            type: String,
+            required: true,
+        },
+        rating:{
+            type: Number,
+            required: true,
+        },
+        comment:{
+            type:String,
+        },
+        time:{
+            type: Date,
+            default: Date.now()
+        },
+    }],
+    user:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"User",
     },
-    price: {
-        type: Number,
-        required: true,
-        default: 0
-    },
-    countInStock: {
-        type: Number,
-        required: true,
-        default: 0
+    createAt:{
+        type:Date,
+        default: Date.now()
     }
 })
 
