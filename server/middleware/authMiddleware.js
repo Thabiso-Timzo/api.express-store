@@ -27,12 +27,16 @@ exports.authMiddleWare = asyncHandler(
 
 exports.isAdmin = asyncHandler(
     async (req, res, next) => {
-        const { email } = req.user
-        const adminUser = await User.findOne({ email })
-        if (adminUser.role !== 'admin') {
-            res.json({ message: "You are not an admin" })
-        } else {
-            next()
+        const { email } = req.body
+        try {
+            const adminUser = await User.findOne({ email })
+            if (adminUser.role !== 'admin') {
+                res.json({ message: "You are not an admin" })
+            } else {
+                next()
+            }
+        } catch (error) {
+            res.status(500).json({ message: error.message })    
         }
     }
 )
