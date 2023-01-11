@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/user-model/userModel')
 const { jwt_secret } = require('../config/env/index')
 
-exports.authMiddleWare = asyncHandler(
+const authMiddleWare = asyncHandler(
     async (req, res, next) => {
         let token
         if (req?.headers?.authorization?.startsWith('Bearer')) {
@@ -25,7 +25,7 @@ exports.authMiddleWare = asyncHandler(
     }
 )
 
-exports.isAdmin = asyncHandler(
+const isAdmin = asyncHandler(
     async (req, res, next) => {
         const { email } = req.body
         try {
@@ -40,3 +40,5 @@ exports.isAdmin = asyncHandler(
         }
     }
 )
+
+module.exports = { authMiddleWare, isAdmin }
