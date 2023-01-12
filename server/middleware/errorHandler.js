@@ -1,10 +1,3 @@
-// Not found (404)
-const notFound = (req, res, next) => {
-    const error = new Error(`Not found : ${req.originalUrl}`)
-    res.status(404)
-    next(error)
-}
-
 // Error handler
 const errorHandler = (err, req, res, next) => {
     const statuscode =  res.statusCode == 200 ? 500 : res.statusCode
@@ -15,4 +8,4 @@ const errorHandler = (err, req, res, next) => {
     })
 }
 
-module.exports = { notFound, errorHandler }
+module.exports = { errorHandler }
