@@ -12,25 +12,26 @@ const authMiddleWare = asyncHandler(
             try {
                 if (token) {
                     const decoded = jwt.verify(token, jwt_secret)
+                    console.log(decoded)
                     const user = await User.findById(decoded?.id)
-                    res.user = user
+                    req.user = user
                     next()
                 }
             } catch (error) {
                 res.json({ message: "Not authorised, token expired. Login again!!" })
             }
         } else {
-            res.status(404).json({ message: "No token found!"})
+            res.json({ message: "There is no token attached to the header!"})
         }
     }
 )
 
 const isAdmin = asyncHandler(
     async (req, res, next) => {
-        const { email } = req.body
+        const { email } = req.user
         try {
             const adminUser = await User.findOne({ email })
-            if (adminUser.role !== 'admin') {
+            if (adminUser.role !== "admin") {
                 res.json({ message: "You are not an admin" })
             } else {
                 next()
