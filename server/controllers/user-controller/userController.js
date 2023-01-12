@@ -1,11 +1,13 @@
 const asyncHandler = require('express-async-handler')
+const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 
 const User = require('../../models/user-model/userModel')
 const { generateToken } = require('../../utils/jwtToken')
 const { generateRefreshToken } = require('../../utils/refreshToken')
 const { jwt_secret } = require('../../config/env/index')
-
+const { sendEmail } = require('../email-controller/emailController')
+ 
 // Register a user
 exports.register = asyncHandler(
     async (req, res) => {
@@ -141,7 +143,7 @@ exports.deleteSingleUser = asyncHandler(
 exports.updateUser = asyncHandler(
     async (req, res) => {
         //const { id } = req.params
-        const { _id } = req.user
+        const { id } = req.user
         try {
             const updateUser = await User.findByIdAndUpdate(
                 id,
@@ -196,5 +198,65 @@ exports.unblockUser = asyncHandler(
         } catch (error) {
             res.status(500).json({ message: error.message })
         }
+    }
+)
+
+
+// Update password
+exports.updatePassword = asyncHandler(
+    async (req, res) => {
+        const { _id } = req.user
+        const { password } = req.body
+
+        const  user = await User.findById(_id)
+        if (password) {
+            user.password = password
+            const updatePassword = await user.save()
+            res.json(updatePassword)
+        } else {
+            res.json(user)
+        }
+    }
+)
+
+// Forgot password
+exports.forgotPasswordToken = asyncHandler(
+    async (req, res) => {
+        const { email } = req.body
+        const user = await User.findOne({ email })
+        if (!user) return res.json({ message: "User not found with this email." })
+        try {
+            const token = await user.createPasswordResetToken()
+            await user.save()
+            const resetURL =  `Hi Please follow this link to reset your password. This link will expire in the next 10 munites. <a href='http://localhost:8080/api/user/reset-password/${token}'>Click here</a> to reset your password.`
+            const data = {
+                to: email,
+                subject: "Forgot Pasword Link",
+                html: resetURL
+            }
+            sendEmail(data)
+            res.json(token)
+        } catch(error) {
+            res.status(500).json({ message: error.message })
+        }
+    }
+)
+
+// Reset password
+exports.resetPassword = asyncHandler(
+    async (req, res) => {
+        const { password } = req.body
+        const { token } = req.params
+        const hashedToken = crypto.createHash("sha256").update(token).digest("hex")
+        const user = await User.findOne({
+            passwordResetToken: hashedToken,
+            passwordResetExpires: { $gt: Date.now() }
+        })
+        if (!user) res.json({ message: "Token Expired, Please try again later" })       
+        user.password = password
+        user.passwordResetToken = undefined
+        user.passwordResetExpires = undefined
+        await user.save()
+        res.json(user)
     }
 )
