@@ -12,6 +12,7 @@ const { errorHandler } = require('./middleware/errorHandler')
 const dbConnection = require('./config/connection/database')
 const authRoutes = require('./routes/user-routes/authRoutes')
 const productRoutes = require('./routes/product-routes/productRoutes')
+const blogRoutes = require('./routes/blog-routes/blogRoutes')
 
 // Server port
 const PORT = server_port || 8080
@@ -34,6 +35,7 @@ app.use(errorHandler)
 // Routes
 app.use('/api/user', authRoutes)
 app.use('/api/product', productRoutes)
+app.use('/api/blog', blogRoutes)
 
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`.white.bold)
