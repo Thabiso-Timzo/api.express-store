@@ -27,10 +27,10 @@ router.get('/refresh', handleRefreshToken)
 router.get('/logout', logout)
 router.get('/all', getAllUsers)
 router.get('/:id' ,authMiddleWare, getSingleUser)
+router.put('/reset-password/:token', resetPassword)
 
 router.delete('/:id', deleteSingleUser)
 
-router.put('/reset-password/:token', resetPassword)
 router.put('/update', authMiddleWare,updatePassword)
 router.put('/update_user', authMiddleWare, updateUser)
 router.put('/blocked_user/:id', authMiddleWare, isAdmin, blockUser)
