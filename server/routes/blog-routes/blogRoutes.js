@@ -23,6 +23,4 @@ router.delete('/:id', authMiddleWare, isAdmin, deleteBlog)
 
 router.put('/:id', authMiddleWare, isAdmin, updateBlog)
 
-module.exports = router
-
-// 5:10:23
+module.exports = router 
