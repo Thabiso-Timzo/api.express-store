@@ -38,11 +38,11 @@ exports.getBlog = asyncHandler(
     async (req, res) => {
         const { id } = req.params
         try {
-            const getblog = await Blog.findById(id)
+            const getblog = await Blog.findById(id).populate("likes").populate("dislikes")
             const updateViews = await Blog.findByIdAndUpdate(id, {
                 $inc:  { numViews: 1 }
             }, { new: true })
-            res.status(200).json(updateViews)
+            res.status(200).json(getblog)
         } catch (error) {
             res.json(500).json({ message: error.message })           
         }
