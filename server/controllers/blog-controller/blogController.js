@@ -1,5 +1,4 @@
 const asyncHandler = require('express-async-handler')
-const { trusted } = require('mongoose')
 
 const Blog = require('../../models/blog-model/blogModel')
 const User = require('../../models/user-model/userModel')
