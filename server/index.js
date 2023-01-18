@@ -13,6 +13,9 @@ const dbConnection = require('./config/connection/database')
 const authRoutes = require('./routes/user-routes/authRoutes')
 const productRoutes = require('./routes/product-routes/productRoutes')
 const blogRoutes = require('./routes/blog-routes/blogRoutes')
+const categoryRoutes = require('./routes/category-routes/categoryRoutes')
+const blogCategoryRoutes = require('./routes/blog-category-routes/blogCategoryRoutes')
+const brandRoutes = require('./routes/brand-routes/brandRoutes')
 
 // Server port
 const PORT = server_port || 8080
@@ -36,6 +39,9 @@ app.use(errorHandler)
 app.use('/api/user', authRoutes)
 app.use('/api/product', productRoutes)
 app.use('/api/blog', blogRoutes)
+app.use('/api/category', categoryRoutes)
+app.use('/api/blog/category', blogCategoryRoutes)
+app.use('/api/brand', brandRoutes)
 
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`.white.bold)
