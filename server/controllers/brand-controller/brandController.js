@@ -2,9 +2,8 @@ const asyncHandler = require('express-async-handler')
 
 const Brand = require('../../models/brand-model/brandModel')
 
-
 // Create category
-exports.createCategory = asyncHandler(
+exports.createBrand = asyncHandler(
     async (req, res) => {
         try {
             const newCategory = await Brand.create(req.body)
@@ -16,7 +15,7 @@ exports.createCategory = asyncHandler(
 )
 
 // Update catergory
-exports.updateCategory = asyncHandler(
+exports.updateBrand = asyncHandler(
     async (req, res) => {
         const { id } = req.params 
         try {
@@ -29,7 +28,7 @@ exports.updateCategory = asyncHandler(
 )
 
 // Delete category
-exports.deleteCategory = asyncHandler(
+exports.deleteBrand = asyncHandler(
     async (req, res) => {
         const { id } = req.params 
         try {
@@ -42,7 +41,7 @@ exports.deleteCategory = asyncHandler(
 )
 
 // Fetch category
-exports.getCategory = asyncHandler(
+exports.getBrand = asyncHandler(
     async (req, res) => {
         const { id } = req.params
         try {
@@ -55,7 +54,7 @@ exports.getCategory = asyncHandler(
 )
 
 // Fetch all category
-exports.getAllCategories = asyncHandler(
+exports.getAllBrand = asyncHandler(
     async (req, res) => {
         try {
             const fetchCategories = await Brand.find()
