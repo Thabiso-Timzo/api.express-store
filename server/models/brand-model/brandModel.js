@@ -11,5 +11,5 @@ const brandSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 //Export the model
-const Brand = mongoose.model('brand-Category', brandSchema)
+const Brand = mongoose.model('brand', brandSchema)
 module.exports = Brand
