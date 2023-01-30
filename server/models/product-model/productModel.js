@@ -47,11 +47,18 @@ const productSchema = new mongoose.Schema({
     },
     ratings: [{
         star: Number,
+        comment: {
+            type: String
+        },
         postedBy: { 
             type: mongoose.Schema.Types.ObjectId ,
             ref: "User"
         }
-    }]
+    }],
+    totalratings: {
+        type: String,
+        default: 0
+    }
 }, { timestamps: true })
 
 const Product = mongoose.model('Product', productSchema)
