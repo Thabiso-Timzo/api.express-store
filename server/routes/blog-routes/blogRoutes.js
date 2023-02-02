@@ -8,13 +8,16 @@ const {
     getAllBlogs,
     deleteBlog,
     likeBlog,
-    dislikeBlog
+    dislikeBlog,
+    uploadImages
 } = require('../../controllers/blog-controller/blogController')
 const { isAdmin, authMiddleWare  } = require('../../middleware/authMiddleware')
-
+const { blogImgResize } = require('../../middleware/uploadsImages')
+// 7:11:38 
 router.post('/create', authMiddleWare, isAdmin, createBlog)
 router.put('/likes', authMiddleWare, likeBlog)
 router.put('/dislikes', authMiddleWare, dislikeBlog)
+//router.put('/uploads/:id', authMiddleWare, isAdmin, uploadPhoto.array('images', 2), blogImgResize, uploadImages)
 
 router.get('/:id', getBlog)
 router.get('/', getAllBlogs)
