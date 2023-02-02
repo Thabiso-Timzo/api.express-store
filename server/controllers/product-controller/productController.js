@@ -1,8 +1,10 @@
 const asyncHandler = require('express-async-handler')
 const slugify = require('slugify')
+const fs = require('fs')
 
 const Product = require('../../models/product-model/productModel')
 const User = require('../../models/user-model/userModel')
+const { cloudinaryUploads } = require('../../utils/cloudinary')
 
 // Create a product
 exports.createProduct = asyncHandler(
@@ -176,6 +178,32 @@ exports.rating = asyncHandler(
                 totalratings: actualRating
             }, { new: true })
             res.status(200).json(finalProduct)
+        } catch (error) {
+            res.status(500).json({ message: error.message })
+        }
+    }
+)
+
+// Upload product Images
+exports.uploadImages = asyncHandler(
+    async (req, res) => {
+        const { id } = req.params
+        try {
+            const uploader = (path) => cloudinaryUploads(path, 'images')
+            const urls = []
+            const files = req.files
+            for (const file of files) {
+                const { path } = file
+                const newPath = await uploader(path)
+                urls.push(newPath)
+                fs.unlinkSync(path)
+            }
+            const findProduct = await Product.findById(id, {
+                images: urls.map((file) => {
+                    return file
+                }, { new: true })
+            })
+            res.status(200).json(findProduct)
         } catch (error) {
             res.status(500).json({ message: error.message })
         }
