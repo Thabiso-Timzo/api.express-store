@@ -46,5 +46,5 @@ app.use('/api/brand', brandRoutes)
 app.use('/api/coupon', couponRoutes)
 
 app.listen(PORT, () => {
-    console.log(`Server is listening on port ${PORT}`.white.bold)
+    console.log(`Server is listening on port: ${PORT}`.white.bold)
 }) 
