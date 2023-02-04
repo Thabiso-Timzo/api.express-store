@@ -58,6 +58,40 @@ exports.login = asyncHandler(
     }
 )
 
+// Login  an admin
+exports.Adminlogin = asyncHandler(
+    async (req, res) => {
+        const { email, password } = req.body
+
+        // Check if user exists
+        const findAdmin = await User.findOne({ email })
+        if (findAdmin.role !== 'admin') return res.json({ message: "Not Authorised" })
+        if (findAdmin && findAdmin.isPasswordMatched(password)) {
+            const refreshToken = await generateRefreshToken(findAdmin?._id)
+            const updateUser = await User.findByIdAndUpdate(
+                findAdmin.id, 
+                {
+                    refreshToken: refreshToken
+                },{ new: true }
+            )
+            res.cookie("refreshToken", refreshToken, {
+                httpOnly: true,
+                maxAge: 72 * 60 * 60 * 1000,
+            })
+            res.json({
+                _id: findAdmin?._id,
+                firstName: findAdmin?.firstName,
+                lastName: findAdmin?.lastName,
+                email: findAdmin?.email,
+                mobile: findAdmin?.mobile,
+                token: generateToken(findAdmin?._id)
+            })
+        } else {
+            throw new Error("Invalid credentials")
+        }
+    }
+)
+
 // Logout a user
 exports.logout = asyncHandler(
     async (req, res) => {
@@ -143,15 +177,33 @@ exports.deleteSingleUser = asyncHandler(
 exports.updateUser = asyncHandler(
     async (req, res) => {
         //const { id } = req.params
-        const { id } = req.user
+        const { _id } = req.user
         try {
             const updateUser = await User.findByIdAndUpdate(
-                id,
+                _id,
                 {
                     firstName: req.body?.firstName,
                     lastName: req.body?.lastName,
                     email: req.body?.email,
                     mobile: req.body?.mobile
+                },{ new: true }
+            )
+            res.status(200).json(updateUser)
+        } catch (error) {
+            res.status(500).json({ message: error.message })
+        }
+    }
+)
+
+// Save user Address
+exports.saveAddress = asyncHandler(
+    async (req, res, next) => {
+        const { _id } = req.user
+        try {
+            const updateUser = await User.findByIdAndUpdate(
+                _id,
+                {
+                    address: req.body?.address,
                 },{ new: true }
             )
             res.status(200).json(updateUser)
@@ -172,9 +224,7 @@ exports.blockUser = asyncHandler(
                     isBlocked: true
                 },{ new: true }
             )
-            res.status(200).json({
-                message: "User blocked",
-            })
+            res.status(200).json({ message: "User blocked" })
         } catch (error) {
             res.status(500).json({ message: error.message })
         }
@@ -260,3 +310,16 @@ exports.resetPassword = asyncHandler(
         res.json(user)
     }
 )
+
+// Get wish list
+exports.getWishList = asyncHandler(
+    async (req, res) => {
+        const { _id } = req.user
+        try {
+            const findUser = await User.findById(_id).populate('wishList')
+            res.status(200).json(findUser)
+        } catch (error) {
+            res.status(500).json({ message: error.message })
+        }
+    }
+) 
