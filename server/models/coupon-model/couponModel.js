@@ -21,5 +21,3 @@ const couponSchema = new mongoose.Schema({
 //Export the model
 const Coupon = mongoose.model('coupon', couponSchema)
 module.exports = Coupon
-
-// 6:15:48
