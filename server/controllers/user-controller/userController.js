@@ -1,8 +1,13 @@
 const asyncHandler = require('express-async-handler')
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
+const uniqid = require('uniqid')
 
 const User = require('../../models/user-model/userModel')
+const Cart = require('../../models/cart-model/cartModel')
+const Order = require('../../models/order-model/orderModel')
+const Coupon = require('../../models/coupon-model/couponModel')
+const Product = require('../../models/product-model/productModel')
 const { generateToken } = require('../../utils/jwtToken')
 const { generateRefreshToken } = require('../../utils/refreshToken')
 const { jwt_secret } = require('../../config/env/index')
@@ -323,3 +328,173 @@ exports.getWishList = asyncHandler(
         }
     }
 ) 
+
+// User cart
+exports.userCart = asyncHandler(
+    async (req, res) => {
+        const { cart } = req.body
+        const { _id } = req.user
+        try {
+            let products = []
+            const user = await User.findById(_id)
+            // check if user already has a cart
+            const alreadyExist = await Cart.findOne({ orderby: user._id })
+            if (alreadyExist) {
+                alreadyExist.remove()
+            }
+            for ( let i = 0; i < cart.length; i++) {
+                let object = {}
+                object.product =  cart[i]._id
+                object.count = cart[i].count
+                object.color = cart[i].color
+                let getPrice = await Product.findById(cart[i]._id).select('price').exec()
+                object.price = getPrice.price
+                products.push(object)
+            }
+            let cartTotal = 0
+            for (let i = 0; i < products.length; i++) {
+                cartTotal = cartTotal + products[i].price * products[i].count 
+            }
+            let newCart = await Cart({
+                products,
+                cartTotal,
+                orderby: user?._id
+            }).save()
+            res.status(200).json(newCart)
+        } catch (error) {
+            res.status(500).json({ message: error.message })
+        }
+    }
+)
+
+// Fetch user cart
+exports.getUserCart = asyncHandler(
+    async (req, res) => {
+        const { _id } = req.user
+        try {
+            const cart = await Cart.findOne({ orderby: _id }).populate(
+                "products.product"
+                )
+            res.status(200).json(cart)
+        } catch (error) {
+            res.status(500).json({ message: error.message })
+        }
+    }
+)
+
+// Empty cart
+exports.emptyCart = asyncHandler(
+    async (req, res) => {
+        const { _id } = req.user
+        try {
+            const user = await User.findOne({ _id })
+            const cart = await Cart.findOneAndRemove({orderby: user._id})
+            res.status(200).json(cart)
+        } catch (error) {
+            res.status(500).json({ message: error.message })
+        }
+    }
+)
+
+// Apply coupon
+exports.applyCoupon = asyncHandler(
+    async (req, res) => {  
+        const { _id } = req.user
+        const { coupon}  = req.body
+        const validCoupon = await Coupon.findOne({ name: coupon })
+        if (validCoupon === null) {
+            res.json({ message: "Invalid coupon" })
+        }
+        const user = await User.findOne({ _id })
+        let { cartTotal } = await Cart.findOne({ orderby: user._id }).populate("products.product")
+        let totalAfterDiscount = (cartTotal - (cartTotal * validCoupon.discount) / 100).toFixed(2)
+        await Cart.findOneAndUpdate(
+            { orderby: user._id }, 
+            { totalAfterDiscount },
+            { new: true }
+        )
+        res.json(totalAfterDiscount)
+    }
+)
+
+// Create order
+exports.createOrder = asyncHandler(
+    async (req, res) => {
+        const { _id } = req.user
+        const { COD, couponApplied } = req.body
+        try {
+            if (!COD) res.json({ message: "Create cash order failed." })
+            const user = await User.findById(_id)
+            let userCart = await Cart.findOne({ orderBy: user._id })
+            let finalAmount = 0
+            if (couponApplied && userCart.totalAfterDiscount) {
+                finalAmount = userCart.totalAfterDiscount
+            } else {
+                finalAmount = userCart.cartTotal
+            }
+            let newOrder = await new Order({
+                products: userCart.products,
+                paymentIntent: {
+                    id: uniqid(),
+                    method: "COD",
+                    amount: finalAmount,
+                    status: "Cash on Delivery",
+                    created: Date.now(),
+                    currency: "rand"
+                },
+                orderby: user._id,
+                orderStatus: "Cash on Delivery"
+            }).save()
+            let update = userCart.products.map((item) => {
+                return {
+                    updateOne: {
+                        filter: { _id: item.product._id },
+                        update: { $inc: { 
+                            quantity: -item.count,
+                            sold: +item.count
+                        }}
+                    }
+                }
+            })
+            const updated = await Product.bulkWrite(update, {})
+            res.status(200).json({ message: "success" })
+        } catch (error) {
+            res.status(500).json({ message: error.message })
+        }
+    }
+)
+
+// Get orders
+exports.getOrders = asyncHandler(
+    async (req, res) => {
+        const { _id } = req.user
+        try {
+            const userOrder = await Order.findOne({ orderby: _id }).populate("products.product").exec()
+            res.status(200).json(userOrder)
+        } catch (error) {
+            res.status(500).json({ message: error.message })
+        }
+    }
+)
+
+// Update order status
+exports.updateOrderStatus = asyncHandler(
+    async (req, res) => {
+        const { status } = req.body
+        const { id } = req.params
+        try {
+            const updateOrderStatus = await Order.findByIdAndUpdate(id, 
+                {
+                    orderStatus: status,
+                    paymentIntent: {
+                        status: status
+                    }
+                }, 
+                {new: true}
+            )
+            res.status(200).json(updateOrderStatus)
+        } catch (error) {
+            res.status(500).json({ message: error.message })
+        }
+    }
+)
