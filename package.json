@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "web": "concurrently \"cd server && npm start\"",
+    "web": "concurrently \"cd server && npm start\" \"cd client && npm start\"",
+    "client": "cd client && npm start",
     "server": "cd server && npm start"
   },
   "repository": {
