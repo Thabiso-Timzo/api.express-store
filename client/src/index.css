@@ -2,8 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.display-header {
+    display: block;
 }
+
+@media screen and (max-width: 767px) {
+    .display-header {
+        display: none;
+    }
+
+    .center-align {
+        justify-content: center;
+    }
+}
+
+/* 52:16 */
