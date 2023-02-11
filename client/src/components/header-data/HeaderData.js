@@ -84,4 +84,22 @@ const mobile2Header = [
     }
 ]
 
-export { rightHeader, dropdown, mobile1Header, mobile2Header }
+const category = [
+    {
+        name: "Electronic"
+    },
+    {
+        name: "Furniture"
+    },
+    {
+        name: "Stationary"
+    },
+    {
+        name: "Tools"
+    },
+    {
+        name: "Kitchenware"
+    }
+]
+
+export { rightHeader, dropdown, mobile1Header, mobile2Header, category }
