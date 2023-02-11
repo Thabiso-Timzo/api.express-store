@@ -12,7 +12,7 @@ const HeaderMobile = ({ setNav }) => {
                 {mobile1Header.map((mobile, index) => {
                     return (
                         <Link to={mobile.path}> 
-                            <div onClick={() => setNav(false)} className={'flex text-[#fff] py-4 text-sm'}>
+                            <div key={index} onClick={() => setNav(false)} className={'flex text-[#fff] py-4 text-sm'}>
                                 {mobile.icon}
                                 <div className={'flex-row ml-3 text-xs uppercase hover:border-b'}>
                                     <li>{mobile.page}</li>
@@ -39,7 +39,7 @@ const HeaderMobile = ({ setNav }) => {
                 {mobile2Header.map((mobile2, index) => {
                     return (
                         <Link to={mobile2.path}>
-                            <div className={'flex mt-5'}>
+                            <div key={index} className={'flex mt-5'}>
                                 {mobile2.icon}
                                 <div className={'ml-3 p-2'}>
                                     <li>{mobile2.page}</li>
