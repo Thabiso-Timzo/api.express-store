@@ -50,7 +50,7 @@ const HeaderWeb = ({ isOpen, setIsOpen }) => {
                       {dropdown.map((item, index) => {
                         return (
                           <Link to={item.path}>
-                            <div className={'flex text-[#fff] m-5 justify-between p-2 hover:bg-blue-300 rounded-r-lg border-l-transparent hover:border-l-white border-l-4'}>
+                            <div key={index} className={'flex text-[#fff] m-5 justify-between p-2 hover:bg-blue-300 rounded-r-lg border-l-transparent hover:border-l-white border-l-4'}>
                               {item.icon}
                               <div className={'flex-row ml-5 text-xs uppercase'}>
                                 <li>{item.page}</li>
