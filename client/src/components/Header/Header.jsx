@@ -13,11 +13,13 @@ import {
 import logo from '../../assets/logo.png'
 import HeaderWeb from '../header-web-view/HeaderWeb'
 import HeaderMobile from '../header-mobile-view/HeaderMobile'
+import SearchBar from '../search-bar/SearchBar'
 
 const NavBar = () => {
   const [nav, setNav] = useState(false)
   const [shadow, setShadow] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
+  const [open, setOpen] = useState(false)
 
   const handleNav = () => {
     setNav(!nav)
@@ -58,7 +60,7 @@ const NavBar = () => {
           </div>
         </div>
       </div>
-
+      <SearchBar open={open} setOpen={setOpen}  />
       {/* Mobile navigation */}
       <div className={nav ? 'md:hidden fixed left-0 top-0 w-full h-screen bg-black/70' : ''}>
         <div className={
