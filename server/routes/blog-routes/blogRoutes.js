@@ -13,7 +13,7 @@ const {
 } = require('../../controllers/blog-controller/blogController')
 const { isAdmin, authMiddleWare  } = require('../../middleware/authMiddleware')
 const { uploadPhoto, blogImgResize } = require('../../middleware/uploadsImages')
-// 7:11:38 
+
 router.post('/create', authMiddleWare, isAdmin, createBlog)
 router.put('/likes', authMiddleWare, likeBlog)
 router.put('/dislikes', authMiddleWare, dislikeBlog)

@@ -13,5 +13,3 @@ const categorySchema = new mongoose.Schema({
 //Export the model
 const Category = mongoose.model('Product-Category', categorySchema)
 module.exports = Category
-
-// 5:39:45

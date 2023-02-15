@@ -10,17 +10,13 @@ const {
 } = require('../../controllers/brand-controller/brandController')
 const { isAdmin, authMiddleWare  } = require('../../middleware/authMiddleware')
 
-// test api
 router.post('/create', isAdmin, authMiddleWare, createBrand)
 
-// test api
 router.get('/all', getAllBrand)
 router.get('/:id', getBrand)
 
-// test api
 router.delete('/:id', isAdmin, authMiddleWare, deleteBrand)
 
-// test api
 router.put('/:id', isAdmin, authMiddleWare, updateBrand)
 
 module.exports = router
