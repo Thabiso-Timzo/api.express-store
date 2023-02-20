@@ -40,8 +40,8 @@ const NavBar = () => {
     <div 
       className={
         shadow 
-        ? 'fixed w-full h-[60px] shadow-xl z-[100] bg-slate-700 m-0 p-0' 
-        : 'fixed w-full h-[60px] z-[100] bg-slate-700 m-0 p-0'}
+        ? 'fixed w-full h-[60px] shadow-xl z-[100] bg-black m-0 p-0' 
+        : 'fixed w-full h-[60px] z-[100] bg-black m-0 p-0'}
       > 
       <div 
         className={'flex justify-between items-center w-full h-full px-2 2xl:px-16'}>
@@ -65,7 +65,7 @@ const NavBar = () => {
       <div className={nav ? 'md:hidden fixed left-0 top-0 w-full h-screen bg-black/70' : ''}>
         <div className={
           nav 
-          ? 'fixed left-0 w-[75%] sm:[60%] md:w-[45%] h-screen bg-slate-600 p-10 ease-in duration-500' 
+          ? 'fixed left-0 w-[75%] sm:[60%] md:w-[45%] h-screen bg-slate-900 p-10 ease-in duration-500' 
           : 'fixed left-[-100%] top-0 p-10 ease-in duration-500'
           }
         >
