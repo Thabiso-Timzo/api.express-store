@@ -13,7 +13,7 @@ const HeaderWeb = ({ isOpen, setIsOpen }) => {
             {rightHeader.map((page, index) => {
               return (
                 <Link to={page.path}>
-                  <div key={index} className={'flex text-[#fff] ml-10 gap-x-4 p-2 hover:bg-blue-300 rounded-r-lg border-l-transparent hover:border-l-white border-l-4'}>
+                  <div key={index} className={'flex text-[#fff] ml-10 gap-x-4 p-2 hover:bg-blue-700 rounded-r-lg border-l-transparent hover:border-l-white border-l-4'}>
                     {page.icon}
                     <div clssName={'flex-row ml-1 text-xs uppercase'}>
                       <li>{page.page}</li>
@@ -25,7 +25,7 @@ const HeaderWeb = ({ isOpen, setIsOpen }) => {
             
             {/* cart */}
             <Link to={'cart'}>
-              <div className={'flex text-[#fff] ml-5 gap-x-4 p-2 hover:bg-blue-300 rounded-r-lg border-l-transparent hover:border-l-white border-l-4'}>
+              <div className={'flex text-[#fff] ml-5 gap-x-4 p-2 hover:bg-blue-700 rounded-r-lg border-l-transparent hover:border-l-white border-l-4'}>
                 <ImCart size={20} />
                 <div className={'flex-row ml-1 text-xs uppercase'}>
                   <li className={'rounded-full h-4 w-4 bg-white text-black px-5'}>0</li>
@@ -44,13 +44,13 @@ const HeaderWeb = ({ isOpen, setIsOpen }) => {
                 )}
                 {isOpen && (
                   <div 
-                    className={'bg-slate-700 absolute top-20  rounded-lg p-1 w-[180px] mr-2'}
+                    className={'bg-black absolute top-20  rounded-lg p-1 w-[180px] mr-2'}
                   >
                     <div className={'w-full -justify-between'}>
                       {dropdown.map((item, index) => {
                         return (
                           <Link to={item.path}>
-                            <div key={index} className={'flex text-[#fff] m-5 justify-between p-2 hover:bg-blue-300 rounded-r-lg border-l-transparent hover:border-l-white border-l-4'}>
+                            <div key={index} className={'flex text-[#fff] m-5 justify-between p-1 hover:bg-blue-700 rounded-r-lg border-l-transparent hover:border-l-white border-l-4'}>
                               {item.icon}
                               <div className={'flex-row ml-5 text-xs uppercase'}>
                                 <li>{item.page}</li>
@@ -65,7 +65,7 @@ const HeaderWeb = ({ isOpen, setIsOpen }) => {
               </div>
             </Link>
             <Link to={'contact'}>
-              <div className={'flex text-[#fff] ml-5 gap-x-4 p-2 hover:bg-blue-300 rounded-r-lg border-l-transparent hover:border-l-white border-l-4'}>
+              <div className={'flex text-[#fff] ml-5 gap-x-4 p-2 hover:bg-blue-700 rounded-r-lg border-l-transparent hover:border-l-white border-l-4'}>
                 <MdEmail size={20} />
                 <div className={'flex-row ml-1 text-xs uppercase'}>
                   <li>Contact</li>
