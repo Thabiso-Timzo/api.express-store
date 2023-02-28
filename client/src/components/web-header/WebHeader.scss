@@ -1,0 +1,18 @@
+.nav-container {
+    color: #fff;
+    padding: 3px;
+
+    ul {
+        display: flex;
+
+        li {
+            color: #fff;
+            font-weight: 600;
+            
+            span {
+                margin-left: 5px;
+            }
+        }
+        
+    }
+}
