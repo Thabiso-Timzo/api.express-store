@@ -5,23 +5,27 @@ import { FaUser, FaShoppingCart } from 'react-icons/fa'
 const navLinks = [
     {
         path: 'compare',
-        icon: <MdCompare size={15} />,
-        title: 'Compare'
+        icon: <MdCompare size={25} />,
+        title: 'Compare',
+        title2: 'Product'
     },
     {
         path: 'wishlist',
-        icon: <HiHeart size={15} />,
-        title: 'Favourite'
+        icon: <HiHeart size={25} />,
+        title: 'Favourite',
+        title2: 'Wishlits'
     },
     {
         path: 'auth',
-        icon: <FaUser size={15} />,
-        title: 'Auth'
+        icon: <FaUser size={25} />,
+        title: 'Auth',
+        title2: 'Account'
     },
     {
         path: 'cart',
-        icon: <FaShoppingCart size={15} />,
-        title: 0
+        icon: <FaShoppingCart size={25} />,
+        title: 0,
+        title2: 'R1500'
     }
 ]
 
