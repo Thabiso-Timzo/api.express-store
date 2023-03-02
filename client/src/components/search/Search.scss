@@ -1,6 +1,6 @@
 .search-container {
     padding-top: 15px;
-    // display: block;
+    width: 150%;
 
     .search-wrapper {
         display: flex;
@@ -13,6 +13,7 @@
             height: 20px;
             border: none;
             outline: none;
+            border-radius: 5px;
         }
 
         button {
@@ -25,11 +26,6 @@
     }
 }
 
-@media only screen and (max-width: 768px) {
-    .search-container {
-        .search-wrapper {
-            width: 90%;
-            padding-right: 10px;
-        }
-    }
-}
+// @media only screen and (max-width: 768px) {
+    
+// }
