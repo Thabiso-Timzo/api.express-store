@@ -8,17 +8,22 @@ import Search from '../search/Search';
 
 const Header = () => {
   return (
+    <div className='header-wrapper'>
     <div className='header-container'>
-      <div className="left-container">
-        <Link to={'/'}>
-          <img src={logo} alt="" />
-        </Link>
-      </div>
-      <div>
+        <div className="left-container">
+          <Link to={'/'}>
+            <img src={logo} alt="" />
+          </Link>
+        </div>
+        <div>
         <Search />
+        </div>
+        <div className='right-container'>
+          <WebHeader />
+        </div>
       </div>
-      <div className='right-container'>
-        <WebHeader />
+      <div className="secondary-container">
+
       </div>
     </div>
   )

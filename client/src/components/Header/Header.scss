@@ -1,39 +1,55 @@
-.header-container {
-    background: #334;
-    width: 100%;
-    height: 50px;
-    display: flex;
-    justify-content: space-between;
+.header-wrapper {
+    margin: 10px 10px 0px 10px;
+    border-radius: 10px;
+    flex-direction: column;
+    width: 98%;
+    height: 100px;
+    position: fixed;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 
-    .left-container {
-        img {
-            padding: 5px;
-            width: 40px;
-            height: 40px;
+    .header-container {
+        // margin: 20px 20px 0px 20px;
+        background: #6C7BFF;
+        border-radius: 10px 10px 0px 0px;
+        width: 100%;
+        height: 50px;
+        display: flex;
+        justify-content: space-between;
+    
+        .left-container {
+            img {
+                padding: 5px;
+                width: 40px;
+                height: 40px;
+            }
         }
-    }
-
-    .right-container {
-        display: block;
-        ul {
-            margin-right: 20px;
-            display: flex;
-            gap: 10px;
-            list-style: none;
-
-            a {
-                font-weight: 700;
-                text-decoration: none;
-                color: #fff;
+    
+        .right-container {
+            display: block;
+            ul {
+                margin-right: 20px;
+                display: flex;
+                gap: 10px;
+                list-style: none;
+    
+                a {
+                    font-weight: 700;
+                    text-decoration: none;
+                    color: #fff;
+                }
             }
         }
     }
-}
 
-@media only screen and (max-width: 768px) {
-    .header-container {
-        .right-container  {
-            display: none;
-        }
+    .secondary-container {
+        // margin: 0px 20px 20px 20px;
+        border-radius: 0px 0px 10px 10px;
+        background: #3F53FF;
+        width: 100%;
+        height: 50px;
     }
 }
+
+// @media only screen and (max-width: 768px) {
+    
+// }
