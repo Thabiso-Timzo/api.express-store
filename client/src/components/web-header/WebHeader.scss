@@ -1,18 +1,27 @@
-.nav-container {
-    color: #fff;
-    padding: 3px;
-
-    ul {
+.wrapper {
+    display: flex;
+    .nav-container {
+        color: #fff;
+        padding: 1px;
         display: flex;
-
-        li {
-            color: #fff;
-            font-weight: 600;
+        ul {
+            display: flex;
+            li {
+                color: #fff;
+                font-size: 12px;
+                font-weight: 300;
+                position: relative;
+                .item-wrapper {
+                    display: flex;
+                    span {
+                        margin-left: 5px;
+                        text-transform: uppercase;
+                    }
+                }
             
-            span {
-                margin-left: 5px;
             }
-        }
         
+        }
+
     }
 }

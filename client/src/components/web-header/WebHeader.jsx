@@ -6,6 +6,7 @@ import { navLinks } from '../nav-links/Nav-links'
 
 const WebHeader = () => {
   return (
+    <div className='wrapper'>
     <div className='nav-container'>
         <ul>
             {navLinks.map((items, i) => {
@@ -13,8 +14,10 @@ const WebHeader = () => {
                     <div key={i}>
                         <Link to={items.path}>
                             <li>
-                                {items.icon}
-                                <span>{items.title}</span>
+                                <div className='item-wrapper'>
+                                    <span>{items.icon}</span>
+                                    <span>{items.title}<br />{items.title2}</span>
+                                </div>
                             </li>
                         </Link>
                     </div>   
@@ -22,6 +25,7 @@ const WebHeader = () => {
             })}
         </ul>
     </div>
+  </div>
   )
 }
 
