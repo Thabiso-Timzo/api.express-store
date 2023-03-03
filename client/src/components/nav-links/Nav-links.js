@@ -29,4 +29,23 @@ const navLinks = [
     }
 ]
 
-export { navLinks }
+const navLinks2 = [
+    {
+        path: '/',
+        title: 'Home'
+    },
+    {
+        path: 'store',
+        title: 'Store'
+    },
+    {
+        path: 'blog',
+        title: 'Blog'
+    },
+    {
+        path: 'contact',
+        title: 'Contact'
+    }
+]
+
+export { navLinks, navLinks2 }
