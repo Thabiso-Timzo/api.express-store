@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { GoThreeBars } from 'react-icons/go'
 
 import './WebHeader.scss'
 import { navLinks } from '../nav-links/Nav-links'
@@ -25,6 +26,9 @@ const WebHeader = () => {
             })}
         </ul>
     </div>
+    <div className="bars">
+            <GoThreeBars size={30} />
+        </div>
   </div>
   )
 }

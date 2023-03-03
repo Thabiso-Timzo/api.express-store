@@ -9,7 +9,7 @@
             li {
                 color: #fff;
                 font-size: 12px;
-                font-weight: 300;
+                font-weight: 600;
                 position: relative;
                 .item-wrapper {
                     display: flex;
@@ -23,5 +23,24 @@
         
         }
 
+    }
+
+    .bars {
+        display: none;
+        padding: 10px;
+        cursor: pointer;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .wrapper {
+        .nav-container {
+            display: none;
+        }
+
+        .bars {
+            display: block;
+            color: #fff;
+        }
     }
 }
