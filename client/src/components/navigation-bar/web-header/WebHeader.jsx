@@ -5,7 +5,7 @@ import { GoThreeBars } from 'react-icons/go'
 import './WebHeader.scss'
 import { navLinks } from '../nav-links/Nav-links'
 
-const WebHeader = () => {
+const WebHeader = ({ handleNav }) => {
   return (
     <div className='wrapper'>
     <div className='nav-container'>
@@ -26,9 +26,9 @@ const WebHeader = () => {
             })}
         </ul>
     </div>
-    <div className="bars">
+    <div className="bars" onClick={handleNav}>
             <GoThreeBars size={30} />
-        </div>
+    </div>
   </div>
   )
 }
