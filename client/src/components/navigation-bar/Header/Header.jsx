@@ -6,6 +6,7 @@ import './Header.scss'
 import logo from '../../../assets/logo.png'
 import WebHeader from '../web-header/WebHeader';
 import Search from '../search/Search';
+import MobileHeader from '../mobile-header/MobileHeader'
 import { navLinks2 } from '../nav-links/Nav-links'
 
 const category = ["Electronics", "Furniture", "Kitchen-ware"]
@@ -40,7 +41,7 @@ const Header = () => {
           <Search /> 
         </div>
         <div className='right-container'>
-          <WebHeader />
+          <WebHeader handleNav={handleNav} />
         </div>
       </div>
       <div className="secondary-container">
@@ -79,17 +80,7 @@ const Header = () => {
         </div>
       </div>
     </div>
-    <div className={nav ? 'mobile-nav' : ''}>
-     <div className="">
-      <div className="">
-        <div className="">
-          <div onClick={handleNav} className="">
-
-          </div>
-        </div>
-      </div>
-     </div>
-    </div>
+    <MobileHeader nav={nav} handleNav={handleNav} setNav={setNav} />
     </>
   )
 }
