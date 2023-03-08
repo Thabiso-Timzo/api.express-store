@@ -1,11 +1,13 @@
 import React from 'react'
 
-const error405 = () => {
+import './405error.scss'
+
+const Error405 = () => {
   return (
-    <div>
+    <div className='container'>
       Not authenticated
     </div>
   )
 }
 
-export default error405
+export default Error405

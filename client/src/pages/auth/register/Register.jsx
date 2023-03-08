@@ -1,8 +1,10 @@
 import React from 'react'
 
+import './Register.scss'
+
 const Register = () => {
   return (
-    <div>Register</div>
+    <div className='container'>Register</div>
   )
 }
 
