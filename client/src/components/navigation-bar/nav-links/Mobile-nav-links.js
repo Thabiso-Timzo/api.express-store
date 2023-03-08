@@ -1,6 +1,7 @@
 import { MdCompare, MdEmail } from 'react-icons/md'
 import { HiHeart } from 'react-icons/hi'
 import { FaUser, FaShoppingCart, FaStore, FaBlog } from 'react-icons/fa'
+import { TiInfoLarge } from 'react-icons/ti'
 import { 
     AiFillLinkedin,
     AiFillInstagram,
@@ -42,6 +43,11 @@ const mobile2 = [
         path: '/',
         title: 'Home',
         icon: <AiFillHome size={20} />
+    },
+    {
+        path: 'about',
+        title: 'About',
+        icon: <TiInfoLarge size={20} />
     },
     {
         path: 'store',

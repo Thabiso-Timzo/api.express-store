@@ -35,6 +35,10 @@ const navLinks2 = [
         title: 'Home'
     },
     {
+        path: 'about',
+        title: 'About'
+    },
+    {
         path: 'store',
         title: 'Store'
     },
