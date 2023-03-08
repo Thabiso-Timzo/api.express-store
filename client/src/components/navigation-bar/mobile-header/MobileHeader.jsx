@@ -11,7 +11,7 @@ const MobileHeader = ({ nav, handleNav, setNav }) => {
     <div className={nav ? 'md:hidden fixed left-0 top-0 w-full h-screen bg-black/70' : ''}>
       <div className={
         nav 
-        ? 'fixed left-0 w-[75%] sm:[60%] md:w-[45%] h-screen bg-blue-500 p-10 ease-in duration-500' 
+        ? 'fixed left-0 w-[75%] sm:[60%] md:w-[45%] h-screen bg-[#000000] p-10 ease-in duration-500' 
         : 'fixed left-[-100%] top-0 p-10 ease-in duration-500'
         }
       >
@@ -39,7 +39,7 @@ const MobileHeader = ({ nav, handleNav, setNav }) => {
               {mobile1.map((mobile, index) => {
                 return (
                   <Link to={mobile.path}>
-                    <li onClick={() => setNav(false)} className={'py-4 text-sm'}>
+                    <li onClick={() => setNav(false)} className={'py-4 text-xs'}>
                       <div className={'flex text-[#fff] cursor-pointer'} key={index}>
                         <span>{mobile.icon}</span>
                         <span className={'ml-5'}>
@@ -58,7 +58,7 @@ const MobileHeader = ({ nav, handleNav, setNav }) => {
               {mobile2.map((mobile, index) => {
                 return (
                   <Link to={mobile.path}>
-                    <li onClick={() => setNav(false)} className={'py-4 text-sm'}>
+                    <li onClick={() => setNav(false)} className={'py-4 text-xs'}>
                       <div className={'flex text-[#fff] cursor-pointer'} key={index}>
                         <span>{mobile.icon}</span>
                         <span className={'ml-5'}>
@@ -73,7 +73,7 @@ const MobileHeader = ({ nav, handleNav, setNav }) => {
           </div> 
         </div>
         <div className={'pt-4'}>
-          <p className={'uppercase tracking-widest text-[#D4AF37]'}>Let's talk.</p>
+          <p className={'uppercase tracking-widest text-[#3F53FF]'}>Let's talk.</p>
           <div className={'flex items-center justify-between my-4 w-full sm:w-[80%]'}>
             {socials.map((social, index) => {
               return (
