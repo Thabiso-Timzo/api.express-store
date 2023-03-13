@@ -1,5 +1,6 @@
 .container {
-    max-width: 1024px;
+     max-width: 2184px;
+    width: 100%;
     margin: 0 auto;
     margin-bottom: 20px;
 
@@ -9,10 +10,11 @@
         .item3 { grid-area: advert-3; }
         .item4 { grid-area: advert-4; }
         .item5 { grid-area: advert-5; }
-
+        
+        // Promotions
         .grid-container {
             gap: 10px;
-            padding: 10px;
+            padding: 20px;
             display: grid;
             grid-template-areas:
                 'advert-1 advert-1 advert-2 advert-2 advert-3 advert-3'
@@ -90,6 +92,26 @@
                     float: left;
                     width: 50%;
                     height: 100%;
+                    padding: 20px 0px 0px 10px;
+
+                    .best-sale {
+                        color: orangered;
+                        text-transform: uppercase;
+                        font-size: 14px;
+                        font-weight: 700;
+                    }
+
+                    h4 {
+                        margin-top: 5px;
+                        font-size: 20px;
+                        font-weight: bold;   
+                    }
+
+                    .price-range {
+                        margin-top: 5px;
+                        font-size: 12px;
+                        font-weight: 200;
+                    }
                 }
                 
                 .right {
@@ -115,6 +137,26 @@
                     float: left;
                     width: 50%;
                     height: 100%;
+                    padding: 20px 0px 0px 10px;
+
+                    .best-sale {
+                        color: orangered;
+                        text-transform: uppercase;
+                        font-size: 14px;
+                        font-weight: 700;
+                    }
+
+                    h4 {
+                        margin-top: 5px;
+                        font-size: 20px;
+                        font-weight: bold;   
+                    }
+
+                    .price-range {
+                        margin-top: 5px;
+                        font-size: 12px;
+                        font-weight: 200;
+                    }
                 }
                 
                 .right {
@@ -140,6 +182,26 @@
                     float: left;
                     width: 50%;
                     height: 100%;
+                    padding: 20px 0px 0px 10px;
+
+                    .best-sale {
+                        color: orangered;
+                        text-transform: uppercase;
+                        font-size: 14px;
+                        font-weight: 700;
+                    }
+
+                    h4 {
+                        margin-top: 5px;
+                        font-size: 20px;
+                        font-weight: bold;   
+                    }
+
+                    .price-range {
+                        margin-top: 5px;
+                        font-size: 12px;
+                        font-weight: 200;
+                    }
                 }
                 
                 .right {
@@ -165,6 +227,26 @@
                     float: left;
                     width: 50%;
                     height: 100%;
+                    padding: 20px 0px 0px 10px;
+
+                    .best-sale {
+                        color: orangered;
+                        text-transform: uppercase;
+                        font-size: 14px;
+                        font-weight: 700;
+                    }
+
+                    h4 {
+                        margin-top: 5px;
+                        font-size: 20px;
+                        font-weight: bold;   
+                    }
+
+                    .price-range {
+                        margin-top: 5px;
+                        font-size: 12px;
+                        font-weight: 200;
+                    }
                 }
                 
                 .right {
@@ -179,12 +261,32 @@
                 }
             }
         }
+
+        .products {
+            padding: 20px;
+            background: #EEEEEE;
+            width: 100%;
+
+            .options {
+                display: flex;
+
+                .option {
+                    display: flex;
+                    gap: 50px;
+
+                    .icon {
+                        color: rgb(101, 101, 255);
+                    }
+                }
+            }
+        }
     }
 }
 
 @media only screen and (max-width: 768px) {
     .container {
         section {
+            // Promotions
             .grid-container {
                 display: flex;
                 flex-direction: column;
@@ -230,43 +332,6 @@
                 .item5 {
                     width: 100%;
                     height: 20vh;
-
-                    .left {
-                        .supercharged {
-                            font-size: 16px;
-                            font-weight: 700;
-                        }
-    
-                        h4 {
-                            margin-top: 5px;
-                            font-size: 25px;
-                        }
-    
-                        .price-range {
-                            margin-top: 5px;
-                        }
-    
-                        button {
-                            margin-top: 10px;
-                            border: none;
-                            outline: none;
-                            border-radius: 10px;
-                            background: black;
-                            color: white;
-                            text-transform: uppercase;
-                            font-size: 16px;
-                            width: 100px;
-                            cursor: pointer;
-                        }
-                    }
-
-                    .right {
-                        img {
-                            padding: 20px 5px 50px 25px;
-                            width: 180px;
-                        }
-                    }
-
                 }
 
             }
