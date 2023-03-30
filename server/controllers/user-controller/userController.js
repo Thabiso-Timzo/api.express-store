@@ -58,7 +58,7 @@ exports.login = asyncHandler(
                 token: generateToken(findUser?._id)
             })
         } else {
-            throw new Error("Invalid credentials")
+            res.status(401).json({ message: "Invalid credentials" })
         }
     }
 )
@@ -92,7 +92,7 @@ exports.Adminlogin = asyncHandler(
                 token: generateToken(findAdmin?._id)
             })
         } else {
-            throw new Error("Invalid credentials")
+        res.status(401).json({ message: "Invalid credentials" })
         }
     }
 )
@@ -100,8 +100,8 @@ exports.Adminlogin = asyncHandler(
 // Logout a user
 exports.logout = asyncHandler(
     async (req, res) => {
-        const cookie = req.cookies
-        if (!cookie?.refreshToken) throw new Error("No Refresh Token in Cookies")
+        const cookie = req.cookies 
+        if (!cookie?.refreshToken) return res.json({ message: "No Refresh Token in Cookies" })
         const refreshToken = cookie.refreshToken
         const user = await User.findOne({ refreshToken })
         if (!user) {
@@ -126,7 +126,7 @@ exports.logout = asyncHandler(
 exports.handleRefreshToken = asyncHandler(
     async (req, res) => {
         const cookie = req.cookies
-        if (!cookie?.refreshToken) throw new Error("No Refresh Token in Cookies")
+        if (!cookie?.refreshToken) return res.json({ message: "No Refresh Token in Cookies" })
         const refreshToken = cookie.refreshToken
         const user = await User.findOne({ refreshToken })
         if (!user) return res.json({ message: "No refresh token is present in the database" })
