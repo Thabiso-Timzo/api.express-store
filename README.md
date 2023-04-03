@@ -32,7 +32,7 @@ An API for an E-commerce store. E-commerce (electronic commerce) is the buying a
 
 * User APIs
 
-```
+``
 |HTTP Verbs|            Endpoints            |                   Action                        |
 | ---------| ------------------------------- | ----------------------------------------------- |
 |  POST    | /api/user/register              | To sign up a new user account                   |
@@ -58,7 +58,8 @@ An API for an E-commerce store. E-commerce (electronic commerce) is the buying a
 |  DELETE  | /api/user/empty-cart            | Delete cart (Empty cart)                        |
 |  DELETE  | /api/user/:id                   | Delete single user                              |
 
-```
+``
+
 * Product APIs
 
 ``
@@ -73,7 +74,7 @@ An API for an E-commerce store. E-commerce (electronic commerce) is the buying a
 |  PUT     | /api/product/uploads/:id        | Upload multiple product images                  |
 |  DELETE  | /api/product/:id'               | Delete a product                                |
 
-```
+``
 
 * Coupon APIs
 
@@ -85,7 +86,7 @@ An API for an E-commerce store. E-commerce (electronic commerce) is the buying a
 |  PUT     | /api/product/:id                | Updates a coupon    * ADMIN *                   |
 |  DELETE  | /api/product/:id                | Deletes a coupon    * ADMIN                     |
 
-```
+``
 
 * Category APIs
 
@@ -98,7 +99,7 @@ An API for an E-commerce store. E-commerce (electronic commerce) is the buying a
 |  PUT     | /api/category/:id               | Updates a category    * ADMIN *                 |
 |  DELETE  | /api/category/:id               | Deletes a category    * ADMIN                   |
 
-```
+``
 
 * Brand APIs
 
@@ -111,9 +112,9 @@ An API for an E-commerce store. E-commerce (electronic commerce) is the buying a
 |  PUT     | /api/brand/:id                  | Updates a brand    * ADMIN *                    |
 |  DELETE  | /api/brand/:id                  | Deletes a brand    * ADMIN                      |
 
-```
+``
 
-* Brand APIs
+* Blog APIs
 
 ``
 |HTTP Verbs|            Endpoints            |                   Action                        |
@@ -127,7 +128,7 @@ An API for an E-commerce store. E-commerce (electronic commerce) is the buying a
 |  PUT     | /api/blog/:id                   | Update a blog    * ADMIN                        |
 |  DELETE  | /api/blog/:id                   | Deletes a blog   * ADMIN                        |
 
-```
+``
 
 * Blog Category APIs
 
@@ -140,7 +141,7 @@ An API for an E-commerce store. E-commerce (electronic commerce) is the buying a
 |  PUT     | /api/blog/category/likes        | Likes a blog category    * ADMIN *              |
 |  DELETE  | /api/blog/category/:id          | Deletes a blog category  * ADMIN                |
 
-```
+``
 
 ### Technologies Used
 * [NodeJS](https://nodejs.org/) This is a cross-platform runtime environment built on Chrome's V8 JavaScript engine used in running JavaScript codes on the server. It allows for installation and managing of dependencies and communication with databases.
