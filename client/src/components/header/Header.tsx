@@ -1,56 +1,56 @@
-import React from 'react'
-import { NavLink, Link  } from 'react-router-dom'
-import { BsSearch } from 'react-icons/bs'
-import { TiArrowSync } from 'react-icons/ti'
+import React, { useState } from 'react'
+import { Link  } from 'react-router-dom'
+//import { BsSearch } from 'react-icons/bs'
+//import { TiArrowSync } from 'react-icons/ti'
 import { MdFavorite, MdShoppingCart } from 'react-icons/md' 
 import { FaUser } from 'react-icons/fa'
-import { BiCategoryAlt } from 'react-icons/bi'
+//import { BiCategoryAlt } from 'react-icons/bi'
 
 import logo from '../../assets/logo.png'
+import AccDropdown from '../acc-dropdown/AccDropdown'
+import './Header.scss'
+
+type HeaderProps = {
+
+}
 
 const Header = () => {
+  const [acc, setAcc] = useState<boolean>(false)
+
+  const accDropDown = () => {
+    setAcc(!acc)
+  }
   return (
     <>
-      <header className="header-upper py-3">
-        <div className="container-xxl">
-          <div className="row align-items-center">
-          <div className="col-2">
+      <header className="nav">
+        <div className="container">
+          <div className="item-container">
+          <div className="col-1">
             <Link to='/'>
-              <img className='w-25' src={logo} alt="" />
+              <img  src={logo} alt="" />
             </Link>
           </div>
-          <div className="col-5">
-            <div className="input-group">
-              <input type="text" className="form-control py-2" placeholder="Search product" aria-label="Search product" aria-describedby="basic-addon2" />
-              <span className="input-group-text p-1" id="basic-addon2"><BsSearch className='fs-6' /></span>
-            </div>
-          </div>
-          <div className="col-5">
-            <div className="header-upper-links d-flex align-items-center justify-content-between">
-              <div className="">
-                <Link className='d-flex align-items-center gap-10 text-white' to=''>
-                  <TiArrowSync className='icons'/>
-                  <p className='mb-0 size'>Compare <br /> Products</p>
-                </Link>
-              </div>
-              <div className="">
-                <Link className='d-flex align-items-center gap-10 text-white' to=''>
-                  <MdFavorite className='icons'/>
-                  <p className='mb-0 size'>WishList <br /> Favourite</p>
-                </Link>
-              </div>
-              <div className="">
-                <Link className='d-flex align-items-center gap-10 text-white' to=''>
+          <div className="co1-2">
+            <div className="upper-links">
+              <div>
+                <Link to=''>
                   <FaUser className='icons'/>
-                  <p className='mb-0 size'>Login <br /> My Account</p>
+                  <p>My Account</p>
                 </Link>
+                {acc && (
+                  <AccDropdown /> 
+                )}
               </div>
               <div className="">
-                <Link className='d-flex align-items-center gap-10 text-white' to=''>
+                <Link to=''>
+                  <MdFavorite className='icons'/>
+                </Link>
+              </div>
+              <div>
+                <Link to=''>
                   <MdShoppingCart className='icons'/>
                   <div className="d-flex flex-column gap-10">
                     <span className='badge bg-white text-dark size'>0</span>
-                    <p className='mb-0 size'>R1500</p>
                   </div>
                 </Link>
               </div>
@@ -59,7 +59,7 @@ const Header = () => {
           </div>
         </div>
       </header>
-      <header className="header-bottom py-3">
+      {/* <header className="header-bottom py-3">
         <div className="column-xxl">
           <div className="row">
             <div className="col-12">
@@ -89,9 +89,16 @@ const Header = () => {
             </div>
           </div>
         </div>
-      </header>
+      </header> */}
     </>
   )
 }
 
 export default Header
+
+// // <div className="col-5">
+// <div className="input-group">
+// <input type="text" className="form-control py-2" placeholder="Search product" aria-label="Search product" aria-describedby="basic-addon2" />
+// <span className="input-group-text p-1" id="basic-addon2"><BsSearch className='fs-6' /></span>
+// </div>
+// </div>
