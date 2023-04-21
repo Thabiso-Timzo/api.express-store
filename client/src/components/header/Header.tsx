@@ -1,20 +1,31 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link  } from 'react-router-dom'
-import { FaBars, FaSearch } from 'react-icons/fa'
-import { MdFavorite, MdShoppingCart } from 'react-icons/md' 
 
-import logo from '../../assets/logo.png'
-import AccDropdown from '../acc-dropdown/AccDropdown'
 import './Header.scss'
+import logo from '../../assets/logo.png'
+import Mobile from '../mobile/Mobile'
+import AccDropdown from '../acc-dropdown/AccDropdown'
+import { 
+  bars, 
+  search, 
+  cart,
+  wishlist,
+ } from '../links/MobileNavigation';
 
 const Header = () => {
+  const [mobileNav, setMobileNav] = useState<boolean>(false)
+
+  const handleClick = () => {
+    setMobileNav(!mobileNav)
+  }
+
   return (
     <>
       <header className="nav">
         <div className="container">
           <div className="item-container">
-          <div className="bars">
-            <FaBars />
+          <div className="bars" onClick={handleClick}>
+            <bars.icon />
           </div>
           <div className="col-1">
             <Link to='/'>
@@ -23,10 +34,10 @@ const Header = () => {
           </div>
           <div className="cart-group">
             <div className="search">
-              <FaSearch />
+              <search.icon />
             </div>
             <div className="cart">
-              <MdShoppingCart />
+              <cart.icon />
             </div>
           </div>
           <div className="co1-2">
@@ -36,12 +47,12 @@ const Header = () => {
               </div>
               <div className='favourite'>
                 <Link to='/wishlist'>
-                  <MdFavorite className='icons'/>
+                  <wishlist.icon className='icons'/>
                 </Link>
               </div>
               <div className='cart'>
                 <Link to='/cart'>
-                  <MdShoppingCart className='icons'/>
+                  <cart.icon className='icons'/>
                   <div>
                     <span>0</span>
                   </div>
@@ -55,11 +66,7 @@ const Header = () => {
      <header className='second-nav'>
       Thabiso
      </header>
-     <header className='mobile'>
-      <div className="container">
-        <div className="close">x</div>
-      </div>
-     </header>
+     <Mobile handleClick={handleClick} mobileNav={mobileNav} />
     </>
   )
 }
