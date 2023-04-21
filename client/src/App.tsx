@@ -8,6 +8,7 @@ import About from './pages/about/About';
 import Contact from './pages/contact/Contact';
 import Cart from './pages/cart/Cart';
 import WishList from './pages/wishlist/WishList';
+import Error404 from './pages/404/Error404';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path='contact' element={<Contact />} />
           <Route path='cart' element={<Cart />} />
           <Route path='wishlist' element={<WishList />} />
+          <Route path='*' element={<Error404 />} />
         </Route>
       </Routes>
     </BrowserRouter>
