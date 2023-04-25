@@ -3,7 +3,6 @@ import { RxCross2 } from 'react-icons/rx'
 import { Link } from 'react-router-dom'
 
 import './mobile.scss'
-
 import { 
     cart,
     wishlist,
@@ -19,7 +18,7 @@ type mobileProps = {
 
 const Mobile = ({ handleClick, mobileNav }: mobileProps) => {
   return (
-    <header className={mobileNav ? 'mobile' : 'none'}>
+    <header className={window.innerWidth < 768 ? 'mobile' : ''}>
     <div className={mobileNav ? 'container' : 'none'}>
       <div className={mobileNav ? "top-section" : 'none'}>
         <img src={logo} alt="logo" />

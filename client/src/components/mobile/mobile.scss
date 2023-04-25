@@ -1,17 +1,5 @@
 .mobile {
     display: none;
-
-    .container {
-        display: none;
-
-        .top-section {
-            display: none;
-        }
-
-        .nav-section {
-            display: none;
-        }
-    }
 }
 
 @media screen and (max-width: 768px) {
@@ -148,13 +136,5 @@
                 
             }
         }
-
-        .none {
-            display: none;
-        }
-    }
-
-    .none {
-        display: none;
-    }
+    }    
 }
