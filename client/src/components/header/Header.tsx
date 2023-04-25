@@ -1,16 +1,8 @@
 import React, { useState } from 'react'
-import { Link  } from 'react-router-dom'
 
 import './Header.scss'
-import logo from '../../assets/logo.png'
 import Mobile from '../mobile/Mobile'
-import AccDropdown from '../acc-dropdown/AccDropdown'
-import { 
-  bars, 
-  search, 
-  cart,
-  wishlist,
- } from '../links/MobileNavigation';
+import WebView from '../web/WebView'
 
 const Header = () => {
   const [mobileNav, setMobileNav] = useState<boolean>(false)
@@ -21,48 +13,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="nav">
-        <div className="container">
-          <div className="item-container">
-          <div className="bars" onClick={handleClick}>
-            <bars.icon />
-          </div>
-          <div className="col-1">
-            <Link to='/'>
-              <img  src={logo} alt="" />
-            </Link>
-          </div>
-          <div className="cart-group">
-            <div className="search">
-              <search.icon />
-            </div>
-            <div className="cart">
-              <cart.icon />
-            </div>
-          </div>
-          <div className="co1-2">
-            <div className="upper-links">
-              <div className='dropdown'>
-                <AccDropdown /> 
-              </div>
-              <div className='favourite'>
-                <Link to='/wishlist'>
-                  <wishlist.icon className='icons'/>
-                </Link>
-              </div>
-              <div className='cart'>
-                <Link to='/cart'>
-                  <cart.icon className='icons'/>
-                  <div>
-                    <span>0</span>
-                  </div>
-                </Link>
-              </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+      <WebView handleClick={handleClick} mobileNav={mobileNav} />
      <header className='second-nav'>
       Thabiso
      </header>
