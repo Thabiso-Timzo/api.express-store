@@ -13,3 +13,7 @@
     --color-DEDEDE: #DEDEDE; 
     --color-transparent: rgb(0, 0, 0, 0.6);
 }
+
+.cursorPointer {
+    cursor: pointer;
+}
