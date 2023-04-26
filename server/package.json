@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Thabiso-Timzo/express-store-web.git"
+    "url": "git+https://github.com/Thabiso-Timzo/express-store.git"
   },
   "author": "Thabiso Hlatshwayo",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Thabiso-Timzo/express-store-web/issues"
+    "url": "https://github.com/Thabiso-Timzo/express-store/issues"
   },
-  "homepage": "https://github.com/Thabiso-Timzo/express-store-web#readme",
+  "homepage": "https://github.com/Thabiso-Timzo/express-store#readme",
   "dependencies": {
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
