@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import './Header.scss'
 import Mobile from '../mobile/Mobile'
 import logo from '../../assets/logo.png'
+import Search from '../search/Search'
 import AccDropdown from '../acc-dropdown/AccDropdown'
 import { 
   bars, 
@@ -11,12 +12,19 @@ import {
   cart,
   wishlist,
 } from '../links/MobileNavigation';
+import MobileSearch from '../mobile-search/MobileSearch'
+import SecondHeader from '../second-header/SecondHeader'
 
 const Header = () => {
   const [mobileNav, setMobileNav] = useState<boolean>(false)
+  const [isShown, setIsShown] = useState<boolean>(false)
 
   const handleClick = () => {
     setMobileNav(!mobileNav)
+  }
+
+  const handleShownClick = () => {
+    setIsShown(!isShown)
   }
 
   return (
@@ -33,16 +41,18 @@ const Header = () => {
             </Link>
           </div>
           <div className="cart-group">
-            <div className="search">
+            <div className="search" onClick={handleShownClick}>
               <search.icon />
             </div>
             <div className="cart">
-              <cart.icon />
+              <Link to='cart'>
+                <cart.icon />
+              </Link>
             </div>
           </div>
           <div className="seach-container">
-            Thabiso
-          </div>
+            <Search />
+          </div> 
           <div className="co1-2">
             <div className="upper-links">
               <div className='dropdown'>
@@ -67,18 +77,18 @@ const Header = () => {
         </div>
       </header>
       <header className='second-nav'>
-        Thabiso
+        <SecondHeader />
       </header>
       <Mobile handleClick={handleClick} mobileNav={mobileNav} />
+      <div className="mobile-search">
+        {isShown && (
+          <div>
+            <MobileSearch handleShownClick={handleShownClick} />
+         </div>
+        )}
+      </div> 
     </>
   )
 }
 
 export default Header
-
-// // <div className="col-5">
-// <div className="input-group">
-// <input type="text" className="form-control py-2" placeholder="Search product" aria-label="Search product" aria-describedby="basic-addon2" />
-// <span className="input-group-text p-1" id="basic-addon2"><BsSearch className='fs-6' /></span>
-// </div>
-// </div>
