@@ -20,8 +20,9 @@ const AccDropdown = () => {
           <div className="dropdown-container">
             <div className="dropdown-header" onClick={handleClick}>
               <div className="dropdown-title">
-                My Account {open ? <MdOutlineKeyboardArrowDown />: <MdOutlineKeyboardArrowUp /> } 
+                My Account  
               </div>
+              {open ? <MdOutlineKeyboardArrowDown />: <MdOutlineKeyboardArrowUp /> }
             </div>
           </div>
           {open && (
