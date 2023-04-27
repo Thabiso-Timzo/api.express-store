@@ -21,7 +21,7 @@ const SecondHeader = () => {
             <div className="dropdown">
                 <div className="dropdown-wrapper">
                     <div className="dropdown-container">
-                        <div className="dropdown--header" onClick={handleClick}>
+                        <div className="dropdown-header" onClick={handleClick}>
                             <div className="dropdown-title">
                                 <MdCategory />
                                 {selected ? selected : "Category"} 

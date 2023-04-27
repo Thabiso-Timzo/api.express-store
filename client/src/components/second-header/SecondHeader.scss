@@ -22,14 +22,15 @@
                     height: 100%;
 
 
-                    .dropdown--header {
+                    .dropdown-header {
                         display: flex;
                         justify-content:  space-between;
                         align-items: center;
-                        width: 100%;
+                        width: 80%;
                         height: 100%;
                         position: relative;
                         z-index: 99;
+                        color: var(--color-1A1A1A);
 
                         .dropdown-title {
                             display: flex;
@@ -39,7 +40,7 @@
                 }
 
                 .list {
-                    width: 100%;
+                    width: 80%;
                     background-color: var(--color-white);
                     position: relative;
 
