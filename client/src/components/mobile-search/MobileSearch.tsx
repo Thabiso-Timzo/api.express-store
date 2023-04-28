@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react'
 import { BsSearch } from 'react-icons/bs'
+import { RxCross1 } from 'react-icons/rx'
 
 import './MobileSearch.scss'
 
@@ -18,7 +19,7 @@ const MobileSearch = ({ handleShownClick }: MobileProps) => {
                 </div> 
             </div>
             <div className="close" onClick={handleShownClick}>
-                <span>Cancel</span>
+                <span><RxCross1 /></span>
             </div>
         </div>
     </div>
