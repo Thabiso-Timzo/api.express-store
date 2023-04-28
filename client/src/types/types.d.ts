@@ -30,3 +30,16 @@ export interface Navigation {
     name: string,
     url: string,
 }
+
+export interface Socials {
+    id: number
+    icon: IconType,
+    url: string,
+    color: any
+}
+
+export interface Footer {
+    id: number,
+    name: string
+    url: string
+}
