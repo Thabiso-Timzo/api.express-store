@@ -43,3 +43,22 @@ export interface Footer {
     name: string
     url: string
 }
+
+export interface Services {
+    id: number,
+    icon: IconType,
+    desc: string,
+    text: string
+}
+
+export interface Items {
+    id: number,
+    image: any,
+    desc: string,
+    text: string
+}
+
+export interface Image {
+    id: number,
+    image: any
+}
