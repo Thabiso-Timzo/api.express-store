@@ -7,7 +7,7 @@ const Marque = () => {
   return (
     <section className='marque' >
         <div className="container">
-            <div className="marque-inner-wrapper card-wrapper">
+            <div className="card-wrapper">
                 <Marquee className='marque-container'>
                     {images.map(item => (
                         <div key={item.id} className='brand'>
