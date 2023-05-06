@@ -1,17 +1,19 @@
 import React from 'react'
 import Marquee from 'react-fast-marquee'
 
-import { images } from '../data/Marque'
+type MarqueProps = {
+    images: Array<any> 
+}
 
-const Marque = () => {
+const Marque = ({ images }: MarqueProps) => {
   return (
     <section className='marque' >
-        <div className="container">
+        <div className="container-xxl">
             <div className="card-wrapper">
                 <Marquee className='marque-container'>
                     {images.map(item => (
                         <div key={item.id} className='brand'>
-                            <img className={window.innerWidth > 768 ? "web" : "small"}src={item.image} alt="brand" />
+                            <img src={item.image} alt="brand" />
                         </div>
                     ))}
                 </Marquee>
