@@ -1,18 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ProductCard from '../product-card/ProductCard'
-// 2:45:22
+
 const Product = () => {
+  const [ratingValue, setRatingValue] = useState<number>(0)
+  
   return (
-    <section className={window.innerWidth > 768 ?"product-wrapper": "product-wrapper-2"}>
+    <section className="product-wrapper">
         <div className="container-xxl">
             <div className="row">
               <div className="col-12">
                 <h3 className='section-heading'>Feature Collection</h3>
               </div>
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
+                <ProductCard rating={ratingValue} setRating={setRatingValue} />
+                <ProductCard rating={ratingValue} setRating={setRatingValue} />
+                <ProductCard rating={ratingValue} setRating={setRatingValue} />
+                <ProductCard rating={ratingValue} setRating={setRatingValue} />
             </div>
         </div>
     </section>
