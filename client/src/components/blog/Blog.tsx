@@ -5,7 +5,7 @@ import BlogCard from '../blog-card/BlogCard'
 
 const Blog = () => {
   return (
-    <section className={window.innerWidth > 768 ?"blog-wrapper": "blog-wrapper-2"}>
+    <section className="blog-wrapper">
         <div className="container-xxl">
             <div className="row">
               <div className="col-12">
