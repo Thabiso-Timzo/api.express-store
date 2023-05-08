@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction }  from 'react'
+import React, { useState }  from 'react'
 import { Link } from 'react-router-dom'
 import { Rating } from 'react-simple-star-rating'
 import { HiOutlineShoppingBag } from 'react-icons/hi'
@@ -8,14 +8,11 @@ import { BsEye } from 'react-icons/bs'
 
 import blog from '../../assets/brands/samsung.png'
 
-type productCardProps = {
-  rating: number,
-  setRating: Dispatch<SetStateAction<any>>
-}
+const ProductCard = () => {
+  const [ratingValue, setRatingValue] = useState<number>(0)
 
-const ProductCard = ({ rating, setRating }: productCardProps) => {
   const handleRating = (rate: number) => {
-    setRating(rate)
+    setRatingValue(rate)
   }
   
   return (
@@ -26,7 +23,7 @@ const ProductCard = ({ rating, setRating }: productCardProps) => {
           <div className="product-details">
             <h6 className="brand">Sumsang</h6>
             <h5 className="product-title">Samsung product</h5>
-            <Rating onClick={handleRating} initialValue={rating} size={window.innerWidth > 768 ? 20: 14} />
+            <Rating onClick={handleRating} initialValue={ratingValue} size={window.innerWidth > 768 ? 20: 14} />
             <p className="price">R400</p>
           </div>
           <div className="action-bar position-absolute">

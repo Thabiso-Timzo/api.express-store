@@ -1,9 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import ProductCard from '../product-card/ProductCard'
 
 const Product = () => {
-  const [ratingValue, setRatingValue] = useState<number>(0)
-  
   return (
     <section className="product-wrapper">
         <div className="container-xxl">
@@ -11,10 +9,10 @@ const Product = () => {
               <div className="col-12">
                 <h3 className='section-heading'>Feature Collection</h3>
               </div>
-                <ProductCard rating={ratingValue} setRating={setRatingValue} />
-                <ProductCard rating={ratingValue} setRating={setRatingValue} />
-                <ProductCard rating={ratingValue} setRating={setRatingValue} />
-                <ProductCard rating={ratingValue} setRating={setRatingValue} />
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
             </div>
         </div>
     </section>
