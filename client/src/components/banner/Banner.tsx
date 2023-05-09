@@ -55,7 +55,7 @@ const Banner = () => {
                     </div>
                   </div>
                 </div>
-            </div>s
+            </div>
           </div>
        </div>
     </section>
