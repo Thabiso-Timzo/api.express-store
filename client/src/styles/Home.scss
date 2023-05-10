@@ -578,7 +578,61 @@
             }
         
             .special-product-card {
-                .spacial-wrapper {}
+                padding: 0px;
+
+                .spacial-wrapper {
+                    display: flex;
+                    flex-direction: column;
+
+                    img {
+                        width: 100%;
+                        border-top-right-radius: 10px;
+                        border-top-left-radius: 10px;
+                    }
+
+                    .special-product-content {
+                        padding: 5px;
+                        text-align: center;
+
+                         .brand {
+                            font-size: 12px;
+                        }
+
+                        .title {
+                            font-size: 10px;
+                        }
+
+                        .price {
+                            font-size: 8px;
+                        }
+
+                        .discount-till {
+                            display: flex;
+                            gap: 5px;
+
+                            p {
+                                font-size: 9px;
+                            }
+
+                            .badge-container {
+                                display: flex;
+                                gap: 10px;
+
+                                span {
+                                    font-size: 8px;
+                                }
+                            }
+                        }
+
+                        .product-count {
+                            margin-bottom: 10px;
+                        
+                            p {
+                                font-size: 12px;
+                            }
+                        }
+                    }
+                }
             }
         }
     }

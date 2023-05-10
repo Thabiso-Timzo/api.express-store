@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Rating } from 'react-simple-star-rating'
-
+// 3:20:17
 import product from '../../assets/product/3.jpeg'
 
 const SpecialCard = () => {
@@ -21,7 +21,7 @@ const SpecialCard = () => {
           <div className="special-product-content">
             <h5 className="brand">Lenovo</h5>
             <h6 className="title">IdeaPad S145</h6>
-            <Rating onClick={handleRating} initialValue={ratingValue} size={window.innerWidth > 768 ? 20: 14} />
+            <Rating onClick={handleRating} initialValue={ratingValue} size={window.innerWidth > 768 ? 20: 12} />
             <p className="price">
               <span className="red-p">R12 500 - <s> R3000</s></span> 
             </p>
