@@ -11,6 +11,7 @@ import Marque from '../../components/marque/Marque'
 import Blog from '../../components/blog/Blog'
 import Product from '../../components/product/Product'
 import Special from '../../components/special/Special'
+import PopularProducts from '../../components/popular-products/PopularProducts'
 
 const Home = () => {
   return (
@@ -19,6 +20,7 @@ const Home = () => {
       <Offers services={services} items={items} />
       <Product />
       <Special />
+      <PopularProducts />
       <Marque images={images} />
       <Blog />
     </div>
