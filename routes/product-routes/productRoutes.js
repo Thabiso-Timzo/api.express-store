@@ -14,6 +14,7 @@ const {
 const { isAdmin, authMiddleWare  } = require('../../middleware/authMiddleware')
 const { uploadPhoto, productImgResize } = require('../../middleware/uploadsImages')
 
+router.get('/', getAllProducts)
 router.post('/create', authMiddleWare, isAdmin, createProduct)
 router.put('/uploads/:id', authMiddleWare, isAdmin, uploadPhoto.array('images', 10), productImgResize, uploadImages)
 
@@ -22,7 +23,7 @@ router.put('/rating', authMiddleWare, rating)
 router.put('/:id' ,authMiddleWare, isAdmin, updateProduct)
 
 router.get('/:id', getSingleProduct) 
-router.get('/', getAllProducts)
+
 
 router.delete('/:id',authMiddleWare, isAdmin, deleteProduct)
 
