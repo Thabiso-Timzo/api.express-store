@@ -17,6 +17,7 @@ const categoryRoutes = require('./routes/category-routes/categoryRoutes')
 const blogCategoryRoutes = require('./routes/blog-category-routes/blogCategoryRoutes')
 const brandRoutes = require('./routes/brand-routes/brandRoutes')
 const couponRoutes = require('./routes/coupon-routes/couponRoutes')
+const enquryRoutes = require('./routes/enquiry-routes/enquiryRoutes')
 
 // Server port
 const PORT = server_port || 8080
@@ -27,11 +28,13 @@ const app = express()
 dbConnection()
 
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({  extended: true}))
 app.use(cookParser()) 
 app.use(cors());
 app.use(morgan('tiny'))
+
 
 // Middleware
 app.use(errorHandler)
@@ -44,6 +47,7 @@ app.use('/api/category', categoryRoutes)
 app.use('/api/blog/category', blogCategoryRoutes)
 app.use('/api/brand', brandRoutes)
 app.use('/api/coupon', couponRoutes)
+app.use('/api/enquiry',enquryRoutes )
 
 app.listen(PORT, () => {
     console.log(`Server is listening on port: ${PORT}`.white.bold)
