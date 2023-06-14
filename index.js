@@ -18,6 +18,7 @@ const blogCategoryRoutes = require('./routes/blog-category-routes/blogCategoryRo
 const brandRoutes = require('./routes/brand-routes/brandRoutes')
 const couponRoutes = require('./routes/coupon-routes/couponRoutes')
 const enquryRoutes = require('./routes/enquiry-routes/enquiryRoutes')
+const colorRoutes = require('./routes/color-routes/colorRoutes')
 
 // Server port
 const PORT = server_port || 8080
@@ -48,6 +49,7 @@ app.use('/api/blog/category', blogCategoryRoutes)
 app.use('/api/brand', brandRoutes)
 app.use('/api/coupon', couponRoutes)
 app.use('/api/enquiry',enquryRoutes )
+app.use('/api/color', colorRoutes)
 
 app.listen(PORT, () => {
     console.log(`Server is listening on port: ${PORT}`.white.bold)
