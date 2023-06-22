@@ -333,10 +333,10 @@ exports.getWishList = asyncHandler(
 exports.userCart = asyncHandler(
     async (req, res) => {
         const { productId, color, quantity, price } = req.body
-        const { _id } = req.user
+        const { _id } = req.user;
         try {
             let newCart = await Cart({
-                userId: _id,
+                userId:_id,
                 productId,
                 color,
                 price,
@@ -354,9 +354,7 @@ exports.getUserCart = asyncHandler(
     async (req, res) => {
         const { _id } = req.user
         try {
-            const cart = await Cart.findOne({ orderby: _id }).populate(
-                "products.product"
-                )
+            const cart = await Cart.findOne({ userId: _id }).populate("productId").populate("color")
             res.status(200).json(cart)
         } catch (error) {
             res.status(500).json({ message: error.message })

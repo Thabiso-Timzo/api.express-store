@@ -26,7 +26,7 @@ exports.getSingleProduct = asyncHandler(
     async (req, res) => {
         const { id } = req.params
         try {
-            const getProduct = await Product.findById(id)
+            const getProduct = await Product.findById(id).populate('color')
             res.status(200).json(getProduct)
         } catch (error) {
             res.status(500).json({ message: error.message })
