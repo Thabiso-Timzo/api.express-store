@@ -21,7 +21,7 @@ const enquryRoutes = require('./routes/enquiry-routes/enquiryRoutes')
 const colorRoutes = require('./routes/color-routes/colorRoutes')
 
 // Server port
-const PORT = server_port || 8080
+const PORT = server_port || 5000
 
 const app = express()
 
@@ -36,6 +36,10 @@ app.use(cookParser())
 app.use(cors());
 app.use(morgan('tiny'))
 
+// respond with "server is running" when a GET request is made to the homepage
+app.get('/', function (req, res) {
+    res.send('server is running')
+})
 
 // Middleware
 app.use(errorHandler)
